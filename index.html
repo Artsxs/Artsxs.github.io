@@ -53,7 +53,7 @@
           </div>
         </div>
       </section>
-
+  
       <button id="botaoClick" class="botao-principal">
         ATACAR
       </button>
@@ -70,6 +70,8 @@
         <button class="tab-button" data-tab="tab-mochila">Mochila</button>
         <button class="tab-button" data-tab="tab-missoes">Missões</button>
         <button class="tab-button" data-tab="tab-boss">Boss</button>
+        <button class="tab-button" data-tab="tab-update-log">Update Log</button>
+        <button class="tab-button" data-tab="tab-codigos">Códigos</button>
         <button class="tab-button adm-tab" data-tab="tab-adm">ADM</button>
       </nav>
 
@@ -184,6 +186,36 @@
           <p class="texto-info">Cada ataque causa dano igual ao seu ganho real por clique.</p>
         </div>
       </section>
+
+      <section id="tab-update-log" class="tab-content">
+        <h2>Update Log</h2>
+
+        <p class="texto-info">
+          Veja todas as versões lançadas do Anime Clicker Simulator.
+        </p>
+
+        <div id="listaUpdateLog" class="lista-update-log"></div>
+      </section>
+
+      <section id="tab-codigos" class="tab-content">
+        <h2>Códigos</h2>
+
+        <p class="texto-info">
+          Digite códigos de atualização para ganhar recompensas.
+        </p>
+
+        <div class="codigo-box">
+          <input id="inputCodigo" class="input-adm" type="text" placeholder="Digite um código. Ex: Update1" />
+
+          <button id="botaoResgatarCodigo" class="botao-adm">
+            Resgatar código
+          </button>
+        </div>
+
+        <h3 class="titulo-lista">Códigos disponíveis</h3>
+
+         <div id="listaCodigos" class="lista-update-log"></div>
+        </section>
 
       <section id="tab-adm" class="tab-content">
         <h2>Menu ADM</h2>
