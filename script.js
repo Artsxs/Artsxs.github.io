@@ -9,61 +9,61 @@ const mundos = [
     precoRng: 1000,
     descricao: "Mundo inicial com personagens básicos.",
     personagens: [
-      { nome: "Tanjiro", chanceTexto: "1/2", multiplicador: 2, raridade: "comum" },
-      { nome: "Naruto", chanceTexto: "1/10", multiplicador: 10, raridade: "raro" },
-      { nome: "Luffy", chanceTexto: "1/25", multiplicador: 25, raridade: "epico" },
-      { nome: "Ichigo", chanceTexto: "1/50", multiplicador: 50, raridade: "lendario" },
-      { nome: "Goku", chanceTexto: "1/100", multiplicador: 100, raridade: "mitico" },
-      { nome: "Saitama", chanceTexto: "1/500", multiplicador: 500, raridade: "divino" },
-      { nome: "Herói Secreto", chanceTexto: "1/2000", multiplicador: 2000, raridade: "secreto" }
+      { nome: "Naruto", chanceTexto: "1/2", multiplicador: 2, raridade: "comum" },
+      { nome: "Sasuke", chanceTexto: "1/10", multiplicador: 10, raridade: "raro" },
+      { nome: "Boruto", chanceTexto: "1/25", multiplicador: 25, raridade: "epico" },
+      { nome: "Minato", chanceTexto: "1/50", multiplicador: 50, raridade: "lendario" },
+      { nome: "Obito", chanceTexto: "1/100", multiplicador: 100, raridade: "mitico" },
+      { nome: "Madara", chanceTexto: "1/500", multiplicador: 500, raridade: "divino" },
+      { nome: "Kaguya", chanceTexto: "1/2000", multiplicador: 2000, raridade: "secreto" }
     ]
   },
   {
     id: "ilha_pirata",
     nome: "Ilha Pirata",
-    custo: 50000,
+    custo: 500000,
     precoRng: 5000,
     descricao: "Personagens mais fortes e RNG mais caro.",
     personagens: [
-      { nome: "Espadachim do Mar", chanceTexto: "1/2", multiplicador: 20, raridade: "comum" },
-      { nome: "Capitão Borracha", chanceTexto: "1/15", multiplicador: 75, raridade: "raro" },
-      { nome: "Caçador de Tesouros", chanceTexto: "1/50", multiplicador: 200, raridade: "epico" },
-      { nome: "Imperador Pirata", chanceTexto: "1/150", multiplicador: 600, raridade: "lendario" },
-      { nome: "Rei dos Mares", chanceTexto: "1/500", multiplicador: 1500, raridade: "mitico" },
-      { nome: "Deus do Oceano", chanceTexto: "1/2000", multiplicador: 5000, raridade: "divino" },
-      { nome: "Pirata Cósmico", chanceTexto: "1/10000", multiplicador: 15000, raridade: "secreto" }
+      { nome: "Zoro", chanceTexto: "1/2", multiplicador: 20, raridade: "comum" },
+      { nome: "Luffy", chanceTexto: "1/15", multiplicador: 75, raridade: "raro" },
+      { nome: "Sanji", chanceTexto: "1/50", multiplicador: 200, raridade: "epico" },
+      { nome: "Ace", chanceTexto: "1/150", multiplicador: 600, raridade: "lendario" },
+      { nome: "Roger", chanceTexto: "1/500", multiplicador: 1500, raridade: "mitico" },
+      { nome: "Kaido", chanceTexto: "1/2000", multiplicador: 5000, raridade: "divino" },
+      { nome: "JoyBoy", chanceTexto: "1/10000", multiplicador: 15000, raridade: "secreto" }
     ]
   },
   {
     id: "arena_deuses",
-    nome: "Arena dos Deuses",
-    custo: 500000,
+    nome: "Estação Shibuya",
+    custo: 10000000,
     precoRng: 25000,
     descricao: "Mundo avançado com personagens muito raros.",
     personagens: [
-      { nome: "Guerreiro Celestial", chanceTexto: "1/2", multiplicador: 100, raridade: "raro" },
-      { nome: "Mestre da Aura", chanceTexto: "1/25", multiplicador: 500, raridade: "epico" },
-      { nome: "Anjo da Batalha", chanceTexto: "1/100", multiplicador: 2000, raridade: "lendario" },
-      { nome: "Deus da Destruição", chanceTexto: "1/500", multiplicador: 8000, raridade: "mitico" },
-      { nome: "Guardião Celestial", chanceTexto: "1/2500", multiplicador: 25000, raridade: "divino" },
-      { nome: "Entidade Secreta", chanceTexto: "1/10000", multiplicador: 75000, raridade: "secreto" },
-      { nome: "Criador Universal", chanceTexto: "1/50000", multiplicador: 250000, raridade: "universal" }
+      { nome: "Itadori", chanceTexto: "1/2", multiplicador: 100, raridade: "raro" },
+      { nome: "Megumi", chanceTexto: "1/25", multiplicador: 500, raridade: "epico" },
+      { nome: "Jogo", chanceTexto: "1/100", multiplicador: 2000, raridade: "lendario" },
+      { nome: "Mahito", chanceTexto: "1/500", multiplicador: 8000, raridade: "mitico" },
+      { nome: "Gojo", chanceTexto: "1/2500", multiplicador: 25000, raridade: "divino" },
+      { nome: "Sukuna", chanceTexto: "1/10000", multiplicador: 75000, raridade: "secreto" },
+      { nome: "Yuta", chanceTexto: "1/50000", multiplicador: 250000, raridade: "universal" }
     ]
   },
   {
     id: "dimensao_final",
-    nome: "Dimensão Final",
-    custo: 5000000,
+    nome: "Aincrad",
+    custo: 100000000,
     precoRng: 100000,
     descricao: "Mundo endgame com personagens absurdamente raros.",
     personagens: [
-      { nome: "Soldado Dimensional", chanceTexto: "1/2", multiplicador: 1000, raridade: "epico" },
-      { nome: "Lorde Temporal", chanceTexto: "1/50", multiplicador: 8000, raridade: "lendario" },
-      { nome: "Rei do Multiverso", chanceTexto: "1/500", multiplicador: 50000, raridade: "mitico" },
-      { nome: "Deus Infinito", chanceTexto: "1/5000", multiplicador: 250000, raridade: "divino" },
-      { nome: "Entidade Omega", chanceTexto: "1/25000", multiplicador: 1000000, raridade: "secreto" },
-      { nome: "Anime Supremo", chanceTexto: "1/100000", multiplicador: 5000000, raridade: "celestial" },
-      { nome: "Criador Absoluto", chanceTexto: "1/1000000", multiplicador: 50000000, raridade: "universal" }
+      { nome: "Klein", chanceTexto: "1/2", multiplicador: 1000, raridade: "epico" },
+      { nome: "Noboyuki", chanceTexto: "1/50", multiplicador: 8000, raridade: "lendario" },
+      { nome: "Alice", chanceTexto: "1/500", multiplicador: 50000, raridade: "mitico" },
+      { nome: "Eugeo", chanceTexto: "1/5000", multiplicador: 250000, raridade: "divino" },
+      { nome: "Sinon", chanceTexto: "1/25000", multiplicador: 1000000, raridade: "secreto" },
+      { nome: "Asuna", chanceTexto: "1/100000", multiplicador: 5000000, raridade: "celestial" },
+      { nome: "Kirito", chanceTexto: "1/1000000", multiplicador: 50000000, raridade: "universal" }
     ]
   }
 ];
