@@ -17,7 +17,7 @@ body {
 .app {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(320px, 520px) minmax(360px, 680px);
+  grid-template-columns: minmax(320px, 520px) minmax(360px, 720px);
   gap: 25px;
   padding: 25px;
   align-items: flex-start;
@@ -181,7 +181,10 @@ body {
 .mundo-card,
 .update-card,
 .codigo-card,
-.codigo-box {
+.codigo-box,
+.conquista-card,
+.historico-card,
+.colecao-card {
   background: rgba(255, 255, 255, 0.12);
   padding: 15px;
   border-radius: 16px;
@@ -199,7 +202,10 @@ body {
 .missao-card span,
 .mundo-card span,
 .update-card span,
-.codigo-card span {
+.codigo-card span,
+.conquista-card span,
+.historico-card span,
+.colecao-card span {
   color: #ffdd57;
   font-weight: bold;
 }
@@ -219,7 +225,9 @@ body {
 .botao-desequipar,
 .botao-missao,
 .botao-mundo,
-.botao-fundir {
+.botao-fundir,
+.botao-favorito,
+.botao-ticket {
   width: 100%;
   padding: 13px;
   margin-top: 10px;
@@ -238,7 +246,8 @@ body {
   background: #fff176;
 }
 
-.botao-upgrade.sorte {
+.botao-upgrade.sorte,
+.botao-upgrade.especial {
   background: #b366ff;
   color: white;
 }
@@ -259,6 +268,11 @@ body {
 
 .botao-rng.extremo {
   background: linear-gradient(135deg, #ff2e63, #ffdd57);
+  color: #111;
+}
+
+.botao-ticket {
+  background: linear-gradient(135deg, #00ff99, #7df9ff);
   color: #111;
 }
 
@@ -288,24 +302,41 @@ body {
 .missao-card h3,
 .mundo-card h3,
 .update-card h3,
-.codigo-card h3 {
+.codigo-card h3,
+.conquista-card h3,
+.historico-card h3,
+.colecao-card h3 {
   color: #ffdd57;
   margin: 8px 0;
   text-align: center;
 }
 
 .update-card,
-.codigo-card {
+.codigo-card,
+.conquista-card,
+.historico-card,
+.colecao-card {
   border-left: 5px solid #ffdd57;
 }
 
-.codigo-resgatado {
+.codigo-resgatado,
+.conquista-resgatada {
   opacity: 0.6;
   border-left-color: #7df9ff;
 }
 
-.codigo-nao-resgatado {
+.codigo-nao-resgatado,
+.conquista-disponivel {
   border-left-color: #ffdd57;
+}
+
+.colecao-obtido {
+  border-left-color: #00ff99;
+}
+
+.colecao-nao-obtido {
+  opacity: 0.65;
+  border-left-color: #ff2e63;
 }
 
 .titulo-lista {
@@ -362,6 +393,10 @@ body {
   border: 2px solid #ffdd57;
 }
 
+.personagem-card.favorito {
+  box-shadow: 0 0 18px rgba(255, 221, 87, 0.8);
+}
+
 .quantidade {
   display: inline-block !important;
   margin-top: 8px;
@@ -372,7 +407,8 @@ body {
   font-weight: bold;
 }
 
-.nivel-personagem {
+.nivel-personagem,
+.estagio-personagem {
   display: inline-block !important;
   margin-top: 8px;
   padding: 4px 9px;
@@ -380,6 +416,10 @@ body {
   background: #7df9ff;
   color: #111 !important;
   font-weight: bold;
+}
+
+.estagio-personagem {
+  background: #00ff99;
 }
 
 .botao-equipar {
@@ -392,12 +432,14 @@ body {
   color: white;
 }
 
-.botao-fundir {
+.botao-fundir,
+.botao-favorito {
   background: #b366ff;
   color: white;
 }
 
-.botao-fundir:disabled {
+.botao-fundir:disabled,
+.botao-missao:disabled {
   opacity: 0.45;
   cursor: not-allowed;
 }
@@ -405,11 +447,6 @@ body {
 .botao-missao {
   background: #ffdd57;
   color: #111;
-}
-
-.botao-missao:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 .missao-concluida {
@@ -509,7 +546,7 @@ body {
 
   .game-area,
   .menu-area {
-    max-width: 680px;
+    max-width: 720px;
     margin: 0 auto;
   }
 }
