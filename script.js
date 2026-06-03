@@ -117,24 +117,16 @@ botaoRng.addEventListener("click", function () {
 
   const personagemSorteado = sortearPersonagem();
 
-  const personagemObtido = {
-    id: Date.now() + Math.random(),
-    nome: personagemSorteado.nome,
-    chanceTexto: personagemSorteado.chanceTexto,
-    multiplicador: personagemSorteado.multiplicador,
-    raridade: personagemSorteado.raridade
-  };
+  adicionarNaMochila(personagemSorteado);
 
-  mochila.push(personagemObtido);
-
-  personagemAtual.textContent = personagemObtido.nome;
-  chanceAtual.textContent = personagemObtido.chanceTexto;
-  multiplicadorAtual.textContent = personagemObtido.multiplicador + "x";
+  personagemAtual.textContent = personagemSorteado.nome;
+  chanceAtual.textContent = personagemSorteado.chanceTexto;
+  multiplicadorAtual.textContent = personagemSorteado.multiplicador + "x";
 
   mensagem.textContent =
     "Você pegou " +
-    personagemObtido.nome +
-    "! Ele foi enviado para sua mochila.";
+    personagemSorteado.nome +
+    "! Quantidade na mochila atualizada.";
 
   atualizarTela();
   atualizarMochila();
@@ -144,6 +136,27 @@ setInterval(function () {
   pontos = pontos + pontosPorSegundo;
   atualizarTela();
 }, 1000);
+
+function adicionarNaMochila(personagemSorteado) {
+  const personagemExistente = mochila.find(function (item) {
+    return item.nome === personagemSorteado.nome;
+  });
+
+  if (personagemExistente) {
+    personagemExistente.quantidade = personagemExistente.quantidade + 1;
+    return;
+  }
+
+  const novoPersonagem = {
+    nome: personagemSorteado.nome,
+    chanceTexto: personagemSorteado.chanceTexto,
+    multiplicador: personagemSorteado.multiplicador,
+    raridade: personagemSorteado.raridade,
+    quantidade: 1
+  };
+
+  mochila.push(novoPersonagem);
+}
 
 function sortearPersonagem() {
   const numeroSorteado = Math.random();
@@ -171,9 +184,9 @@ function sortearPersonagem() {
   return personagens[0];
 }
 
-function equiparPersonagem(id) {
+function equiparPersonagem(nome) {
   const personagem = mochila.find(function (item) {
-    return item.id === id;
+    return item.nome === nome;
   });
 
   if (!personagem) {
@@ -182,11 +195,11 @@ function equiparPersonagem(id) {
   }
 
   const jaEquipado = equipados.some(function (item) {
-    return item.id === id;
+    return item.nome === nome;
   });
 
   if (jaEquipado) {
-    mensagem.textContent = "Esse personagem já está equipado.";
+    mensagem.textContent = personagem.nome + " já está equipado.";
     return;
   }
 
@@ -202,12 +215,12 @@ function equiparPersonagem(id) {
   atualizarMochila();
 }
 
-function desequiparPersonagem(id) {
+function desequiparPersonagem(nome) {
   equipados = equipados.filter(function (item) {
-    return item.id !== id;
+    return item.nome !== nome;
   });
 
-  mensagem.textContent = "Personagem desequipado.";
+  mensagem.textContent = nome + " foi desequipado.";
   atualizarTela();
   atualizarMochila();
 }
@@ -278,7 +291,7 @@ function atualizarMochila() {
 
   mochila.forEach(function (personagem) {
     const estaEquipado = equipados.some(function (item) {
-      return item.id === personagem.id;
+      return item.nome === personagem.nome;
     });
 
     const card = document.createElement("div");
@@ -299,7 +312,8 @@ function atualizarMochila() {
       <span>Status: ${tituloStatus}</span>
       <span>Chance: ${personagem.chanceTexto}</span>
       <span>Multiplicador: ${personagem.multiplicador}x</span>
-      <button class="${classeBotao}" data-id="${personagem.id}">
+      <span class="quantidade">Quantidade: x${personagem.quantidade}</span>
+      <button class="${classeBotao}" data-nome="${personagem.nome}">
         ${textoBotao}
       </button>
     `;
@@ -311,16 +325,16 @@ function atualizarMochila() {
 
   botoes.forEach(function (botao) {
     botao.addEventListener("click", function () {
-      const id = Number(botao.dataset.id);
+      const nome = botao.dataset.nome;
 
       const estaEquipado = equipados.some(function (item) {
-        return item.id === id;
+        return item.nome === nome;
       });
 
       if (estaEquipado) {
-        desequiparPersonagem(id);
+        desequiparPersonagem(nome);
       } else {
-        equiparPersonagem(id);
+        equiparPersonagem(nome);
       }
     });
   });
