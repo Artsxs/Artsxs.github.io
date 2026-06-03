@@ -1,1 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>Anime Clicker Simulator</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="layout">
+
+    <section class="game">
+      <h1>Anime Clicker Simulator</h1>
+      <p class="subtitulo">Clique, treine, gire personagens e fique mais forte!</p>
+
+      <div class="painel">
+        <p>Pontos: <span id="pontos">0</span></p>
+        <p>Pontos por clique base: <span id="pontosPorClique">1</span></p>
+        <p>Pontos por segundo: <span id="pontosPorSegundo">0</span></p>
+        <p>Multiplicador equipado: <span id="multiplicador">1x</span></p>
+        <p>Ganho real por clique: <span id="ganhoRealClique">1</span></p>
+      </div>
+
+      <button id="botaoClick" class="botao-principal">
+        ATACAR
+      </button>
+
+      <button id="upgradeClique" class="botao-upgrade">
+        Comprar treino de força - 10 pontos
+      </button>
+
+      <button id="upgradeSegundo" class="botao-upgrade">
+        Comprar aura automática - 50 pontos
+      </button>
+
+      <p id="mensagem"></p>
+    </section>
+
+    <aside class="rng-panel">
+      <h2>Aba RNG</h2>
+
+      <p class="rng-info">
+        Gire por 1.000 pontos e ganhe personagens para colocar na mochila.
+      </p>
+
+      <button id="botaoRng" class="botao-rng">
+        Girar RNG - 1000 pontos
+      </button>
+
+      <div class="resultado-rng">
+        <p>Último personagem:</p>
+        <h3 id="personagemAtual">Nenhum</h3>
+        <p>Chance: <span id="chanceAtual">---</span></p>
+        <p>Multiplicador: <span id="multiplicadorAtual">1x</span></p>
+      </div>
+
+      <h3 class="titulo-lista">Personagens disponíveis</h3>
+      <div id="listaPersonagens" class="lista-personagens"></div>
+    </aside>
+
+    <aside class="mochila-panel">
+      <h2>Mochila</h2>
+
+      <p class="rng-info">
+        Equipados: <span id="quantidadeEquipados">0</span>/3
+      </p>
+
+      <div id="mochilaPersonagens" class="lista-personagens"></div>
+    </aside>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
