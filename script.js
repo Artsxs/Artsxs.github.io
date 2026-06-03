@@ -1,17 +1,78 @@
-const SAVE_KEY = "animeClickerSimulatorSaveV4";
+const SAVE_KEY = "animeClickerSimulatorSaveV41";
 const ADM_CODE = "ARTSXS-ADM-2026";
+
+const updateLogs = [
+  {
+    versao: "1.0",
+    codigo: "Update1",
+    titulo: "Início do jogo",
+    descricao: "Primeira versão com sistema de clique, pontos e upgrades básicos.",
+    recompensaTexto: "2.500 pontos"
+  },
+  {
+    versao: "2.0",
+    codigo: "Update2",
+    titulo: "RNG, mochila e boss",
+    descricao: "Adicionado sistema de RNG, mochila, personagens equipáveis, missões e boss fight.",
+    recompensaTexto: "5.000 pontos"
+  },
+  {
+    versao: "3.0",
+    codigo: "Update3",
+    titulo: "Sistema de abas e ADM",
+    descricao: "O jogo ganhou menu por abas, status organizado, painel de boss e menu ADM para testes.",
+    recompensaTexto: "7.500 pontos"
+  },
+  {
+    versao: "4.0",
+    codigo: "Update4",
+    titulo: "Mundos, fusão e evolução",
+    descricao: "Adicionados novos mundos, RNG por mundo, fusão de repetidos e evolução de personagens.",
+    recompensaTexto: "10.000 pontos"
+  },
+  {
+    versao: "4.1",
+    codigo: "Update41",
+    titulo: "Update Log e Códigos",
+    descricao: "Adicionadas as abas Update Log e Códigos com recompensas resgatáveis.",
+    recompensaTexto: "12.500 pontos"
+  }
+];
+
+const codigosPromocionais = {
+  Update1: {
+    pontos: 2500,
+    mensagem: "Código Update1 resgatado! Você ganhou 2.500 pontos."
+  },
+  Update2: {
+    pontos: 5000,
+    mensagem: "Código Update2 resgatado! Você ganhou 5.000 pontos."
+  },
+  Update3: {
+    pontos: 7500,
+    mensagem: "Código Update3 resgatado! Você ganhou 7.500 pontos."
+  },
+  Update4: {
+    pontos: 10000,
+    mensagem: "Código Update4 resgatado! Você ganhou 10.000 pontos."
+  },
+  Update41: {
+    pontos: 12500,
+    mensagem: "Código Update41 resgatado! Você ganhou 12.500 pontos."
+  }
+};
 
 const mundos = [
   {
     id: "vila_ninja",
-    nome: "Vila Ninja",
+    nome: "Vila Ninja Oculta",
     custo: 0,
     precoRng: 1000,
-    descricao: "Entre na Vila Ninja Oculta, um lugar onde jovens guerreiros treinam corpo, mente e espírito para dominar técnicas lendárias. Neste mundo, cada giro pode revelar ninjas velozes, mestres de chakra e guerreiros capazes de superar seus próprios limites. Quanto mais raro o personagem, maior será o poder despertado em batalha.",
+    descricao: "Treine seu chakra, enfrente rivais e desbloqueie ninjas lendários com poderes cada vez maiores.",
     personagens: [
       { nome: "Naruto", chanceTexto: "1/2", multiplicador: 2, raridade: "comum" },
       { nome: "Sasuke", chanceTexto: "1/10", multiplicador: 10, raridade: "raro" },
-      { nome: "Boruto", chanceTexto: "1/25", multiplicador: 25, raridade: "epico" },
+      { nome: "Zetsu", chanceTexto: "1/25", multiplicador: 25, raridade: "epico" },
       { nome: "Minato", chanceTexto: "1/50", multiplicador: 50, raridade: "lendario" },
       { nome: "Obito", chanceTexto: "1/100", multiplicador: 100, raridade: "mitico" },
       { nome: "Madara", chanceTexto: "1/500", multiplicador: 500, raridade: "divino" },
@@ -20,29 +81,29 @@ const mundos = [
   },
   {
     id: "ilha_pirata",
-    nome: "Ilha Pirata",
-    custo: 500000,
+    nome: "Ilha dos Piratas",
+    custo: 50000,
     precoRng: 5000,
-    descricao: "Navegue até a Ilha dos Piratas, um mundo cheio de tesouros, batalhas no mar e guerreiros com poderes extraordinários. Aqui, cada personagem carrega o espírito da aventura e da liberdade. Gire o RNG para encontrar espadachins, capitães lendários e criaturas raríssimas capazes de multiplicar seu poder em níveis absurdos.",
+    descricao: "Navegue em busca de tesouros, capitães poderosos e guerreiros raros que aumentam seu multiplicador.",
     personagens: [
       { nome: "Zoro", chanceTexto: "1/2", multiplicador: 20, raridade: "comum" },
-      { nome: "Luffy", chanceTexto: "1/15", multiplicador: 75, raridade: "raro" },
-      { nome: "Sanji", chanceTexto: "1/50", multiplicador: 200, raridade: "epico" },
-      { nome: "Ace", chanceTexto: "1/150", multiplicador: 600, raridade: "lendario" },
-      { nome: "Roger", chanceTexto: "1/500", multiplicador: 1500, raridade: "mitico" },
-      { nome: "Kaido", chanceTexto: "1/2000", multiplicador: 5000, raridade: "divino" },
+      { nome: "Sanji", chanceTexto: "1/15", multiplicador: 75, raridade: "raro" },
+      { nome: "Law", chanceTexto: "1/50", multiplicador: 200, raridade: "epico" },
+      { nome: "Luffy", chanceTexto: "1/150", multiplicador: 600, raridade: "lendario" },
+      { nome: "Kaido", chanceTexto: "1/500", multiplicador: 1500, raridade: "mitico" },
+      { nome: "Imu", chanceTexto: "1/2000", multiplicador: 5000, raridade: "divino" },
       { nome: "JoyBoy", chanceTexto: "1/10000", multiplicador: 15000, raridade: "secreto" }
     ]
   },
   {
-    id: "arena_deuses",
+    id: "cidade_amaldiçoada",
     nome: "Estação Shibuya",
-    custo: 10000000,
+    custo: 500000,
     precoRng: 25000,
-    descricao: "Explore a Cidade Amaldiçoada, um lugar tomado por energia sombria, maldições perigosas e feiticeiros poderosos. Neste mundo, somente os mais fortes conseguem sobreviver. Os personagens encontrados aqui possuem multiplicadores altos e habilidades especiais, tornando cada giro uma chance de despertar uma força oculta.",
+    descricao: "Domine energia sombria, enfrente maldições e conquiste feiticeiros raríssimos para fortalecer seu time.",
     personagens: [
       { nome: "Itadori", chanceTexto: "1/2", multiplicador: 100, raridade: "raro" },
-      { nome: "Megumi", chanceTexto: "1/25", multiplicador: 500, raridade: "epico" },
+      { nome: "Nanami", chanceTexto: "1/25", multiplicador: 500, raridade: "epico" },
       { nome: "Jogo", chanceTexto: "1/100", multiplicador: 2000, raridade: "lendario" },
       { nome: "Mahito", chanceTexto: "1/500", multiplicador: 8000, raridade: "mitico" },
       { nome: "Gojo", chanceTexto: "1/2500", multiplicador: 25000, raridade: "divino" },
@@ -51,19 +112,19 @@ const mundos = [
     ]
   },
   {
-    id: "dimensao_final",
-    nome: "Aincrad",
-    custo: 100000000,
+    id: "reino_virtual",
+    nome: "Ilha de Caçadores",
+    custo: 5000000,
     precoRng: 100000,
-    descricao: "Entre no Reino Virtual, um universo digital onde jogadores lutam para subir de nível, conquistar equipamentos raros e enfrentar chefes poderosos. Cada personagem deste mundo representa uma classe de combate, como espadachim, duelista, guardião ou mestre lendário. Quanto mais raro o personagem, maior será seu domínio dentro do sistema.",
+    descricao: "Entre em um mundo digital de espadas, níveis e chefes, onde cada personagem raro aumenta seu poder.",
     personagens: [
-      { nome: "Klein", chanceTexto: "1/2", multiplicador: 1000, raridade: "epico" },
-      { nome: "Noboyuki", chanceTexto: "1/50", multiplicador: 8000, raridade: "lendario" },
-      { nome: "Alice", chanceTexto: "1/500", multiplicador: 50000, raridade: "mitico" },
-      { nome: "Eugeo", chanceTexto: "1/5000", multiplicador: 250000, raridade: "divino" },
-      { nome: "Sinon", chanceTexto: "1/25000", multiplicador: 1000000, raridade: "secreto" },
-      { nome: "Asuna", chanceTexto: "1/100000", multiplicador: 5000000, raridade: "celestial" },
-      { nome: "Kirito", chanceTexto: "1/1000000", multiplicador: 50000000, raridade: "universal" }
+      { nome: "Murata", chanceTexto: "1/2", multiplicador: 1000, raridade: "epico" },
+      { nome: "Inosuke", chanceTexto: "1/50", multiplicador: 8000, raridade: "lendario" },
+      { nome: "Zenitsu", chanceTexto: "1/500", multiplicador: 50000, raridade: "mitico" },
+      { nome: "Nezuko", chanceTexto: "1/5000", multiplicador: 250000, raridade: "divino" },
+      { nome: "Rengoku", chanceTexto: "1/25000", multiplicador: 1000000, raridade: "secreto" },
+      { nome: "Tanjiro", chanceTexto: "1/100000", multiplicador: 5000000, raridade: "celestial" },
+      { nome: "Muzan", chanceTexto: "1/1000000", multiplicador: 50000000, raridade: "universal" }
     ]
   }
 ];
@@ -120,7 +181,7 @@ const missoes = [
   {
     id: "mundo2",
     titulo: "Explorador",
-    descricao: "Desbloqueie a Ilha Pirata.",
+    descricao: "Desbloqueie a Ilha dos Piratas.",
     recompensa: 20000,
     concluida: function () {
       return jogo.mundosDesbloqueados.includes("ilha_pirata");
@@ -182,6 +243,11 @@ const elementos = {
   listaMissoes: document.getElementById("listaMissoes"),
   listaMundos: document.getElementById("listaMundos"),
 
+  listaUpdateLog: document.getElementById("listaUpdateLog"),
+  inputCodigo: document.getElementById("inputCodigo"),
+  botaoResgatarCodigo: document.getElementById("botaoResgatarCodigo"),
+  listaCodigos: document.getElementById("listaCodigos"),
+
   nomeBoss: document.getElementById("nomeBoss"),
   nivelBoss: document.getElementById("nivelBoss"),
   vidaBoss: document.getElementById("vidaBoss"),
@@ -213,7 +279,6 @@ const elementos = {
 carregarJogo();
 configurarTabs();
 configurarEventos();
-montarSelectAdm();
 atualizarTudo();
 
 function criarJogoInicial() {
@@ -253,7 +318,8 @@ function criarJogoInicial() {
       fusoes: 0
     },
 
-    missoesResgatadas: {}
+    missoesResgatadas: {},
+    codigosResgatados: {}
   };
 }
 
@@ -294,6 +360,14 @@ function configurarEventos() {
   });
 
   elementos.resetarJogo.addEventListener("click", resetarJogo);
+
+  elementos.botaoResgatarCodigo.addEventListener("click", resgatarCodigo);
+
+  elementos.inputCodigo.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      resgatarCodigo();
+    }
+  });
 
   elementos.entrarAdm.addEventListener("click", liberarAdm);
   elementos.admAdicionarPontos.addEventListener("click", admAdicionarPontos);
@@ -419,7 +493,7 @@ function girarRng(quantidade) {
     "! Melhor personagem: " +
     melhorPersonagem.nome +
     " (" +
-    melhorPersonagem.multiplicador +
+    formatarNumero(melhorPersonagem.multiplicador) +
     "x)."
   );
 
@@ -429,7 +503,6 @@ function girarRng(quantidade) {
 function sortearPersonagemDoMundo(mundo) {
   const numeroSorteado = Math.random();
   const bonusSorte = 1 + jogo.sorte * 0.08;
-
   const lista = mundo.personagens;
 
   for (let i = lista.length - 1; i >= 1; i--) {
@@ -844,6 +917,86 @@ function resgatarMissao(id) {
   atualizarTudo();
 }
 
+function montarUpdateLog() {
+  elementos.listaUpdateLog.innerHTML = "";
+
+  updateLogs.forEach(function (update) {
+    const card = document.createElement("div");
+
+    card.classList.add("update-card");
+
+    card.innerHTML = `
+      <h3>Versão ${update.versao} - ${update.titulo}</h3>
+      <p>${update.descricao}</p>
+      <p>Código: <span>${update.codigo}</span></p>
+      <p>Recompensa: <span>${update.recompensaTexto}</span></p>
+    `;
+
+    elementos.listaUpdateLog.appendChild(card);
+  });
+}
+
+function montarListaCodigos() {
+  elementos.listaCodigos.innerHTML = "";
+
+  updateLogs.forEach(function (update) {
+    const foiResgatado = jogo.codigosResgatados && jogo.codigosResgatados[update.codigo];
+
+    const card = document.createElement("div");
+
+    card.classList.add("codigo-card");
+
+    if (foiResgatado) {
+      card.classList.add("codigo-resgatado");
+    } else {
+      card.classList.add("codigo-nao-resgatado");
+    }
+
+    card.innerHTML = `
+      <h3>${update.codigo}</h3>
+      <p>Versão: <span>${update.versao}</span></p>
+      <p>Recompensa: <span>${update.recompensaTexto}</span></p>
+      <p>Status: <span>${foiResgatado ? "Resgatado" : "Disponível"}</span></p>
+    `;
+
+    elementos.listaCodigos.appendChild(card);
+  });
+}
+
+function resgatarCodigo() {
+  const codigoDigitado = elementos.inputCodigo.value.trim();
+
+  if (!codigoDigitado) {
+    mostrarMensagem("Digite um código para resgatar.");
+    return;
+  }
+
+  const codigo = codigosPromocionais[codigoDigitado];
+
+  if (!codigo) {
+    mostrarMensagem("Código inválido.");
+    return;
+  }
+
+  if (!jogo.codigosResgatados) {
+    jogo.codigosResgatados = {};
+  }
+
+  if (jogo.codigosResgatados[codigoDigitado]) {
+    mostrarMensagem("Esse código já foi resgatado.");
+    return;
+  }
+
+  jogo.pontos += codigo.pontos;
+  jogo.codigosResgatados[codigoDigitado] = true;
+
+  elementos.inputCodigo.value = "";
+
+  mostrarMensagem(codigo.mensagem);
+
+  atualizarTudo();
+}
+
 function atualizarBoss() {
   const vidaAtual = Math.max(0, Math.floor(jogo.boss.vidaAtual));
   const porcentagem = Math.max(0, (jogo.boss.vidaAtual / jogo.boss.vidaMax) * 100);
@@ -915,6 +1068,8 @@ function atualizarTudo() {
   montarListaPersonagens();
   atualizarMochila();
   atualizarMissoes();
+  montarUpdateLog();
+  montarListaCodigos();
   montarSelectAdm();
   salvarJogo();
 }
@@ -1051,18 +1206,21 @@ function carregarJogo() {
       ...jogoSalvo,
       stats: {
         ...base.stats,
-        ...jogoSalvo.stats
+        ...(jogoSalvo.stats || {})
       },
       boss: {
         ...base.boss,
-        ...jogoSalvo.boss
+        ...(jogoSalvo.boss || {})
       },
       ultimoPersonagem: {
         ...base.ultimoPersonagem,
-        ...jogoSalvo.ultimoPersonagem
+        ...(jogoSalvo.ultimoPersonagem || {})
       },
       missoesResgatadas: {
-        ...jogoSalvo.missoesResgatadas
+        ...(jogoSalvo.missoesResgatadas || {})
+      },
+      codigosResgatados: {
+        ...(jogoSalvo.codigosResgatados || {})
       }
     };
 
