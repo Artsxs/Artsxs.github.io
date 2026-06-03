@@ -7,7 +7,7 @@ const mundos = [
     nome: "Vila Ninja",
     custo: 0,
     precoRng: 1000,
-    descricao: "Mundo inicial com personagens básicos.",
+    descricao: "Entre na Vila Ninja Oculta, um lugar onde jovens guerreiros treinam corpo, mente e espírito para dominar técnicas lendárias. Neste mundo, cada giro pode revelar ninjas velozes, mestres de chakra e guerreiros capazes de superar seus próprios limites. Quanto mais raro o personagem, maior será o poder despertado em batalha.",
     personagens: [
       { nome: "Naruto", chanceTexto: "1/2", multiplicador: 2, raridade: "comum" },
       { nome: "Sasuke", chanceTexto: "1/10", multiplicador: 10, raridade: "raro" },
@@ -23,7 +23,7 @@ const mundos = [
     nome: "Ilha Pirata",
     custo: 500000,
     precoRng: 5000,
-    descricao: "Personagens mais fortes e RNG mais caro.",
+    descricao: "Navegue até a Ilha dos Piratas, um mundo cheio de tesouros, batalhas no mar e guerreiros com poderes extraordinários. Aqui, cada personagem carrega o espírito da aventura e da liberdade. Gire o RNG para encontrar espadachins, capitães lendários e criaturas raríssimas capazes de multiplicar seu poder em níveis absurdos.",
     personagens: [
       { nome: "Zoro", chanceTexto: "1/2", multiplicador: 20, raridade: "comum" },
       { nome: "Luffy", chanceTexto: "1/15", multiplicador: 75, raridade: "raro" },
@@ -39,7 +39,7 @@ const mundos = [
     nome: "Estação Shibuya",
     custo: 10000000,
     precoRng: 25000,
-    descricao: "Mundo avançado com personagens muito raros.",
+    descricao: "Explore a Cidade Amaldiçoada, um lugar tomado por energia sombria, maldições perigosas e feiticeiros poderosos. Neste mundo, somente os mais fortes conseguem sobreviver. Os personagens encontrados aqui possuem multiplicadores altos e habilidades especiais, tornando cada giro uma chance de despertar uma força oculta.",
     personagens: [
       { nome: "Itadori", chanceTexto: "1/2", multiplicador: 100, raridade: "raro" },
       { nome: "Megumi", chanceTexto: "1/25", multiplicador: 500, raridade: "epico" },
@@ -55,7 +55,7 @@ const mundos = [
     nome: "Aincrad",
     custo: 100000000,
     precoRng: 100000,
-    descricao: "Mundo endgame com personagens absurdamente raros.",
+    descricao: "Entre no Reino Virtual, um universo digital onde jogadores lutam para subir de nível, conquistar equipamentos raros e enfrentar chefes poderosos. Cada personagem deste mundo representa uma classe de combate, como espadachim, duelista, guardião ou mestre lendário. Quanto mais raro o personagem, maior será seu domínio dentro do sistema.",
     personagens: [
       { nome: "Klein", chanceTexto: "1/2", multiplicador: 1000, raridade: "epico" },
       { nome: "Noboyuki", chanceTexto: "1/50", multiplicador: 8000, raridade: "lendario" },
