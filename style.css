@@ -496,3 +496,47 @@ body {
     height: 160px;
   }
 }
+
+.update-card,
+.codigo-card {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 15px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  border-left: 5px solid #ffdd57;
+}
+
+.update-card h3,
+.codigo-card h3 {
+  color: #ffdd57;
+  margin-bottom: 8px;
+}
+
+.update-card p,
+.codigo-card p {
+  margin: 6px 0;
+  color: #e6e6e6;
+  font-size: 14px;
+}
+
+.update-card span,
+.codigo-card span {
+  color: #7df9ff;
+  font-weight: bold;
+}
+
+.codigo-box {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 15px;
+  border-radius: 16px;
+  margin-bottom: 18px;
+}
+
+.codigo-resgatado {
+  opacity: 0.6;
+  border-left-color: #7df9ff;
+}
+
+.codigo-nao-resgatado {
+  border-left-color: #ffdd57;
+}
