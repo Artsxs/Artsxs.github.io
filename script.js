@@ -1,4 +1,4 @@
-const SAVE_KEY = "animeClickerSimulatorSaveV41";
+const SAVE_KEY = "animeClickerSimulatorSaveV42";
 const ADM_CODE = "ARTSXS-ADM-2026";
 
 const updateLogs = [
@@ -36,6 +36,13 @@ const updateLogs = [
     titulo: "Update Log e Códigos",
     descricao: "Adicionadas as abas Update Log e Códigos com recompensas resgatáveis.",
     recompensaTexto: "12.500 pontos"
+  },
+  {
+    versao: "4.2",
+    codigo: "Update42",
+    titulo: "Economia balanceada e RNG avançado",
+    descricao: "Economia ficou mais difícil, fusão exige mais cópias e foram adicionados giros 100x e 1000x.",
+    recompensaTexto: "15.000 pontos"
   }
 ];
 
@@ -59,6 +66,10 @@ const codigosPromocionais = {
   Update41: {
     pontos: 12500,
     mensagem: "Código Update41 resgatado! Você ganhou 12.500 pontos."
+  },
+  Update42: {
+    pontos: 15000,
+    mensagem: "Código Update42 resgatado! Você ganhou 15.000 pontos."
   }
 };
 
@@ -134,7 +145,7 @@ const missoes = [
     id: "cliques50",
     titulo: "Primeiros ataques",
     descricao: "Clique 50 vezes.",
-    recompensa: 1000,
+    recompensa: 500,
     concluida: function () {
       return jogo.stats.cliques >= 50;
     },
@@ -146,7 +157,7 @@ const missoes = [
     id: "giros5",
     titulo: "Começando no RNG",
     descricao: "Gire o RNG 5 vezes.",
-    recompensa: 2500,
+    recompensa: 1500,
     concluida: function () {
       return jogo.stats.giros >= 5;
     },
@@ -158,7 +169,7 @@ const missoes = [
     id: "equipar3",
     titulo: "Time completo",
     descricao: "Equipe 3 personagens.",
-    recompensa: 3000,
+    recompensa: 2500,
     concluida: function () {
       return jogo.equipados.length >= 3;
     },
@@ -170,7 +181,7 @@ const missoes = [
     id: "boss1",
     titulo: "Caçador de Boss",
     descricao: "Derrote 1 boss.",
-    recompensa: 5000,
+    recompensa: 3000,
     concluida: function () {
       return jogo.stats.bossesDerrotados >= 1;
     },
@@ -182,7 +193,7 @@ const missoes = [
     id: "mundo2",
     titulo: "Explorador",
     descricao: "Desbloqueie a Ilha dos Piratas.",
-    recompensa: 20000,
+    recompensa: 7500,
     concluida: function () {
       return jogo.mundosDesbloqueados.includes("ilha_pirata");
     },
@@ -194,7 +205,7 @@ const missoes = [
     id: "fusao1",
     titulo: "Primeira fusão",
     descricao: "Faça 1 fusão de personagem.",
-    recompensa: 15000,
+    recompensa: 10000,
     concluida: function () {
       return jogo.stats.fusoes >= 1;
     },
@@ -229,6 +240,8 @@ const elementos = {
   upgradeSorte: document.getElementById("upgradeSorte"),
   botaoRng: document.getElementById("botaoRng"),
   botaoRng10: document.getElementById("botaoRng10"),
+  botaoRng100: document.getElementById("botaoRng100"),
+  botaoRng1000: document.getElementById("botaoRng1000"),
   resetarJogo: document.getElementById("resetarJogo"),
 
   mensagem: document.getElementById("mensagem"),
@@ -285,11 +298,11 @@ function criarJogoInicial() {
   return {
     pontos: 0,
     pontosPorClique: 1,
-    precoUpgradeClique: 10,
+    precoUpgradeClique: 25,
     pontosPorSegundo: 0,
-    precoUpgradeSegundo: 50,
+    precoUpgradeSegundo: 250,
     sorte: 0,
-    precoUpgradeSorte: 5000,
+    precoUpgradeSorte: 25000,
 
     mundoAtual: "vila_ninja",
     mundosDesbloqueados: ["vila_ninja"],
@@ -306,9 +319,9 @@ function criarJogoInicial() {
     boss: {
       nome: "Dragão Sombrio",
       nivel: 1,
-      vidaAtual: 10000,
-      vidaMax: 10000,
-      recompensa: 5000
+      vidaAtual: 50000,
+      vidaMax: 50000,
+      recompensa: 1000
     },
 
     stats: {
@@ -357,6 +370,14 @@ function configurarEventos() {
 
   elementos.botaoRng10.addEventListener("click", function () {
     girarRng(10);
+  });
+
+  elementos.botaoRng100.addEventListener("click", function () {
+    girarRng(100);
+  });
+
+  elementos.botaoRng1000.addEventListener("click", function () {
+    girarRng(1000);
   });
 
   elementos.resetarJogo.addEventListener("click", resetarJogo);
@@ -416,7 +437,7 @@ function comprarUpgradeClique() {
 
   jogo.pontos -= jogo.precoUpgradeClique;
   jogo.pontosPorClique += 1;
-  jogo.precoUpgradeClique *= 3;
+  jogo.precoUpgradeClique = Math.floor(jogo.precoUpgradeClique * 4);
 
   mostrarMensagem("Treino de força comprado!");
   atualizarTudo();
@@ -430,7 +451,7 @@ function comprarUpgradeSegundo() {
 
   jogo.pontos -= jogo.precoUpgradeSegundo;
   jogo.pontosPorSegundo += 1;
-  jogo.precoUpgradeSegundo *= 3;
+  jogo.precoUpgradeSegundo = Math.floor(jogo.precoUpgradeSegundo * 4);
 
   mostrarMensagem("Aura automática comprada!");
   atualizarTudo();
@@ -444,7 +465,7 @@ function comprarUpgradeSorte() {
 
   jogo.pontos -= jogo.precoUpgradeSorte;
   jogo.sorte += 1;
-  jogo.precoUpgradeSorte = Math.floor(jogo.precoUpgradeSorte * 2.5);
+  jogo.precoUpgradeSorte = Math.floor(jogo.precoUpgradeSorte * 3);
 
   mostrarMensagem("Sorte aumentada para nível " + jogo.sorte + "!");
   atualizarTudo();
@@ -502,7 +523,7 @@ function girarRng(quantidade) {
 
 function sortearPersonagemDoMundo(mundo) {
   const numeroSorteado = Math.random();
-  const bonusSorte = 1 + jogo.sorte * 0.08;
+  const bonusSorte = 1 + jogo.sorte * 0.05;
   const lista = mundo.personagens;
 
   for (let i = lista.length - 1; i >= 1; i--) {
@@ -559,10 +580,10 @@ function fundirPersonagem(chave) {
     return;
   }
 
-  const custoFusao = 5;
+  const custoFusao = 10;
 
   if (personagem.quantidade < custoFusao) {
-    mostrarMensagem("Você precisa de 5 cópias para evoluir " + personagem.nome + ".");
+    mostrarMensagem("Você precisa de 10 cópias para evoluir " + personagem.nome + ".");
     return;
   }
 
@@ -654,8 +675,8 @@ function causarDanoNoBoss(dano) {
 
 function criarProximoBoss() {
   const novoNivel = jogo.boss.nivel + 1;
-  const novaVida = Math.floor(10000 * Math.pow(1.8, novoNivel - 1));
-  const novaRecompensa = Math.floor(5000 * Math.pow(1.7, novoNivel - 1));
+  const novaVida = Math.floor(50000 * Math.pow(2.5, novoNivel - 1));
+  const novaRecompensa = Math.floor(1000 * Math.pow(1.35, novoNivel - 1));
 
   jogo.boss = {
     nome: escolherNomeBoss(novoNivel),
@@ -808,7 +829,7 @@ function atualizarMochila() {
     });
 
     const multiplicadorAtual = calcularMultiplicadorPersonagem(personagem);
-    const podeFundir = personagem.quantidade >= 5;
+    const podeFundir = personagem.quantidade >= 10;
 
     const card = document.createElement("div");
     card.classList.add("personagem-card", personagem.raridade);
@@ -832,7 +853,7 @@ function atualizarMochila() {
       </button>
 
       <button class="botao-fundir" data-chave="${personagem.chave}" data-acao="fundir" ${podeFundir ? "" : "disabled"}>
-        Fundir 5 cópias / Evoluir
+        Fundir 10 cópias / Evoluir
       </button>
     `;
 
@@ -1055,6 +1076,12 @@ function atualizarTela() {
 
   elementos.botaoRng10.textContent =
     "Girar 10x - " + formatarNumero(mundo.precoRng * 10) + " pontos";
+
+  elementos.botaoRng100.textContent =
+    "Girar 100x - " + formatarNumero(mundo.precoRng * 100) + " pontos";
+
+  elementos.botaoRng1000.textContent =
+    "Girar 1000x - " + formatarNumero(mundo.precoRng * 1000) + " pontos";
 
   elementos.personagemAtual.textContent = jogo.ultimoPersonagem.nome;
   elementos.chanceAtual.textContent = jogo.ultimoPersonagem.chanceTexto;
