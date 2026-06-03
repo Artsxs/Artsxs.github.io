@@ -1,4 +1,4 @@
-const SAVE_KEY = "animeClickerSimulatorSaveV42";
+const SAVE_KEY = "animeClickerSimulatorSaveV50";
 const ADM_CODE = "ARTSXS-ADM-2026";
 
 const updateLogs = [
@@ -43,6 +43,13 @@ const updateLogs = [
     titulo: "Economia balanceada e RNG avançado",
     descricao: "Economia ficou mais difícil, fusão exige mais cópias e foram adicionados giros 100x e 1000x.",
     recompensaTexto: "15.000 pontos"
+  },
+  {
+    versao: "5.0",
+    codigo: "Update50",
+    titulo: "Rank, Rebirth, Eventos e Coleção",
+    descricao: "Adicionados rank, rebirth, eventos ADM, coleção, conquistas, tickets, pity, loja especial e progressão avançada.",
+    recompensaTexto: "25.000 pontos"
   }
 ];
 
@@ -70,6 +77,15 @@ const codigosPromocionais = {
   Update42: {
     pontos: 15000,
     mensagem: "Código Update42 resgatado! Você ganhou 15.000 pontos."
+  },
+  Update50: {
+    pontos: 25000,
+    tickets: {
+      t1: 5,
+      t10: 1,
+      t100: 0
+    },
+    mensagem: "Código Update50 resgatado! Você ganhou 25.000 pontos, 5 Tickets 1x e 1 Ticket 10x."
   }
 };
 
@@ -78,6 +94,7 @@ const mundos = [
     id: "vila_ninja",
     nome: "Vila Ninja Oculta",
     custo: 0,
+    bossesNecessarios: 0,
     precoRng: 1000,
     descricao: "Treine seu chakra, enfrente rivais e desbloqueie ninjas lendários com poderes cada vez maiores.",
     personagens: [
@@ -93,7 +110,8 @@ const mundos = [
   {
     id: "ilha_pirata",
     nome: "Ilha dos Piratas",
-    custo: 50000,
+    custo: 250000,
+    bossesNecessarios: 3,
     precoRng: 5000,
     descricao: "Navegue em busca de tesouros, capitães poderosos e guerreiros raros que aumentam seu multiplicador.",
     personagens: [
@@ -109,7 +127,8 @@ const mundos = [
   {
     id: "cidade_amaldiçoada",
     nome: "Estação Shibuya",
-    custo: 500000,
+    custo: 5000000,
+    bossesNecessarios: 10,
     precoRng: 25000,
     descricao: "Domine energia sombria, enfrente maldições e conquiste feiticeiros raríssimos para fortalecer seu time.",
     personagens: [
@@ -125,7 +144,8 @@ const mundos = [
   {
     id: "reino_virtual",
     nome: "Ilha de Caçadores",
-    custo: 5000000,
+    custo: 100000000,
+    bossesNecessarios: 25,
     precoRng: 100000,
     descricao: "Entre em um mundo digital de espadas, níveis e chefes, onde cada personagem raro aumenta seu poder.",
     personagens: [
@@ -215,6 +235,65 @@ const missoes = [
   }
 ];
 
+const conquistas = [
+  {
+    id: "primeiroMilhao",
+    titulo: "Primeiro milhão",
+    descricao: "Alcance 1.000.000 de pontos.",
+    recompensa: 50000,
+    concluida: function () {
+      return jogo.pontos >= 1000000 || jogo.stats.maiorPontos >= 1000000;
+    }
+  },
+  {
+    id: "primeiroSecreto",
+    titulo: "Drop secreto",
+    descricao: "Obtenha qualquer personagem secreto ou melhor.",
+    recompensa: 75000,
+    concluida: function () {
+      return jogo.mochila.some(function (personagem) {
+        return ["secreto", "celestial", "universal"].includes(personagem.raridade);
+      });
+    }
+  },
+  {
+    id: "primeiraFusao",
+    titulo: "Evolução iniciada",
+    descricao: "Faça sua primeira fusão.",
+    recompensa: 25000,
+    concluida: function () {
+      return jogo.stats.fusoes >= 1;
+    }
+  },
+  {
+    id: "dezBosses",
+    titulo: "Caçador avançado",
+    descricao: "Derrote 10 bosses.",
+    recompensa: 100000,
+    concluida: function () {
+      return jogo.stats.bossesDerrotados >= 10;
+    }
+  },
+  {
+    id: "milGiros",
+    titulo: "Viciado em RNG",
+    descricao: "Faça 1.000 giros.",
+    recompensa: 150000,
+    concluida: function () {
+      return jogo.stats.giros >= 1000;
+    }
+  },
+  {
+    id: "primeiroRebirth",
+    titulo: "Renascimento",
+    descricao: "Faça seu primeiro rebirth.",
+    recompensa: 250000,
+    concluida: function () {
+      return jogo.rebirths >= 1;
+    }
+  }
+];
+
 let jogo = criarJogoInicial();
 
 const elementos = {
@@ -222,39 +301,71 @@ const elementos = {
   ganhoRealClique: document.getElementById("ganhoRealClique"),
   multiplicador: document.getElementById("multiplicador"),
   mundoAtualTexto: document.getElementById("mundoAtualTexto"),
+  rankJogador: document.getElementById("rankJogador"),
+  eventoAtivoTexto: document.getElementById("eventoAtivoTexto"),
 
   pontosPorClique: document.getElementById("pontosPorClique"),
   pontosPorSegundo: document.getElementById("pontosPorSegundo"),
+  nivelAura: document.getElementById("nivelAura"),
   multiplicadorStatus: document.getElementById("multiplicadorStatus"),
   ganhoRealStatus: document.getElementById("ganhoRealStatus"),
   nivelSorte: document.getElementById("nivelSorte"),
+  rebirthsTexto: document.getElementById("rebirthsTexto"),
+  bonusRebirthTexto: document.getElementById("bonusRebirthTexto"),
   quantidadeEquipados: document.getElementById("quantidadeEquipados"),
-  quantidadeEquipadosMochila: document.getElementById("quantidadeEquipadosMochila"),
+  limiteEquipadosTexto: document.getElementById("limiteEquipadosTexto"),
+  favoritoTexto: document.getElementById("favoritoTexto"),
   totalCliques: document.getElementById("totalCliques"),
   totalGiros: document.getElementById("totalGiros"),
   totalBosses: document.getElementById("totalBosses"),
+  pityTexto: document.getElementById("pityTexto"),
 
   botaoClick: document.getElementById("botaoClick"),
   upgradeClique: document.getElementById("upgradeClique"),
   upgradeSegundo: document.getElementById("upgradeSegundo"),
   upgradeSorte: document.getElementById("upgradeSorte"),
+
+  comprarDescontoRng: document.getElementById("comprarDescontoRng"),
+  comprarSlotEquipado: document.getElementById("comprarSlotEquipado"),
+  comprarBonusBoss: document.getElementById("comprarBonusBoss"),
+  comprarBonusPps: document.getElementById("comprarBonusPps"),
+
+  rebirthsPainel: document.getElementById("rebirthsPainel"),
+  bonusRebirthPainel: document.getElementById("bonusRebirthPainel"),
+  custoRebirthTexto: document.getElementById("custoRebirthTexto"),
+  botaoRebirth: document.getElementById("botaoRebirth"),
+
   botaoRng: document.getElementById("botaoRng"),
   botaoRng10: document.getElementById("botaoRng10"),
   botaoRng100: document.getElementById("botaoRng100"),
   botaoRng1000: document.getElementById("botaoRng1000"),
-  resetarJogo: document.getElementById("resetarJogo"),
 
+  usarTicket1: document.getElementById("usarTicket1"),
+  usarTicket10: document.getElementById("usarTicket10"),
+  usarTicket100: document.getElementById("usarTicket100"),
+
+  resetarJogo: document.getElementById("resetarJogo"),
   mensagem: document.getElementById("mensagem"),
 
   mundoAtualRng: document.getElementById("mundoAtualRng"),
   precoRngAtual: document.getElementById("precoRngAtual"),
+  ticket1Texto: document.getElementById("ticket1Texto"),
+  ticket10Texto: document.getElementById("ticket10Texto"),
+  ticket100Texto: document.getElementById("ticket100Texto"),
+
   personagemAtual: document.getElementById("personagemAtual"),
   chanceAtual: document.getElementById("chanceAtual"),
   multiplicadorAtual: document.getElementById("multiplicadorAtual"),
   listaPersonagens: document.getElementById("listaPersonagens"),
   mochilaPersonagens: document.getElementById("mochilaPersonagens"),
+  listaColecao: document.getElementById("listaColecao"),
+  listaHistorico: document.getElementById("listaHistorico"),
+  listaConquistas: document.getElementById("listaConquistas"),
   listaMissoes: document.getElementById("listaMissoes"),
   listaMundos: document.getElementById("listaMundos"),
+
+  quantidadeEquipadosMochila: document.getElementById("quantidadeEquipadosMochila"),
+  limiteEquipadosMochila: document.getElementById("limiteEquipadosMochila"),
 
   listaUpdateLog: document.getElementById("listaUpdateLog"),
   inputCodigo: document.getElementById("inputCodigo"),
@@ -285,6 +396,12 @@ const elementos = {
   admAdicionarPersonagem: document.getElementById("admAdicionarPersonagem"),
   admDesbloquearMundos: document.getElementById("admDesbloquearMundos"),
   admDerrotarBoss: document.getElementById("admDerrotarBoss"),
+
+  admEventoLuck: document.getElementById("admEventoLuck"),
+  admEventoPontos: document.getElementById("admEventoPontos"),
+  admEventoBoss: document.getElementById("admEventoBoss"),
+  admEventoOff: document.getElementById("admEventoOff"),
+
   admSalvar: document.getElementById("admSalvar"),
   admSair: document.getElementById("admSair")
 };
@@ -299,8 +416,11 @@ function criarJogoInicial() {
     pontos: 0,
     pontosPorClique: 1,
     precoUpgradeClique: 25,
+
     pontosPorSegundo: 0,
+    nivelAura: 0,
     precoUpgradeSegundo: 250,
+
     sorte: 0,
     precoUpgradeSorte: 25000,
 
@@ -309,6 +429,7 @@ function criarJogoInicial() {
 
     mochila: [],
     equipados: [],
+    personagemFavorito: null,
 
     ultimoPersonagem: {
       nome: "Nenhum",
@@ -324,15 +445,46 @@ function criarJogoInicial() {
       recompensa: 1000
     },
 
+    tickets: {
+      t1: 0,
+      t10: 0,
+      t100: 0
+    },
+
+    loja: {
+      descontoRng: 0,
+      precoDescontoRng: 100000,
+
+      limiteEquipados: 3,
+      precoSlotEquipado: 1000000,
+
+      bonusBoss: 0,
+      precoBonusBoss: 250000,
+
+      bonusPps: 0,
+      precoBonusPps: 150000
+    },
+
+    rebirths: 0,
+    custoRebirth: 1000000,
+
+    eventoAtivo: null,
+
+    pity: 0,
+    historicoDrops: [],
+    colecaoObtidos: {},
+
     stats: {
       cliques: 0,
       giros: 0,
       bossesDerrotados: 0,
-      fusoes: 0
+      fusoes: 0,
+      maiorPontos: 0
     },
 
     missoesResgatadas: {},
-    codigosResgatados: {}
+    codigosResgatados: {},
+    conquistasResgatadas: {}
   };
 }
 
@@ -360,24 +512,44 @@ function configurarTabs() {
 
 function configurarEventos() {
   elementos.botaoClick.addEventListener("click", atacar);
+
   elementos.upgradeClique.addEventListener("click", comprarUpgradeClique);
   elementos.upgradeSegundo.addEventListener("click", comprarUpgradeSegundo);
   elementos.upgradeSorte.addEventListener("click", comprarUpgradeSorte);
 
+  elementos.comprarDescontoRng.addEventListener("click", comprarDescontoRng);
+  elementos.comprarSlotEquipado.addEventListener("click", comprarSlotEquipado);
+  elementos.comprarBonusBoss.addEventListener("click", comprarBonusBoss);
+  elementos.comprarBonusPps.addEventListener("click", comprarBonusPps);
+
+  elementos.botaoRebirth.addEventListener("click", fazerRebirth);
+
   elementos.botaoRng.addEventListener("click", function () {
-    girarRng(1);
+    girarRng(1, false);
   });
 
   elementos.botaoRng10.addEventListener("click", function () {
-    girarRng(10);
+    girarRng(10, false);
   });
 
   elementos.botaoRng100.addEventListener("click", function () {
-    girarRng(100);
+    girarRng(100, false);
   });
 
   elementos.botaoRng1000.addEventListener("click", function () {
-    girarRng(1000);
+    girarRng(1000, false);
+  });
+
+  elementos.usarTicket1.addEventListener("click", function () {
+    usarTicket("t1", 1);
+  });
+
+  elementos.usarTicket10.addEventListener("click", function () {
+    usarTicket("t10", 10);
+  });
+
+  elementos.usarTicket100.addEventListener("click", function () {
+    usarTicket("t100", 100);
   });
 
   elementos.resetarJogo.addEventListener("click", resetarJogo);
@@ -396,6 +568,24 @@ function configurarEventos() {
   elementos.admDesbloquearMundos.addEventListener("click", admDesbloquearTodosMundos);
   elementos.admDerrotarBoss.addEventListener("click", admDerrotarBoss);
 
+  elementos.admEventoLuck.addEventListener("click", function () {
+    ativarEvento("luck10");
+  });
+
+  elementos.admEventoPontos.addEventListener("click", function () {
+    ativarEvento("pontos10");
+  });
+
+  elementos.admEventoBoss.addEventListener("click", function () {
+    ativarEvento("bossFrenzy");
+  });
+
+  elementos.admEventoOff.addEventListener("click", function () {
+    jogo.eventoAtivo = null;
+    mostrarMensagem("Evento desativado.");
+    atualizarTudo();
+  });
+
   elementos.admSalvar.addEventListener("click", function () {
     salvarJogo();
     mostrarMensagem("ADM: progresso salvo manualmente.");
@@ -410,7 +600,9 @@ function configurarEventos() {
 
   setInterval(function () {
     if (jogo.pontosPorSegundo > 0) {
-      jogo.pontos += jogo.pontosPorSegundo;
+      const ganho = calcularGanhoPorSegundoReal();
+      jogo.pontos += ganho;
+      atualizarMaiorPontos();
       atualizarTudo();
     }
   }, 1000);
@@ -422,11 +614,39 @@ function atacar() {
   jogo.pontos += ganho;
   jogo.stats.cliques += 1;
 
+  atualizarMaiorPontos();
   causarDanoNoBoss(ganho);
 
   mostrarMensagem("Você atacou e ganhou +" + formatarNumero(ganho) + " pontos!");
 
   atualizarTudo();
+}
+
+function calcularMultiplicadorEventoPontos() {
+  if (jogo.eventoAtivo === "pontos10") {
+    return 10;
+  }
+
+  return 1;
+}
+
+function calcularBonusRebirth() {
+  return jogo.rebirths * 0.25;
+}
+
+function calcularGanhoRealClique() {
+  const base = jogo.pontosPorClique * calcularMultiplicadorTotal();
+  const rebirth = 1 + calcularBonusRebirth();
+  const evento = calcularMultiplicadorEventoPontos();
+
+  return Math.floor(base * rebirth * evento);
+}
+
+function calcularGanhoPorSegundoReal() {
+  const rebirth = 1 + calcularBonusRebirth();
+  const evento = calcularMultiplicadorEventoPontos();
+
+  return Math.floor(jogo.pontosPorSegundo * rebirth * evento);
 }
 
 function comprarUpgradeClique() {
@@ -450,10 +670,14 @@ function comprarUpgradeSegundo() {
   }
 
   jogo.pontos -= jogo.precoUpgradeSegundo;
-  jogo.pontosPorSegundo += 1;
+  jogo.nivelAura += 1;
+
+  const ganhoAura = Math.floor((jogo.nivelAura * jogo.nivelAura) + jogo.nivelAura + jogo.loja.bonusPps * 5);
+  jogo.pontosPorSegundo += ganhoAura;
+
   jogo.precoUpgradeSegundo = Math.floor(jogo.precoUpgradeSegundo * 4);
 
-  mostrarMensagem("Aura automática comprada!");
+  mostrarMensagem("Aura automática melhorada! +" + formatarNumero(ganhoAura) + " pontos por segundo.");
   atualizarTudo();
 }
 
@@ -471,28 +695,137 @@ function comprarUpgradeSorte() {
   atualizarTudo();
 }
 
+function comprarDescontoRng() {
+  if (jogo.pontos < jogo.loja.precoDescontoRng) {
+    mostrarMensagem("Pontos insuficientes para comprar desconto de RNG.");
+    return;
+  }
+
+  if (jogo.loja.descontoRng >= 10) {
+    mostrarMensagem("Desconto de RNG já está no máximo.");
+    return;
+  }
+
+  jogo.pontos -= jogo.loja.precoDescontoRng;
+  jogo.loja.descontoRng += 1;
+  jogo.loja.precoDescontoRng = Math.floor(jogo.loja.precoDescontoRng * 3);
+
+  mostrarMensagem("Desconto de RNG comprado! Nível " + jogo.loja.descontoRng + ".");
+  atualizarTudo();
+}
+
+function comprarSlotEquipado() {
+  if (jogo.pontos < jogo.loja.precoSlotEquipado) {
+    mostrarMensagem("Pontos insuficientes para aumentar limite de equipados.");
+    return;
+  }
+
+  if (jogo.loja.limiteEquipados >= 6) {
+    mostrarMensagem("Limite de equipados já está no máximo.");
+    return;
+  }
+
+  jogo.pontos -= jogo.loja.precoSlotEquipado;
+  jogo.loja.limiteEquipados += 1;
+  jogo.loja.precoSlotEquipado = Math.floor(jogo.loja.precoSlotEquipado * 5);
+
+  mostrarMensagem("Novo limite de equipados: " + jogo.loja.limiteEquipados + ".");
+  atualizarTudo();
+}
+
+function comprarBonusBoss() {
+  if (jogo.pontos < jogo.loja.precoBonusBoss) {
+    mostrarMensagem("Pontos insuficientes para comprar bônus de boss.");
+    return;
+  }
+
+  jogo.pontos -= jogo.loja.precoBonusBoss;
+  jogo.loja.bonusBoss += 1;
+  jogo.loja.precoBonusBoss = Math.floor(jogo.loja.precoBonusBoss * 3);
+
+  mostrarMensagem("Bônus de boss comprado! Nível " + jogo.loja.bonusBoss + ".");
+  atualizarTudo();
+}
+
+function comprarBonusPps() {
+  if (jogo.pontos < jogo.loja.precoBonusPps) {
+    mostrarMensagem("Pontos insuficientes para melhorar pontos por segundo.");
+    return;
+  }
+
+  jogo.pontos -= jogo.loja.precoBonusPps;
+  jogo.loja.bonusPps += 1;
+  jogo.pontosPorSegundo += 10 * jogo.loja.bonusPps;
+  jogo.loja.precoBonusPps = Math.floor(jogo.loja.precoBonusPps * 3);
+
+  mostrarMensagem("Pontos por segundo melhorado! Bônus nível " + jogo.loja.bonusPps + ".");
+  atualizarTudo();
+}
+
+function fazerRebirth() {
+  if (jogo.pontos < jogo.custoRebirth) {
+    mostrarMensagem("Você precisa de " + formatarNumero(jogo.custoRebirth) + " pontos para fazer rebirth.");
+    return;
+  }
+
+  const confirmar = confirm("Fazer rebirth? Você perderá pontos e upgrades básicos, mas manterá personagens, mundos, coleção e ganhará bônus permanente.");
+
+  if (!confirmar) {
+    return;
+  }
+
+  jogo.rebirths += 1;
+
+  jogo.pontos = 0;
+  jogo.pontosPorClique = 1;
+  jogo.precoUpgradeClique = 25;
+
+  jogo.pontosPorSegundo = 0;
+  jogo.nivelAura = 0;
+  jogo.precoUpgradeSegundo = 250;
+
+  jogo.sorte = 0;
+  jogo.precoUpgradeSorte = 25000;
+
+  jogo.custoRebirth = Math.floor(jogo.custoRebirth * 5);
+
+  mostrarMensagem("Rebirth realizado! Bônus permanente atual: " + Math.floor(calcularBonusRebirth() * 100) + "%.");
+  atualizarTudo();
+}
+
 function obterMundoAtual() {
   return mundos.find(function (mundo) {
     return mundo.id === jogo.mundoAtual;
   }) || mundos[0];
 }
 
-function girarRng(quantidade) {
-  const mundo = obterMundoAtual();
-  const custoTotal = mundo.precoRng * quantidade;
+function calcularPrecoRng(mundo) {
+  const desconto = Math.min(jogo.loja.descontoRng * 0.05, 0.5);
+  return Math.max(1, Math.floor(mundo.precoRng * (1 - desconto)));
+}
 
-  if (jogo.pontos < custoTotal) {
+function girarRng(quantidade, gratuito) {
+  const mundo = obterMundoAtual();
+  const precoUnitario = calcularPrecoRng(mundo);
+  const custoTotal = precoUnitario * quantidade;
+
+  if (!gratuito && jogo.pontos < custoTotal) {
     mostrarMensagem("Você precisa de " + formatarNumero(custoTotal) + " pontos para girar " + quantidade + "x.");
     return;
   }
 
-  jogo.pontos -= custoTotal;
+  if (!gratuito) {
+    jogo.pontos -= custoTotal;
+  }
 
   let melhorPersonagem = null;
 
   for (let i = 0; i < quantidade; i++) {
     const personagem = sortearPersonagemDoMundo(mundo);
     adicionarNaMochila(personagem, mundo.id);
+    adicionarNoHistorico(personagem, mundo);
+    atualizarPity(personagem, mundo);
+
     jogo.stats.giros += 1;
 
     if (!melhorPersonagem || personagem.multiplicador > melhorPersonagem.multiplicador) {
@@ -521,10 +854,27 @@ function girarRng(quantidade) {
   atualizarTudo();
 }
 
+function usarTicket(tipo, quantidade) {
+  if (jogo.tickets[tipo] <= 0) {
+    mostrarMensagem("Você não tem esse ticket.");
+    return;
+  }
+
+  jogo.tickets[tipo] -= 1;
+  girarRng(quantidade, true);
+}
+
 function sortearPersonagemDoMundo(mundo) {
   const numeroSorteado = Math.random();
-  const bonusSorte = 1 + jogo.sorte * 0.05;
+  const bonusSorteBase = 1 + jogo.sorte * 0.05;
+  const bonusEvento = jogo.eventoAtivo === "luck10" ? 10 : 1;
+  const bonusSorte = bonusSorteBase * bonusEvento;
+
   const lista = mundo.personagens;
+
+  if (jogo.pity >= 500) {
+    return lista[Math.min(2, lista.length - 1)];
+  }
 
   for (let i = lista.length - 1; i >= 1; i--) {
     const chanceNumerica = pegarNumeroChance(lista[i].chanceTexto);
@@ -538,12 +888,27 @@ function sortearPersonagemDoMundo(mundo) {
   return lista[0];
 }
 
+function atualizarPity(personagem, mundo) {
+  const indice = mundo.personagens.findIndex(function (item) {
+    return item.nome === personagem.nome;
+  });
+
+  if (indice >= 2) {
+    jogo.pity = 0;
+    return;
+  }
+
+  jogo.pity += 1;
+}
+
 function pegarNumeroChance(chanceTexto) {
   return Number(chanceTexto.replace("1/", ""));
 }
 
 function adicionarNaMochila(personagem, mundoId) {
   const chave = personagem.nome + "_" + mundoId;
+
+  jogo.colecaoObtidos[chave] = true;
 
   const existente = jogo.mochila.find(function (item) {
     return item.chave === chave;
@@ -566,8 +931,42 @@ function adicionarNaMochila(personagem, mundoId) {
   });
 }
 
+function adicionarNoHistorico(personagem, mundo) {
+  jogo.historicoDrops.unshift({
+    nome: personagem.nome,
+    mundo: mundo.nome,
+    chanceTexto: personagem.chanceTexto,
+    multiplicador: personagem.multiplicador,
+    raridade: personagem.raridade
+  });
+
+  if (jogo.historicoDrops.length > 30) {
+    jogo.historicoDrops.pop();
+  }
+}
+
 function calcularMultiplicadorPersonagem(personagem) {
   return personagem.multiplicadorBase * personagem.nivel;
+}
+
+function obterEstagioPersonagem(nivel) {
+  if (nivel >= 50) {
+    return "Absoluto";
+  }
+
+  if (nivel >= 25) {
+    return "Divino";
+  }
+
+  if (nivel >= 10) {
+    return "Supremo";
+  }
+
+  if (nivel >= 5) {
+    return "Desperto";
+  }
+
+  return "Normal";
 }
 
 function fundirPersonagem(chave) {
@@ -591,7 +990,7 @@ function fundirPersonagem(chave) {
   personagem.nivel += 1;
   jogo.stats.fusoes += 1;
 
-  mostrarMensagem(personagem.nome + " evoluiu para o nível " + personagem.nivel + "!");
+  mostrarMensagem(personagem.nome + " evoluiu para o nível " + personagem.nivel + " - estágio " + obterEstagioPersonagem(personagem.nivel) + "!");
 
   atualizarTudo();
 }
@@ -611,8 +1010,8 @@ function equiparPersonagem(chave) {
     return;
   }
 
-  if (jogo.equipados.length >= 3) {
-    mostrarMensagem("Você só pode equipar no máximo 3 personagens.");
+  if (jogo.equipados.length >= jogo.loja.limiteEquipados) {
+    mostrarMensagem("Você só pode equipar no máximo " + jogo.loja.limiteEquipados + " personagens.");
     return;
   }
 
@@ -636,6 +1035,22 @@ function desequiparPersonagem(chave) {
   atualizarTudo();
 }
 
+function favoritarPersonagem(chave) {
+  const personagem = jogo.mochila.find(function (item) {
+    return item.chave === chave;
+  });
+
+  if (!personagem) {
+    mostrarMensagem("Personagem não encontrado.");
+    return;
+  }
+
+  jogo.personagemFavorito = chave;
+
+  mostrarMensagem(personagem.nome + " agora é seu personagem favorito!");
+  atualizarTudo();
+}
+
 function calcularMultiplicadorTotal() {
   if (jogo.equipados.length === 0) {
     return 1;
@@ -656,20 +1071,47 @@ function calcularMultiplicadorTotal() {
   return total || 1;
 }
 
-function calcularGanhoRealClique() {
-  return jogo.pontosPorClique * calcularMultiplicadorTotal();
-}
-
 function causarDanoNoBoss(dano) {
   jogo.boss.vidaAtual -= dano;
 
   if (jogo.boss.vidaAtual <= 0) {
-    jogo.pontos += jogo.boss.recompensa;
-    jogo.stats.bossesDerrotados += 1;
+    const recompensa = calcularRecompensaBoss();
 
-    mostrarMensagem("Boss derrotado! Você ganhou +" + formatarNumero(jogo.boss.recompensa) + " pontos.");
+    jogo.pontos += recompensa;
+    jogo.stats.bossesDerrotados += 1;
+    entregarTicketBoss();
+
+    mostrarMensagem("Boss derrotado! Você ganhou +" + formatarNumero(recompensa) + " pontos e pode ter recebido tickets.");
 
     criarProximoBoss();
+  }
+}
+
+function calcularRecompensaBoss() {
+  let recompensa = jogo.boss.recompensa;
+
+  recompensa *= 1 + jogo.loja.bonusBoss * 0.25;
+
+  if (jogo.eventoAtivo === "bossFrenzy") {
+    recompensa *= 5;
+  }
+
+  return Math.floor(recompensa);
+}
+
+function entregarTicketBoss() {
+  const chance = jogo.eventoAtivo === "bossFrenzy" ? 1 : Math.random();
+
+  if (chance < 0.15 || jogo.eventoAtivo === "bossFrenzy") {
+    jogo.tickets.t1 += 1;
+  }
+
+  if (chance < 0.06 || jogo.eventoAtivo === "bossFrenzy") {
+    jogo.tickets.t10 += 1;
+  }
+
+  if (chance < 0.015 || jogo.eventoAtivo === "bossFrenzy") {
+    jogo.tickets.t100 += 1;
   }
 }
 
@@ -729,6 +1171,11 @@ function desbloquearMundo(mundoId) {
     return;
   }
 
+  if (jogo.stats.bossesDerrotados < mundo.bossesNecessarios) {
+    mostrarMensagem("Você precisa derrotar " + mundo.bossesNecessarios + " bosses para desbloquear " + mundo.nome + ".");
+    return;
+  }
+
   if (jogo.pontos < mundo.custo) {
     mostrarMensagem("Você precisa de " + formatarNumero(mundo.custo) + " pontos para desbloquear " + mundo.nome + ".");
     return;
@@ -741,6 +1188,20 @@ function desbloquearMundo(mundoId) {
   mostrarMensagem("Mundo desbloqueado: " + mundo.nome + "!");
 
   atualizarTudo();
+}
+
+function obterRank() {
+  const poder = calcularGanhoRealClique();
+
+  if (poder >= 1000000000) return "Deus";
+  if (poder >= 100000000) return "SS";
+  if (poder >= 10000000) return "S";
+  if (poder >= 1000000) return "A";
+  if (poder >= 100000) return "B";
+  if (poder >= 10000) return "C";
+  if (poder >= 1000) return "D";
+
+  return "E";
 }
 
 function montarListaMundos() {
@@ -760,14 +1221,16 @@ function montarListaMundos() {
       textoBotao = "Mundo atual";
       classeBotao += " atual";
     } else if (!desbloqueado) {
-      textoBotao = "Desbloquear - " + formatarNumero(mundo.custo) + " pontos";
+      textoBotao = "Desbloquear";
       classeBotao += " bloqueado";
     }
 
     card.innerHTML = `
       <h3>${mundo.nome}</h3>
       <p>${mundo.descricao}</p>
-      <p>Preço do RNG: <span>${formatarNumero(mundo.precoRng)}</span> pontos</p>
+      <p>Custo: <span>${formatarNumero(mundo.custo)}</span> pontos</p>
+      <p>Bosses necessários: <span>${mundo.bossesNecessarios}</span></p>
+      <p>Preço do RNG: <span>${formatarNumero(calcularPrecoRng(mundo))}</span> pontos</p>
       <p>Status: <span>${desbloqueado ? "Desbloqueado" : "Bloqueado"}</span></p>
       <button class="${classeBotao}" data-mundo="${mundo.id}">
         ${textoBotao}
@@ -824,6 +1287,7 @@ function atualizarMochila() {
 
   jogo.mochila.forEach(function (personagem) {
     const estaEquipado = jogo.equipados.includes(personagem.chave);
+    const ehFavorito = jogo.personagemFavorito === personagem.chave;
     const mundo = mundos.find(function (item) {
       return item.id === personagem.mundoId;
     });
@@ -838,18 +1302,27 @@ function atualizarMochila() {
       card.classList.add("equipado");
     }
 
+    if (ehFavorito) {
+      card.classList.add("favorito");
+    }
+
     card.innerHTML = `
-      <strong>${personagem.nome}</strong>
+      <strong>${ehFavorito ? "⭐ " : ""}${personagem.nome}</strong>
       <span>Status: ${estaEquipado ? "Equipado" : "Na mochila"}</span>
       <span>Mundo: ${mundo ? mundo.nome : "Desconhecido"}</span>
       <span>Chance: ${personagem.chanceTexto}</span>
       <span>Multiplicador base: ${formatarNumero(personagem.multiplicadorBase)}x</span>
       <span>Multiplicador atual: ${formatarNumero(multiplicadorAtual)}x</span>
       <span class="nivel-personagem">Nível: ${personagem.nivel}</span>
+      <span class="estagio-personagem">Estágio: ${obterEstagioPersonagem(personagem.nivel)}</span>
       <span class="quantidade">Quantidade: x${personagem.quantidade}</span>
 
       <button class="${estaEquipado ? "botao-desequipar" : "botao-equipar"}" data-chave="${personagem.chave}" data-acao="equipar">
         ${estaEquipado ? "Desequipar" : "Equipar"}
+      </button>
+
+      <button class="botao-favorito" data-chave="${personagem.chave}" data-acao="favoritar">
+        Favoritar
       </button>
 
       <button class="botao-fundir" data-chave="${personagem.chave}" data-acao="fundir" ${podeFundir ? "" : "disabled"}>
@@ -872,12 +1345,66 @@ function atualizarMochila() {
         return;
       }
 
+      if (acao === "favoritar") {
+        favoritarPersonagem(chave);
+        return;
+      }
+
       if (jogo.equipados.includes(chave)) {
         desequiparPersonagem(chave);
       } else {
         equiparPersonagem(chave);
       }
     });
+  });
+}
+
+function montarColecao() {
+  elementos.listaColecao.innerHTML = "";
+
+  mundos.forEach(function (mundo) {
+    mundo.personagens.forEach(function (personagem) {
+      const chave = personagem.nome + "_" + mundo.id;
+      const obtido = jogo.colecaoObtidos[chave];
+
+      const card = document.createElement("div");
+      card.classList.add("colecao-card");
+      card.classList.add(obtido ? "colecao-obtido" : "colecao-nao-obtido");
+
+      card.innerHTML = `
+        <h3>${obtido ? personagem.nome : "???"}</h3>
+        <p>Mundo: <span>${mundo.nome}</span></p>
+        <p>Chance: <span>${personagem.chanceTexto}</span></p>
+        <p>Raridade: <span>${personagem.raridade}</span></p>
+        <p>Status: <span>${obtido ? "Obtido" : "Não obtido"}</span></p>
+      `;
+
+      elementos.listaColecao.appendChild(card);
+    });
+  });
+}
+
+function montarHistorico() {
+  elementos.listaHistorico.innerHTML = "";
+
+  if (jogo.historicoDrops.length === 0) {
+    elementos.listaHistorico.innerHTML = '<p class="mochila-vazia">Nenhum drop ainda.</p>';
+    return;
+  }
+
+  jogo.historicoDrops.forEach(function (drop) {
+    const card = document.createElement("div");
+    card.classList.add("historico-card");
+
+    card.innerHTML = `
+      <h3>${drop.nome}</h3>
+      <p>Mundo: <span>${drop.mundo}</span></p>
+      <p>Chance: <span>${drop.chanceTexto}</span></p>
+      <p>Multiplicador: <span>${formatarNumero(drop.multiplicador)}x</span></p>
+      <p>Raridade: <span>${drop.raridade}</span></p>
+    `;
+
+    elementos.listaHistorico.appendChild(card);
   });
 }
 
@@ -934,6 +1461,72 @@ function resgatarMissao(id) {
   jogo.missoesResgatadas[id] = true;
 
   mostrarMensagem("Missão concluída! Você ganhou +" + formatarNumero(missao.recompensa) + " pontos.");
+
+  atualizarTudo();
+}
+
+function atualizarConquistas() {
+  elementos.listaConquistas.innerHTML = "";
+
+  conquistas.forEach(function (conquista) {
+    const concluida = conquista.concluida();
+    const resgatada = jogo.conquistasResgatadas[conquista.id];
+
+    const card = document.createElement("div");
+    card.classList.add("conquista-card");
+
+    if (concluida && !resgatada) {
+      card.classList.add("conquista-disponivel");
+    }
+
+    if (resgatada) {
+      card.classList.add("conquista-resgatada");
+    }
+
+    let textoBotao = "Bloqueada";
+
+    if (concluida && !resgatada) {
+      textoBotao = "Resgatar";
+    }
+
+    if (resgatada) {
+      textoBotao = "Resgatada";
+    }
+
+    card.innerHTML = `
+      <h3>${conquista.titulo}</h3>
+      <p>${conquista.descricao}</p>
+      <p>Recompensa: <span>${formatarNumero(conquista.recompensa)}</span> pontos</p>
+      <button class="botao-missao" data-id="${conquista.id}" ${!concluida || resgatada ? "disabled" : ""}>
+        ${textoBotao}
+      </button>
+    `;
+
+    elementos.listaConquistas.appendChild(card);
+  });
+
+  const botoes = elementos.listaConquistas.querySelectorAll("button");
+
+  botoes.forEach(function (botao) {
+    botao.addEventListener("click", function () {
+      resgatarConquista(botao.dataset.id);
+    });
+  });
+}
+
+function resgatarConquista(id) {
+  const conquista = conquistas.find(function (item) {
+    return item.id === id;
+  });
+
+  if (!conquista || jogo.conquistasResgatadas[id] || !conquista.concluida()) {
+    return;
+  }
+
+  jogo.pontos += conquista.recompensa;
+  jogo.conquistasResgatadas[id] = true;
+
+  mostrarMensagem("Conquista resgatada! Você ganhou +" + formatarNumero(conquista.recompensa) + " pontos.");
 
   atualizarTudo();
 }
@@ -999,16 +1592,19 @@ function resgatarCodigo() {
     return;
   }
 
-  if (!jogo.codigosResgatados) {
-    jogo.codigosResgatados = {};
-  }
-
   if (jogo.codigosResgatados[codigoDigitado]) {
     mostrarMensagem("Esse código já foi resgatado.");
     return;
   }
 
   jogo.pontos += codigo.pontos;
+
+  if (codigo.tickets) {
+    jogo.tickets.t1 += codigo.tickets.t1 || 0;
+    jogo.tickets.t10 += codigo.tickets.t10 || 0;
+    jogo.tickets.t100 += codigo.tickets.t100 || 0;
+  }
+
   jogo.codigosResgatados[codigoDigitado] = true;
 
   elementos.inputCodigo.value = "";
@@ -1033,31 +1629,47 @@ function atualizarBoss() {
   elementos.vidaBossMenu.textContent = formatarNumero(vidaAtual);
   elementos.vidaMaxBossMenu.textContent = formatarNumero(jogo.boss.vidaMax);
   elementos.barraVidaBossMenu.style.width = porcentagem + "%";
-  elementos.recompensaBoss.textContent = formatarNumero(jogo.boss.recompensa);
+  elementos.recompensaBoss.textContent = formatarNumero(calcularRecompensaBoss());
 }
 
 function atualizarTela() {
   const mundo = obterMundoAtual();
+  const precoRng = calcularPrecoRng(mundo);
   const multiplicadorTotal = calcularMultiplicadorTotal();
   const ganhoReal = calcularGanhoRealClique();
+  const ppsReal = calcularGanhoPorSegundoReal();
 
   elementos.pontos.textContent = formatarNumero(jogo.pontos);
   elementos.ganhoRealClique.textContent = formatarNumero(ganhoReal);
   elementos.multiplicador.textContent = formatarNumero(multiplicadorTotal) + "x";
   elementos.mundoAtualTexto.textContent = mundo.nome;
+  elementos.rankJogador.textContent = obterRank();
+  elementos.eventoAtivoTexto.textContent = obterNomeEvento();
 
   elementos.pontosPorClique.textContent = formatarNumero(jogo.pontosPorClique);
-  elementos.pontosPorSegundo.textContent = formatarNumero(jogo.pontosPorSegundo);
+  elementos.pontosPorSegundo.textContent = formatarNumero(ppsReal);
+  elementos.nivelAura.textContent = jogo.nivelAura;
   elementos.multiplicadorStatus.textContent = formatarNumero(multiplicadorTotal) + "x";
   elementos.ganhoRealStatus.textContent = formatarNumero(ganhoReal);
   elementos.nivelSorte.textContent = jogo.sorte;
 
+  elementos.rebirthsTexto.textContent = jogo.rebirths;
+  elementos.bonusRebirthTexto.textContent = Math.floor(calcularBonusRebirth() * 100) + "%";
+  elementos.rebirthsPainel.textContent = jogo.rebirths;
+  elementos.bonusRebirthPainel.textContent = Math.floor(calcularBonusRebirth() * 100) + "%";
+  elementos.custoRebirthTexto.textContent = formatarNumero(jogo.custoRebirth);
+
   elementos.quantidadeEquipados.textContent = jogo.equipados.length;
   elementos.quantidadeEquipadosMochila.textContent = jogo.equipados.length;
+  elementos.limiteEquipadosTexto.textContent = jogo.loja.limiteEquipados;
+  elementos.limiteEquipadosMochila.textContent = jogo.loja.limiteEquipados;
+
+  elementos.favoritoTexto.textContent = obterNomeFavorito();
 
   elementos.totalCliques.textContent = formatarNumero(jogo.stats.cliques);
   elementos.totalGiros.textContent = formatarNumero(jogo.stats.giros);
   elementos.totalBosses.textContent = formatarNumero(jogo.stats.bossesDerrotados);
+  elementos.pityTexto.textContent = jogo.pity;
 
   elementos.upgradeClique.textContent =
     "Comprar treino de força - " + formatarNumero(jogo.precoUpgradeClique) + " pontos";
@@ -1068,32 +1680,86 @@ function atualizarTela() {
   elementos.upgradeSorte.textContent =
     "Comprar sorte - " + formatarNumero(jogo.precoUpgradeSorte) + " pontos";
 
+  elementos.comprarDescontoRng.textContent =
+    "Comprar desconto de RNG - " + formatarNumero(jogo.loja.precoDescontoRng) + " pontos";
+
+  elementos.comprarSlotEquipado.textContent =
+    "Aumentar limite de equipados - " + formatarNumero(jogo.loja.precoSlotEquipado) + " pontos";
+
+  elementos.comprarBonusBoss.textContent =
+    "Aumentar recompensa de boss - " + formatarNumero(jogo.loja.precoBonusBoss) + " pontos";
+
+  elementos.comprarBonusPps.textContent =
+    "Melhorar ganho por segundo - " + formatarNumero(jogo.loja.precoBonusPps) + " pontos";
+
   elementos.mundoAtualRng.textContent = mundo.nome;
-  elementos.precoRngAtual.textContent = formatarNumero(mundo.precoRng);
+  elementos.precoRngAtual.textContent = formatarNumero(precoRng);
+
+  elementos.ticket1Texto.textContent = jogo.tickets.t1;
+  elementos.ticket10Texto.textContent = jogo.tickets.t10;
+  elementos.ticket100Texto.textContent = jogo.tickets.t100;
 
   elementos.botaoRng.textContent =
-    "Girar RNG - " + formatarNumero(mundo.precoRng) + " pontos";
+    "Girar RNG - " + formatarNumero(precoRng) + " pontos";
 
   elementos.botaoRng10.textContent =
-    "Girar 10x - " + formatarNumero(mundo.precoRng * 10) + " pontos";
+    "Girar 10x - " + formatarNumero(precoRng * 10) + " pontos";
 
   elementos.botaoRng100.textContent =
-    "Girar 100x - " + formatarNumero(mundo.precoRng * 100) + " pontos";
+    "Girar 100x - " + formatarNumero(precoRng * 100) + " pontos";
 
   elementos.botaoRng1000.textContent =
-    "Girar 1000x - " + formatarNumero(mundo.precoRng * 1000) + " pontos";
+    "Girar 1000x - " + formatarNumero(precoRng * 1000) + " pontos";
 
   elementos.personagemAtual.textContent = jogo.ultimoPersonagem.nome;
   elementos.chanceAtual.textContent = jogo.ultimoPersonagem.chanceTexto;
   elementos.multiplicadorAtual.textContent = formatarNumero(jogo.ultimoPersonagem.multiplicador) + "x";
 }
 
+function obterNomeFavorito() {
+  if (!jogo.personagemFavorito) {
+    return "Nenhum";
+  }
+
+  const personagem = jogo.mochila.find(function (item) {
+    return item.chave === jogo.personagemFavorito;
+  });
+
+  return personagem ? personagem.nome : "Nenhum";
+}
+
+function obterNomeEvento() {
+  if (jogo.eventoAtivo === "luck10") {
+    return "10x Luck RNG";
+  }
+
+  if (jogo.eventoAtivo === "pontos10") {
+    return "10x Pontos";
+  }
+
+  if (jogo.eventoAtivo === "bossFrenzy") {
+    return "Boss Frenzy";
+  }
+
+  return "Nenhum";
+}
+
+function atualizarMaiorPontos() {
+  if (jogo.pontos > jogo.stats.maiorPontos) {
+    jogo.stats.maiorPontos = jogo.pontos;
+  }
+}
+
 function atualizarTudo() {
+  atualizarMaiorPontos();
   atualizarTela();
   atualizarBoss();
   montarListaMundos();
   montarListaPersonagens();
   atualizarMochila();
+  montarColecao();
+  montarHistorico();
+  atualizarConquistas();
   atualizarMissoes();
   montarUpdateLog();
   montarListaCodigos();
@@ -1199,6 +1865,13 @@ function admDerrotarBoss() {
   atualizarTudo();
 }
 
+function ativarEvento(evento) {
+  jogo.eventoAtivo = evento;
+
+  mostrarMensagem("Evento ativado: " + obterNomeEvento() + ".");
+  atualizarTudo();
+}
+
 function resetarJogo() {
   const confirmar = confirm("Tem certeza que deseja resetar todo o progresso?");
 
@@ -1231,6 +1904,14 @@ function carregarJogo() {
     jogo = {
       ...base,
       ...jogoSalvo,
+      tickets: {
+        ...base.tickets,
+        ...(jogoSalvo.tickets || {})
+      },
+      loja: {
+        ...base.loja,
+        ...(jogoSalvo.loja || {})
+      },
       stats: {
         ...base.stats,
         ...(jogoSalvo.stats || {})
@@ -1248,6 +1929,12 @@ function carregarJogo() {
       },
       codigosResgatados: {
         ...(jogoSalvo.codigosResgatados || {})
+      },
+      conquistasResgatadas: {
+        ...(jogoSalvo.conquistasResgatadas || {})
+      },
+      colecaoObtidos: {
+        ...(jogoSalvo.colecaoObtidos || {})
       }
     };
 
