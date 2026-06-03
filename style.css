@@ -178,6 +178,21 @@ h2 {
   gap: 10px;
 }
 
+.mochila-lista {
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.mochila-lista::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mochila-lista::-webkit-scrollbar-thumb {
+  background: #ff2e63;
+  border-radius: 10px;
+}
+
 .personagem-card {
   padding: 12px;
   border-radius: 12px;
@@ -201,6 +216,16 @@ h2 {
 .personagem-card.equipado {
   background: rgba(255, 221, 87, 0.22);
   border: 2px solid #ffdd57;
+}
+
+.quantidade {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #ffdd57;
+  color: #111 !important;
+  font-weight: bold;
 }
 
 .botao-equipar,
