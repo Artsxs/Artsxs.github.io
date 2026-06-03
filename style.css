@@ -13,39 +13,43 @@ body {
 
 .layout {
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 430px 360px 360px 360px;
   gap: 25px;
   padding: 25px;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .game,
 .rng-panel,
-.mochila-panel {
+.mochila-panel,
+.extras-panel {
   width: 100%;
   border-radius: 20px;
   padding: 25px;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.68);
 }
 
 .game {
-  max-width: 430px;
   text-align: center;
   border: 2px solid #ffdd57;
   box-shadow: 0 0 25px rgba(255, 221, 87, 0.5);
 }
 
 .rng-panel {
-  max-width: 360px;
   border: 2px solid #7df9ff;
   box-shadow: 0 0 25px rgba(125, 249, 255, 0.4);
 }
 
 .mochila-panel {
-  max-width: 360px;
   border: 2px solid #ff2e63;
   box-shadow: 0 0 25px rgba(255, 46, 99, 0.4);
+}
+
+.extras-panel {
+  border: 2px solid #b366ff;
+  box-shadow: 0 0 25px rgba(179, 102, 255, 0.4);
 }
 
 h1 {
@@ -83,8 +87,8 @@ h2 {
 }
 
 .botao-principal {
-  width: 160px;
-  height: 160px;
+  width: 165px;
+  height: 165px;
   border-radius: 50%;
   border: none;
   background: radial-gradient(circle, #ffdd57, #ff2e63);
@@ -117,11 +121,36 @@ h2 {
   background: #fff176;
 }
 
+.botao-upgrade.sorte {
+  background: #b366ff;
+  color: white;
+}
+
+.botao-upgrade.sorte:hover {
+  background: #c98cff;
+}
+
 #mensagem {
-  min-height: 24px;
+  min-height: 40px;
   margin-top: 15px;
   color: #ffdd57;
   font-weight: bold;
+}
+
+.botao-reset {
+  width: 100%;
+  padding: 10px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #ff2e63;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.botao-reset:hover {
+  background: #ff5c85;
 }
 
 .rng-info {
@@ -141,14 +170,20 @@ h2 {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .botao-rng:hover {
   transform: scale(1.03);
 }
 
-.resultado-rng {
+.botao-rng.secundario {
+  background: linear-gradient(135deg, #b366ff, #ffdd57);
+}
+
+.resultado-rng,
+.boss-card,
+.missao-card {
   background: rgba(255, 255, 255, 0.12);
   padding: 15px;
   border-radius: 15px;
@@ -161,7 +196,9 @@ h2 {
   margin: 8px 0;
 }
 
-.resultado-rng span {
+.resultado-rng span,
+.boss-card span,
+.missao-card span {
   color: #7df9ff;
   font-weight: bold;
 }
@@ -172,14 +209,15 @@ h2 {
   text-align: center;
 }
 
-.lista-personagens {
+.lista-personagens,
+.lista-missoes {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
 .mochila-lista {
-  max-height: 520px;
+  max-height: 620px;
   overflow-y: auto;
   padding-right: 5px;
 }
@@ -229,7 +267,8 @@ h2 {
 }
 
 .botao-equipar,
-.botao-desequipar {
+.botao-desequipar,
+.botao-missao {
   width: 100%;
   margin-top: 8px;
   padding: 8px;
@@ -255,6 +294,16 @@ h2 {
 
 .botao-desequipar:hover {
   background: #ff5c85;
+}
+
+.botao-missao {
+  background: #ffdd57;
+  color: #111;
+}
+
+.botao-missao:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .mochila-vazia {
@@ -288,15 +337,61 @@ h2 {
   border-left-color: #7df9ff;
 }
 
-@media (max-width: 1100px) {
+.secreto {
+  border-left-color: #ffffff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+}
+
+.barra-vida {
+  width: 100%;
+  height: 20px;
+  background: #222;
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 12px 0;
+  border: 1px solid #ffdd57;
+}
+
+.barra-vida-preenchida {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #ff2e63, #ffdd57);
+  transition: width 0.2s;
+}
+
+.titulo-missoes {
+  margin-top: 25px;
+}
+
+.missao-card h3 {
+  color: #ffdd57;
+  margin-bottom: 8px;
+}
+
+.missao-concluida {
+  border: 2px solid #7df9ff;
+}
+
+.missao-resgatada {
+  opacity: 0.65;
+}
+
+@media (max-width: 1500px) {
   .layout {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 430px 360px;
+  }
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
   }
 
   .game,
   .rng-panel,
-  .mochila-panel {
+  .mochila-panel,
+  .extras-panel {
     max-width: 430px;
+    margin: 0 auto;
   }
 }
