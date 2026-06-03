@@ -1,48 +1,70 @@
-const SAVE_KEY = "animeClickerSimulatorSaveV3";
+const SAVE_KEY = "animeClickerSimulatorSaveV4";
 const ADM_CODE = "ARTSXS-ADM-2026";
 
-const personagens = [
+const mundos = [
   {
-    nome: "Tanjiro",
-    chanceTexto: "1/2",
-    multiplicador: 2,
-    raridade: "comum"
+    id: "vila_ninja",
+    nome: "Vila Ninja",
+    custo: 0,
+    precoRng: 1000,
+    descricao: "Mundo inicial com personagens básicos.",
+    personagens: [
+      { nome: "Tanjiro", chanceTexto: "1/2", multiplicador: 2, raridade: "comum" },
+      { nome: "Naruto", chanceTexto: "1/10", multiplicador: 10, raridade: "raro" },
+      { nome: "Luffy", chanceTexto: "1/25", multiplicador: 25, raridade: "epico" },
+      { nome: "Ichigo", chanceTexto: "1/50", multiplicador: 50, raridade: "lendario" },
+      { nome: "Goku", chanceTexto: "1/100", multiplicador: 100, raridade: "mitico" },
+      { nome: "Saitama", chanceTexto: "1/500", multiplicador: 500, raridade: "divino" },
+      { nome: "Herói Secreto", chanceTexto: "1/2000", multiplicador: 2000, raridade: "secreto" }
+    ]
   },
   {
-    nome: "Naruto",
-    chanceTexto: "1/10",
-    multiplicador: 10,
-    raridade: "raro"
+    id: "ilha_pirata",
+    nome: "Ilha Pirata",
+    custo: 50000,
+    precoRng: 5000,
+    descricao: "Personagens mais fortes e RNG mais caro.",
+    personagens: [
+      { nome: "Espadachim do Mar", chanceTexto: "1/2", multiplicador: 20, raridade: "comum" },
+      { nome: "Capitão Borracha", chanceTexto: "1/15", multiplicador: 75, raridade: "raro" },
+      { nome: "Caçador de Tesouros", chanceTexto: "1/50", multiplicador: 200, raridade: "epico" },
+      { nome: "Imperador Pirata", chanceTexto: "1/150", multiplicador: 600, raridade: "lendario" },
+      { nome: "Rei dos Mares", chanceTexto: "1/500", multiplicador: 1500, raridade: "mitico" },
+      { nome: "Deus do Oceano", chanceTexto: "1/2000", multiplicador: 5000, raridade: "divino" },
+      { nome: "Pirata Cósmico", chanceTexto: "1/10000", multiplicador: 15000, raridade: "secreto" }
+    ]
   },
   {
-    nome: "Luffy",
-    chanceTexto: "1/25",
-    multiplicador: 25,
-    raridade: "epico"
+    id: "arena_deuses",
+    nome: "Arena dos Deuses",
+    custo: 500000,
+    precoRng: 25000,
+    descricao: "Mundo avançado com personagens muito raros.",
+    personagens: [
+      { nome: "Guerreiro Celestial", chanceTexto: "1/2", multiplicador: 100, raridade: "raro" },
+      { nome: "Mestre da Aura", chanceTexto: "1/25", multiplicador: 500, raridade: "epico" },
+      { nome: "Anjo da Batalha", chanceTexto: "1/100", multiplicador: 2000, raridade: "lendario" },
+      { nome: "Deus da Destruição", chanceTexto: "1/500", multiplicador: 8000, raridade: "mitico" },
+      { nome: "Guardião Celestial", chanceTexto: "1/2500", multiplicador: 25000, raridade: "divino" },
+      { nome: "Entidade Secreta", chanceTexto: "1/10000", multiplicador: 75000, raridade: "secreto" },
+      { nome: "Criador Universal", chanceTexto: "1/50000", multiplicador: 250000, raridade: "universal" }
+    ]
   },
   {
-    nome: "Ichigo",
-    chanceTexto: "1/50",
-    multiplicador: 50,
-    raridade: "lendario"
-  },
-  {
-    nome: "Goku",
-    chanceTexto: "1/100",
-    multiplicador: 100,
-    raridade: "mitico"
-  },
-  {
-    nome: "Saitama",
-    chanceTexto: "1/500",
-    multiplicador: 500,
-    raridade: "divino"
-  },
-  {
-    nome: "Herói Secreto",
-    chanceTexto: "1/2000",
-    multiplicador: 2000,
-    raridade: "secreto"
+    id: "dimensao_final",
+    nome: "Dimensão Final",
+    custo: 5000000,
+    precoRng: 100000,
+    descricao: "Mundo endgame com personagens absurdamente raros.",
+    personagens: [
+      { nome: "Soldado Dimensional", chanceTexto: "1/2", multiplicador: 1000, raridade: "epico" },
+      { nome: "Lorde Temporal", chanceTexto: "1/50", multiplicador: 8000, raridade: "lendario" },
+      { nome: "Rei do Multiverso", chanceTexto: "1/500", multiplicador: 50000, raridade: "mitico" },
+      { nome: "Deus Infinito", chanceTexto: "1/5000", multiplicador: 250000, raridade: "divino" },
+      { nome: "Entidade Omega", chanceTexto: "1/25000", multiplicador: 1000000, raridade: "secreto" },
+      { nome: "Anime Supremo", chanceTexto: "1/100000", multiplicador: 5000000, raridade: "celestial" },
+      { nome: "Criador Absoluto", chanceTexto: "1/1000000", multiplicador: 50000000, raridade: "universal" }
+    ]
   }
 ];
 
@@ -94,6 +116,30 @@ const missoes = [
     progresso: function () {
       return Math.min(jogo.stats.bossesDerrotados, 1) + "/1 boss";
     }
+  },
+  {
+    id: "mundo2",
+    titulo: "Explorador",
+    descricao: "Desbloqueie a Ilha Pirata.",
+    recompensa: 20000,
+    concluida: function () {
+      return jogo.mundosDesbloqueados.includes("ilha_pirata");
+    },
+    progresso: function () {
+      return jogo.mundosDesbloqueados.includes("ilha_pirata") ? "1/1 mundo" : "0/1 mundo";
+    }
+  },
+  {
+    id: "fusao1",
+    titulo: "Primeira fusão",
+    descricao: "Faça 1 fusão de personagem.",
+    recompensa: 15000,
+    concluida: function () {
+      return jogo.stats.fusoes >= 1;
+    },
+    progresso: function () {
+      return Math.min(jogo.stats.fusoes, 1) + "/1 fusão";
+    }
   }
 ];
 
@@ -103,12 +149,13 @@ const elementos = {
   pontos: document.getElementById("pontos"),
   ganhoRealClique: document.getElementById("ganhoRealClique"),
   multiplicador: document.getElementById("multiplicador"),
-  nivelSorte: document.getElementById("nivelSorte"),
+  mundoAtualTexto: document.getElementById("mundoAtualTexto"),
 
   pontosPorClique: document.getElementById("pontosPorClique"),
   pontosPorSegundo: document.getElementById("pontosPorSegundo"),
   multiplicadorStatus: document.getElementById("multiplicadorStatus"),
   ganhoRealStatus: document.getElementById("ganhoRealStatus"),
+  nivelSorte: document.getElementById("nivelSorte"),
   quantidadeEquipados: document.getElementById("quantidadeEquipados"),
   quantidadeEquipadosMochila: document.getElementById("quantidadeEquipadosMochila"),
   totalCliques: document.getElementById("totalCliques"),
@@ -125,12 +172,15 @@ const elementos = {
 
   mensagem: document.getElementById("mensagem"),
 
+  mundoAtualRng: document.getElementById("mundoAtualRng"),
+  precoRngAtual: document.getElementById("precoRngAtual"),
   personagemAtual: document.getElementById("personagemAtual"),
   chanceAtual: document.getElementById("chanceAtual"),
   multiplicadorAtual: document.getElementById("multiplicadorAtual"),
   listaPersonagens: document.getElementById("listaPersonagens"),
   mochilaPersonagens: document.getElementById("mochilaPersonagens"),
   listaMissoes: document.getElementById("listaMissoes"),
+  listaMundos: document.getElementById("listaMundos"),
 
   nomeBoss: document.getElementById("nomeBoss"),
   nivelBoss: document.getElementById("nivelBoss"),
@@ -154,6 +204,7 @@ const elementos = {
   admQuantidade: document.getElementById("admQuantidade"),
   admAdicionarPontos: document.getElementById("admAdicionarPontos"),
   admAdicionarPersonagem: document.getElementById("admAdicionarPersonagem"),
+  admDesbloquearMundos: document.getElementById("admDesbloquearMundos"),
   admDerrotarBoss: document.getElementById("admDerrotarBoss"),
   admSalvar: document.getElementById("admSalvar"),
   admSair: document.getElementById("admSair")
@@ -162,7 +213,6 @@ const elementos = {
 carregarJogo();
 configurarTabs();
 configurarEventos();
-montarListaPersonagens();
 montarSelectAdm();
 atualizarTudo();
 
@@ -173,16 +223,21 @@ function criarJogoInicial() {
     precoUpgradeClique: 10,
     pontosPorSegundo: 0,
     precoUpgradeSegundo: 50,
-    precoRng: 1000,
     sorte: 0,
     precoUpgradeSorte: 5000,
+
+    mundoAtual: "vila_ninja",
+    mundosDesbloqueados: ["vila_ninja"],
+
     mochila: [],
     equipados: [],
+
     ultimoPersonagem: {
       nome: "Nenhum",
       chanceTexto: "---",
       multiplicador: 1
     },
+
     boss: {
       nome: "Dragão Sombrio",
       nivel: 1,
@@ -190,11 +245,14 @@ function criarJogoInicial() {
       vidaMax: 10000,
       recompensa: 5000
     },
+
     stats: {
       cliques: 0,
       giros: 0,
-      bossesDerrotados: 0
+      bossesDerrotados: 0,
+      fusoes: 0
     },
+
     missoesResgatadas: {}
   };
 }
@@ -223,7 +281,6 @@ function configurarTabs() {
 
 function configurarEventos() {
   elementos.botaoClick.addEventListener("click", atacar);
-
   elementos.upgradeClique.addEventListener("click", comprarUpgradeClique);
   elementos.upgradeSegundo.addEventListener("click", comprarUpgradeSegundo);
   elementos.upgradeSorte.addEventListener("click", comprarUpgradeSorte);
@@ -241,7 +298,9 @@ function configurarEventos() {
   elementos.entrarAdm.addEventListener("click", liberarAdm);
   elementos.admAdicionarPontos.addEventListener("click", admAdicionarPontos);
   elementos.admAdicionarPersonagem.addEventListener("click", admAdicionarPersonagem);
+  elementos.admDesbloquearMundos.addEventListener("click", admDesbloquearTodosMundos);
   elementos.admDerrotarBoss.addEventListener("click", admDerrotarBoss);
+
   elementos.admSalvar.addEventListener("click", function () {
     salvarJogo();
     mostrarMensagem("ADM: progresso salvo manualmente.");
@@ -317,8 +376,15 @@ function comprarUpgradeSorte() {
   atualizarTudo();
 }
 
+function obterMundoAtual() {
+  return mundos.find(function (mundo) {
+    return mundo.id === jogo.mundoAtual;
+  }) || mundos[0];
+}
+
 function girarRng(quantidade) {
-  const custoTotal = jogo.precoRng * quantidade;
+  const mundo = obterMundoAtual();
+  const custoTotal = mundo.precoRng * quantidade;
 
   if (jogo.pontos < custoTotal) {
     mostrarMensagem("Você precisa de " + formatarNumero(custoTotal) + " pontos para girar " + quantidade + "x.");
@@ -330,8 +396,8 @@ function girarRng(quantidade) {
   let melhorPersonagem = null;
 
   for (let i = 0; i < quantidade; i++) {
-    const personagem = sortearPersonagem();
-    adicionarNaMochila(personagem);
+    const personagem = sortearPersonagemDoMundo(mundo);
+    adicionarNaMochila(personagem, mundo.id);
     jogo.stats.giros += 1;
 
     if (!melhorPersonagem || personagem.multiplicador > melhorPersonagem.multiplicador) {
@@ -345,28 +411,48 @@ function girarRng(quantidade) {
     multiplicador: melhorPersonagem.multiplicador
   };
 
-  mostrarMensagem("Você girou " + quantidade + "x! Melhor personagem: " + melhorPersonagem.nome + " (" + melhorPersonagem.multiplicador + "x).");
+  mostrarMensagem(
+    "Você girou " +
+    quantidade +
+    "x no mundo " +
+    mundo.nome +
+    "! Melhor personagem: " +
+    melhorPersonagem.nome +
+    " (" +
+    melhorPersonagem.multiplicador +
+    "x)."
+  );
 
   atualizarTudo();
 }
 
-function sortearPersonagem() {
+function sortearPersonagemDoMundo(mundo) {
   const numeroSorteado = Math.random();
   const bonusSorte = 1 + jogo.sorte * 0.08;
 
-  if (numeroSorteado < (1 / 2000) * bonusSorte) return personagens[6];
-  if (numeroSorteado < (1 / 500) * bonusSorte) return personagens[5];
-  if (numeroSorteado < (1 / 100) * bonusSorte) return personagens[4];
-  if (numeroSorteado < (1 / 50) * bonusSorte) return personagens[3];
-  if (numeroSorteado < (1 / 25) * bonusSorte) return personagens[2];
-  if (numeroSorteado < (1 / 10) * bonusSorte) return personagens[1];
+  const lista = mundo.personagens;
 
-  return personagens[0];
+  for (let i = lista.length - 1; i >= 1; i--) {
+    const chanceNumerica = pegarNumeroChance(lista[i].chanceTexto);
+    const chanceComBonus = (1 / chanceNumerica) * bonusSorte;
+
+    if (numeroSorteado < chanceComBonus) {
+      return lista[i];
+    }
+  }
+
+  return lista[0];
 }
 
-function adicionarNaMochila(personagem) {
+function pegarNumeroChance(chanceTexto) {
+  return Number(chanceTexto.replace("1/", ""));
+}
+
+function adicionarNaMochila(personagem, mundoId) {
+  const chave = personagem.nome + "_" + mundoId;
+
   const existente = jogo.mochila.find(function (item) {
-    return item.nome === personagem.nome;
+    return item.chave === chave;
   });
 
   if (existente) {
@@ -375,17 +461,50 @@ function adicionarNaMochila(personagem) {
   }
 
   jogo.mochila.push({
+    chave: chave,
     nome: personagem.nome,
+    mundoId: mundoId,
     chanceTexto: personagem.chanceTexto,
-    multiplicador: personagem.multiplicador,
+    multiplicadorBase: personagem.multiplicador,
     raridade: personagem.raridade,
-    quantidade: 1
+    quantidade: 1,
+    nivel: 1
   });
 }
 
-function equiparPersonagem(nome) {
+function calcularMultiplicadorPersonagem(personagem) {
+  return personagem.multiplicadorBase * personagem.nivel;
+}
+
+function fundirPersonagem(chave) {
   const personagem = jogo.mochila.find(function (item) {
-    return item.nome === nome;
+    return item.chave === chave;
+  });
+
+  if (!personagem) {
+    mostrarMensagem("Personagem não encontrado.");
+    return;
+  }
+
+  const custoFusao = 5;
+
+  if (personagem.quantidade < custoFusao) {
+    mostrarMensagem("Você precisa de 5 cópias para evoluir " + personagem.nome + ".");
+    return;
+  }
+
+  personagem.quantidade -= custoFusao;
+  personagem.nivel += 1;
+  jogo.stats.fusoes += 1;
+
+  mostrarMensagem(personagem.nome + " evoluiu para o nível " + personagem.nivel + "!");
+
+  atualizarTudo();
+}
+
+function equiparPersonagem(chave) {
+  const personagem = jogo.mochila.find(function (item) {
+    return item.chave === chave;
   });
 
   if (!personagem) {
@@ -393,8 +512,8 @@ function equiparPersonagem(nome) {
     return;
   }
 
-  if (jogo.equipados.includes(nome)) {
-    mostrarMensagem(nome + " já está equipado.");
+  if (jogo.equipados.includes(chave)) {
+    mostrarMensagem(personagem.nome + " já está equipado.");
     return;
   }
 
@@ -403,18 +522,22 @@ function equiparPersonagem(nome) {
     return;
   }
 
-  jogo.equipados.push(nome);
-  mostrarMensagem(nome + " foi equipado!");
+  jogo.equipados.push(chave);
+  mostrarMensagem(personagem.nome + " foi equipado!");
 
   atualizarTudo();
 }
 
-function desequiparPersonagem(nome) {
-  jogo.equipados = jogo.equipados.filter(function (item) {
-    return item !== nome;
+function desequiparPersonagem(chave) {
+  const personagem = jogo.mochila.find(function (item) {
+    return item.chave === chave;
   });
 
-  mostrarMensagem(nome + " foi desequipado.");
+  jogo.equipados = jogo.equipados.filter(function (item) {
+    return item !== chave;
+  });
+
+  mostrarMensagem((personagem ? personagem.nome : "Personagem") + " foi desequipado.");
 
   atualizarTudo();
 }
@@ -426,13 +549,13 @@ function calcularMultiplicadorTotal() {
 
   let total = 0;
 
-  jogo.equipados.forEach(function (nome) {
+  jogo.equipados.forEach(function (chave) {
     const personagem = jogo.mochila.find(function (item) {
-      return item.nome === nome;
+      return item.chave === chave;
     });
 
     if (personagem) {
-      total += personagem.multiplicador;
+      total += calcularMultiplicadorPersonagem(personagem);
     }
   });
 
@@ -477,16 +600,110 @@ function escolherNomeBoss(nivel) {
     "Samurai Corrompido",
     "Rei Demônio",
     "Deus da Arena",
-    "Imperador das Sombras"
+    "Imperador das Sombras",
+    "Guardião Dimensional"
   ];
 
   return nomes[(nivel - 1) % nomes.length];
 }
 
+function trocarMundo(mundoId) {
+  if (!jogo.mundosDesbloqueados.includes(mundoId)) {
+    mostrarMensagem("Esse mundo ainda está bloqueado.");
+    return;
+  }
+
+  jogo.mundoAtual = mundoId;
+  const mundo = obterMundoAtual();
+
+  mostrarMensagem("Você entrou no mundo: " + mundo.nome + ".");
+
+  atualizarTudo();
+}
+
+function desbloquearMundo(mundoId) {
+  const mundo = mundos.find(function (item) {
+    return item.id === mundoId;
+  });
+
+  if (!mundo) {
+    return;
+  }
+
+  if (jogo.mundosDesbloqueados.includes(mundoId)) {
+    trocarMundo(mundoId);
+    return;
+  }
+
+  if (jogo.pontos < mundo.custo) {
+    mostrarMensagem("Você precisa de " + formatarNumero(mundo.custo) + " pontos para desbloquear " + mundo.nome + ".");
+    return;
+  }
+
+  jogo.pontos -= mundo.custo;
+  jogo.mundosDesbloqueados.push(mundoId);
+  jogo.mundoAtual = mundoId;
+
+  mostrarMensagem("Mundo desbloqueado: " + mundo.nome + "!");
+
+  atualizarTudo();
+}
+
+function montarListaMundos() {
+  elementos.listaMundos.innerHTML = "";
+
+  mundos.forEach(function (mundo) {
+    const desbloqueado = jogo.mundosDesbloqueados.includes(mundo.id);
+    const atual = jogo.mundoAtual === mundo.id;
+
+    const card = document.createElement("div");
+    card.classList.add("mundo-card");
+
+    let textoBotao = "Entrar";
+    let classeBotao = "botao-mundo";
+
+    if (atual) {
+      textoBotao = "Mundo atual";
+      classeBotao += " atual";
+    } else if (!desbloqueado) {
+      textoBotao = "Desbloquear - " + formatarNumero(mundo.custo) + " pontos";
+      classeBotao += " bloqueado";
+    }
+
+    card.innerHTML = `
+      <h3>${mundo.nome}</h3>
+      <p>${mundo.descricao}</p>
+      <p>Preço do RNG: <span>${formatarNumero(mundo.precoRng)}</span> pontos</p>
+      <p>Status: <span>${desbloqueado ? "Desbloqueado" : "Bloqueado"}</span></p>
+      <button class="${classeBotao}" data-mundo="${mundo.id}">
+        ${textoBotao}
+      </button>
+    `;
+
+    elementos.listaMundos.appendChild(card);
+  });
+
+  const botoes = elementos.listaMundos.querySelectorAll("button");
+
+  botoes.forEach(function (botao) {
+    botao.addEventListener("click", function () {
+      const mundoId = botao.dataset.mundo;
+
+      if (jogo.mundosDesbloqueados.includes(mundoId)) {
+        trocarMundo(mundoId);
+      } else {
+        desbloquearMundo(mundoId);
+      }
+    });
+  });
+}
+
 function montarListaPersonagens() {
+  const mundo = obterMundoAtual();
+
   elementos.listaPersonagens.innerHTML = "";
 
-  personagens.forEach(function (personagem) {
+  mundo.personagens.forEach(function (personagem) {
     const card = document.createElement("div");
 
     card.classList.add("personagem-card", personagem.raridade);
@@ -494,7 +711,8 @@ function montarListaPersonagens() {
     card.innerHTML = `
       <strong>${personagem.nome}</strong>
       <span>Chance: ${personagem.chanceTexto}</span>
-      <span>Multiplicador: ${personagem.multiplicador}x</span>
+      <span>Multiplicador base: ${formatarNumero(personagem.multiplicador)}x</span>
+      <span>Mundo: ${mundo.nome}</span>
     `;
 
     elementos.listaPersonagens.appendChild(card);
@@ -511,10 +729,15 @@ function atualizarMochila() {
   }
 
   jogo.mochila.forEach(function (personagem) {
-    const estaEquipado = jogo.equipados.includes(personagem.nome);
+    const estaEquipado = jogo.equipados.includes(personagem.chave);
+    const mundo = mundos.find(function (item) {
+      return item.id === personagem.mundoId;
+    });
+
+    const multiplicadorAtual = calcularMultiplicadorPersonagem(personagem);
+    const podeFundir = personagem.quantidade >= 5;
 
     const card = document.createElement("div");
-
     card.classList.add("personagem-card", personagem.raridade);
 
     if (estaEquipado) {
@@ -524,11 +747,19 @@ function atualizarMochila() {
     card.innerHTML = `
       <strong>${personagem.nome}</strong>
       <span>Status: ${estaEquipado ? "Equipado" : "Na mochila"}</span>
+      <span>Mundo: ${mundo ? mundo.nome : "Desconhecido"}</span>
       <span>Chance: ${personagem.chanceTexto}</span>
-      <span>Multiplicador: ${personagem.multiplicador}x</span>
+      <span>Multiplicador base: ${formatarNumero(personagem.multiplicadorBase)}x</span>
+      <span>Multiplicador atual: ${formatarNumero(multiplicadorAtual)}x</span>
+      <span class="nivel-personagem">Nível: ${personagem.nivel}</span>
       <span class="quantidade">Quantidade: x${personagem.quantidade}</span>
-      <button class="${estaEquipado ? "botao-desequipar" : "botao-equipar"}" data-nome="${personagem.nome}">
+
+      <button class="${estaEquipado ? "botao-desequipar" : "botao-equipar"}" data-chave="${personagem.chave}" data-acao="equipar">
         ${estaEquipado ? "Desequipar" : "Equipar"}
+      </button>
+
+      <button class="botao-fundir" data-chave="${personagem.chave}" data-acao="fundir" ${podeFundir ? "" : "disabled"}>
+        Fundir 5 cópias / Evoluir
       </button>
     `;
 
@@ -539,12 +770,18 @@ function atualizarMochila() {
 
   botoes.forEach(function (botao) {
     botao.addEventListener("click", function () {
-      const nome = botao.dataset.nome;
+      const chave = botao.dataset.chave;
+      const acao = botao.dataset.acao;
 
-      if (jogo.equipados.includes(nome)) {
-        desequiparPersonagem(nome);
+      if (acao === "fundir") {
+        fundirPersonagem(chave);
+        return;
+      }
+
+      if (jogo.equipados.includes(chave)) {
+        desequiparPersonagem(chave);
       } else {
-        equiparPersonagem(nome);
+        equiparPersonagem(chave);
       }
     });
   });
@@ -626,18 +863,21 @@ function atualizarBoss() {
 }
 
 function atualizarTela() {
+  const mundo = obterMundoAtual();
   const multiplicadorTotal = calcularMultiplicadorTotal();
   const ganhoReal = calcularGanhoRealClique();
 
   elementos.pontos.textContent = formatarNumero(jogo.pontos);
   elementos.ganhoRealClique.textContent = formatarNumero(ganhoReal);
   elementos.multiplicador.textContent = formatarNumero(multiplicadorTotal) + "x";
-  elementos.nivelSorte.textContent = jogo.sorte;
+  elementos.mundoAtualTexto.textContent = mundo.nome;
 
   elementos.pontosPorClique.textContent = formatarNumero(jogo.pontosPorClique);
   elementos.pontosPorSegundo.textContent = formatarNumero(jogo.pontosPorSegundo);
   elementos.multiplicadorStatus.textContent = formatarNumero(multiplicadorTotal) + "x";
   elementos.ganhoRealStatus.textContent = formatarNumero(ganhoReal);
+  elementos.nivelSorte.textContent = jogo.sorte;
+
   elementos.quantidadeEquipados.textContent = jogo.equipados.length;
   elementos.quantidadeEquipadosMochila.textContent = jogo.equipados.length;
 
@@ -654,33 +894,41 @@ function atualizarTela() {
   elementos.upgradeSorte.textContent =
     "Comprar sorte - " + formatarNumero(jogo.precoUpgradeSorte) + " pontos";
 
+  elementos.mundoAtualRng.textContent = mundo.nome;
+  elementos.precoRngAtual.textContent = formatarNumero(mundo.precoRng);
+
   elementos.botaoRng.textContent =
-    "Girar RNG - " + formatarNumero(jogo.precoRng) + " pontos";
+    "Girar RNG - " + formatarNumero(mundo.precoRng) + " pontos";
 
   elementos.botaoRng10.textContent =
-    "Girar 10x - " + formatarNumero(jogo.precoRng * 10) + " pontos";
+    "Girar 10x - " + formatarNumero(mundo.precoRng * 10) + " pontos";
 
   elementos.personagemAtual.textContent = jogo.ultimoPersonagem.nome;
   elementos.chanceAtual.textContent = jogo.ultimoPersonagem.chanceTexto;
-  elementos.multiplicadorAtual.textContent = jogo.ultimoPersonagem.multiplicador + "x";
+  elementos.multiplicadorAtual.textContent = formatarNumero(jogo.ultimoPersonagem.multiplicador) + "x";
 }
 
 function atualizarTudo() {
   atualizarTela();
   atualizarBoss();
+  montarListaMundos();
+  montarListaPersonagens();
   atualizarMochila();
   atualizarMissoes();
+  montarSelectAdm();
   salvarJogo();
 }
 
 function montarSelectAdm() {
   elementos.admPersonagem.innerHTML = "";
 
-  personagens.forEach(function (personagem) {
-    const option = document.createElement("option");
-    option.value = personagem.nome;
-    option.textContent = personagem.nome + " - " + personagem.multiplicador + "x";
-    elementos.admPersonagem.appendChild(option);
+  mundos.forEach(function (mundo) {
+    mundo.personagens.forEach(function (personagem) {
+      const option = document.createElement("option");
+      option.value = personagem.nome + "_" + mundo.id;
+      option.textContent = personagem.nome + " - " + mundo.nome + " - " + formatarNumero(personagem.multiplicador) + "x";
+      elementos.admPersonagem.appendChild(option);
+    });
   });
 }
 
@@ -711,29 +959,53 @@ function admAdicionarPontos() {
 }
 
 function admAdicionarPersonagem() {
-  const nome = elementos.admPersonagem.value;
+  const valor = elementos.admPersonagem.value;
   const quantidade = Number(elementos.admQuantidade.value);
 
-  const personagem = personagens.find(function (item) {
-    return item.nome === nome;
-  });
-
-  if (!personagem || !quantidade || quantidade <= 0) {
+  if (!valor || !quantidade || quantidade <= 0) {
     mostrarMensagem("ADM: dados inválidos.");
     return;
   }
 
+  let personagemEncontrado = null;
+  let mundoEncontrado = null;
+
+  mundos.forEach(function (mundo) {
+    mundo.personagens.forEach(function (personagem) {
+      const chave = personagem.nome + "_" + mundo.id;
+
+      if (chave === valor) {
+        personagemEncontrado = personagem;
+        mundoEncontrado = mundo;
+      }
+    });
+  });
+
+  if (!personagemEncontrado || !mundoEncontrado) {
+    mostrarMensagem("ADM: personagem não encontrado.");
+    return;
+  }
+
   for (let i = 0; i < quantidade; i++) {
-    adicionarNaMochila(personagem);
+    adicionarNaMochila(personagemEncontrado, mundoEncontrado.id);
   }
 
   jogo.ultimoPersonagem = {
-    nome: personagem.nome,
-    chanceTexto: personagem.chanceTexto,
-    multiplicador: personagem.multiplicador
+    nome: personagemEncontrado.nome,
+    chanceTexto: personagemEncontrado.chanceTexto,
+    multiplicador: personagemEncontrado.multiplicador
   };
 
-  mostrarMensagem("ADM: " + personagem.nome + " x" + quantidade + " adicionado à mochila.");
+  mostrarMensagem("ADM: " + personagemEncontrado.nome + " x" + quantidade + " adicionado à mochila.");
+  atualizarTudo();
+}
+
+function admDesbloquearTodosMundos() {
+  jogo.mundosDesbloqueados = mundos.map(function (mundo) {
+    return mundo.id;
+  });
+
+  mostrarMensagem("ADM: todos os mundos foram desbloqueados.");
   atualizarTudo();
 }
 
@@ -793,6 +1065,26 @@ function carregarJogo() {
         ...jogoSalvo.missoesResgatadas
       }
     };
+
+    if (!jogo.mundosDesbloqueados) {
+      jogo.mundosDesbloqueados = ["vila_ninja"];
+    }
+
+    if (!jogo.mundoAtual) {
+      jogo.mundoAtual = "vila_ninja";
+    }
+
+    jogo.mochila = jogo.mochila.map(function (personagem) {
+      return {
+        ...personagem,
+        chave: personagem.chave || personagem.nome + "_" + (personagem.mundoId || "vila_ninja"),
+        mundoId: personagem.mundoId || "vila_ninja",
+        multiplicadorBase: personagem.multiplicadorBase || personagem.multiplicador || 1,
+        nivel: personagem.nivel || 1,
+        quantidade: personagem.quantidade || 1
+      };
+    });
+
   } catch (erro) {
     console.error("Erro ao carregar save:", erro);
     jogo = criarJogoInicial();
