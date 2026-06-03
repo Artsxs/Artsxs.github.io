@@ -4,103 +4,214 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Anime Clicker Simulator</title>
+  <title>Anime Clicker Simulator 3.0</title>
 
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
 
-  <main class="layout">
+  <main class="app">
 
-    <section class="game">
-      <h1>Anime Clicker Simulator</h1>
-      <p class="subtitulo">Clique, treine, gire personagens, derrote bosses e evolua!</p>
+    <section class="game-area">
+      <header class="topo">
+        <h1>Anime Clicker Simulator</h1>
+        <p>Versão 3.0 - Tabs, Boss, RNG, Mochila e ADM</p>
+      </header>
 
-      <div class="painel">
-        <p>Pontos: <span id="pontos">0</span></p>
-        <p>Pontos por clique base: <span id="pontosPorClique">1</span></p>
-        <p>Pontos por segundo: <span id="pontosPorSegundo">0</span></p>
-        <p>Multiplicador equipado: <span id="multiplicador">1x</span></p>
-        <p>Ganho real por clique: <span id="ganhoRealClique">1</span></p>
-        <p>Sorte: <span id="nivelSorte">0</span></p>
-      </div>
+      <section class="status-principal">
+        <div class="status-card">
+          <span>Pontos</span>
+          <strong id="pontos">0</strong>
+        </div>
+
+        <div class="status-card">
+          <span>Ganho por clique</span>
+          <strong id="ganhoRealClique">1</strong>
+        </div>
+
+        <div class="status-card">
+          <span>Multiplicador</span>
+          <strong id="multiplicador">1x</strong>
+        </div>
+
+        <div class="status-card">
+          <span>Sorte</span>
+          <strong id="nivelSorte">0</strong>
+        </div>
+      </section>
+
+      <section class="boss-resumo">
+        <div>
+          <h2 id="nomeBoss">Dragão Sombrio</h2>
+          <p>Nível <span id="nivelBoss">1</span></p>
+        </div>
+
+        <div class="boss-vida-info">
+          <p>Vida: <span id="vidaBoss">10000</span>/<span id="vidaMaxBoss">10000</span></p>
+          <div class="barra-vida">
+            <div id="barraVidaBoss" class="barra-vida-preenchida"></div>
+          </div>
+        </div>
+      </section>
 
       <button id="botaoClick" class="botao-principal">
         ATACAR
       </button>
 
-      <button id="upgradeClique" class="botao-upgrade">
-        Comprar treino de força
-      </button>
-
-      <button id="upgradeSegundo" class="botao-upgrade">
-        Comprar aura automática
-      </button>
-
-      <button id="upgradeSorte" class="botao-upgrade sorte">
-        Comprar sorte
-      </button>
-
-      <p id="mensagem"></p>
-
-      <button id="resetarJogo" class="botao-reset">
-        Resetar progresso
-      </button>
+      <p id="mensagem" class="mensagem">Bem-vindo ao Anime Clicker Simulator!</p>
     </section>
 
-    <aside class="rng-panel">
-      <h2>Aba RNG</h2>
+    <aside class="menu-area">
+      <nav class="tabs">
+        <button class="tab-button active" data-tab="tab-status">Status</button>
+        <button class="tab-button" data-tab="tab-upgrades">Upgrades</button>
+        <button class="tab-button" data-tab="tab-rng">RNG</button>
+        <button class="tab-button" data-tab="tab-mochila">Mochila</button>
+        <button class="tab-button" data-tab="tab-missoes">Missões</button>
+        <button class="tab-button" data-tab="tab-boss">Boss</button>
+        <button class="tab-button adm-tab" data-tab="tab-adm">ADM</button>
+      </nav>
 
-      <p class="rng-info">
-        Gire personagens. Repetidos acumulam na mochila.
-      </p>
+      <section id="tab-status" class="tab-content active">
+        <h2>Status do jogador</h2>
 
-      <button id="botaoRng" class="botao-rng">
-        Girar RNG - 1.000 pontos
-      </button>
-
-      <button id="botaoRng10" class="botao-rng secundario">
-        Girar 10x - 10.000 pontos
-      </button>
-
-      <div class="resultado-rng">
-        <p>Último personagem:</p>
-        <h3 id="personagemAtual">Nenhum</h3>
-        <p>Chance: <span id="chanceAtual">---</span></p>
-        <p>Multiplicador: <span id="multiplicadorAtual">1x</span></p>
-      </div>
-
-      <h3 class="titulo-lista">Personagens disponíveis</h3>
-      <div id="listaPersonagens" class="lista-personagens"></div>
-    </aside>
-
-    <aside class="mochila-panel">
-      <h2>Mochila</h2>
-
-      <p class="rng-info">
-        Equipados: <span id="quantidadeEquipados">0</span>/3
-      </p>
-
-      <div id="mochilaPersonagens" class="lista-personagens mochila-lista"></div>
-    </aside>
-
-    <aside class="extras-panel">
-      <h2>Boss Fight</h2>
-
-      <div class="boss-card">
-        <h3 id="nomeBoss">Dragão Sombrio</h3>
-        <p>Nível: <span id="nivelBoss">1</span></p>
-        <p>Vida: <span id="vidaBoss">10000</span>/<span id="vidaMaxBoss">10000</span></p>
-
-        <div class="barra-vida">
-          <div id="barraVidaBoss" class="barra-vida-preenchida"></div>
+        <div class="painel">
+          <p>Pontos por clique base: <span id="pontosPorClique">1</span></p>
+          <p>Pontos por segundo: <span id="pontosPorSegundo">0</span></p>
+          <p>Multiplicador equipado: <span id="multiplicadorStatus">1x</span></p>
+          <p>Ganho real por clique: <span id="ganhoRealStatus">1</span></p>
+          <p>Personagens equipados: <span id="quantidadeEquipados">0</span>/3</p>
+          <p>Total de cliques: <span id="totalCliques">0</span></p>
+          <p>Total de giros: <span id="totalGiros">0</span></p>
+          <p>Bosses derrotados: <span id="totalBosses">0</span></p>
         </div>
 
-        <p>Recompensa: <span id="recompensaBoss">5000</span> pontos</p>
-      </div>
+        <button id="resetarJogo" class="botao-reset">
+          Resetar progresso
+        </button>
+      </section>
 
-      <h2 class="titulo-missoes">Missões</h2>
-      <div id="listaMissoes" class="lista-missoes"></div>
+      <section id="tab-upgrades" class="tab-content">
+        <h2>Upgrades</h2>
+
+        <button id="upgradeClique" class="botao-upgrade">
+          Comprar treino de força
+        </button>
+
+        <button id="upgradeSegundo" class="botao-upgrade">
+          Comprar aura automática
+        </button>
+
+        <button id="upgradeSorte" class="botao-upgrade sorte">
+          Comprar sorte
+        </button>
+      </section>
+
+      <section id="tab-rng" class="tab-content">
+        <h2>Aba RNG</h2>
+
+        <p class="texto-info">
+          Gire personagens. Repetidos acumulam na mochila.
+        </p>
+
+        <button id="botaoRng" class="botao-rng">
+          Girar RNG - 1.000 pontos
+        </button>
+
+        <button id="botaoRng10" class="botao-rng secundario">
+          Girar 10x - 10.000 pontos
+        </button>
+
+        <div class="resultado-rng">
+          <p>Último personagem:</p>
+          <h3 id="personagemAtual">Nenhum</h3>
+          <p>Chance: <span id="chanceAtual">---</span></p>
+          <p>Multiplicador: <span id="multiplicadorAtual">1x</span></p>
+        </div>
+
+        <h3 class="titulo-lista">Personagens disponíveis</h3>
+        <div id="listaPersonagens" class="lista-personagens"></div>
+      </section>
+
+      <section id="tab-mochila" class="tab-content">
+        <h2>Mochila</h2>
+
+        <p class="texto-info">
+          Equipados: <span id="quantidadeEquipadosMochila">0</span>/3
+        </p>
+
+        <div id="mochilaPersonagens" class="lista-personagens mochila-lista"></div>
+      </section>
+
+      <section id="tab-missoes" class="tab-content">
+        <h2>Missões</h2>
+        <div id="listaMissoes" class="lista-missoes"></div>
+      </section>
+
+      <section id="tab-boss" class="tab-content">
+        <h2>Boss Fight</h2>
+
+        <div class="boss-card">
+          <h3 id="nomeBossMenu">Dragão Sombrio</h3>
+          <p>Nível: <span id="nivelBossMenu">1</span></p>
+          <p>Vida: <span id="vidaBossMenu">10000</span>/<span id="vidaMaxBossMenu">10000</span></p>
+
+          <div class="barra-vida">
+            <div id="barraVidaBossMenu" class="barra-vida-preenchida"></div>
+          </div>
+
+          <p>Recompensa: <span id="recompensaBoss">5000</span> pontos</p>
+          <p class="texto-info">Cada ataque causa dano igual ao seu ganho real por clique.</p>
+        </div>
+      </section>
+
+      <section id="tab-adm" class="tab-content">
+        <h2>Menu ADM</h2>
+
+        <div id="admBloqueado" class="adm-box">
+          <p class="texto-info">
+            Área de administrador para testes.
+          </p>
+
+          <input id="senhaAdm" class="input-adm" type="password" placeholder="Digite o código ADM" />
+
+          <button id="entrarAdm" class="botao-adm">
+            Entrar no ADM
+          </button>
+        </div>
+
+        <div id="admLiberado" class="adm-box escondido">
+          <h3>Ferramentas ADM</h3>
+
+          <label>Adicionar pontos</label>
+          <input id="admPontos" class="input-adm" type="number" value="100000" min="1" />
+          <button id="admAdicionarPontos" class="botao-adm">
+            Adicionar pontos
+          </button>
+
+          <label>Adicionar personagem</label>
+          <select id="admPersonagem" class="input-adm"></select>
+
+          <label>Quantidade</label>
+          <input id="admQuantidade" class="input-adm" type="number" value="1" min="1" />
+
+          <button id="admAdicionarPersonagem" class="botao-adm">
+            Adicionar personagem
+          </button>
+
+          <button id="admDerrotarBoss" class="botao-adm">
+            Derrotar boss atual
+          </button>
+
+          <button id="admSalvar" class="botao-adm">
+            Salvar agora
+          </button>
+
+          <button id="admSair" class="botao-reset">
+            Sair do ADM
+          </button>
+        </div>
+      </section>
     </aside>
 
   </main>
