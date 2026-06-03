@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Anime Clicker Simulator 4.2</title>
+  <title>Anime Clicker Simulator 5.0</title>
 
   <link rel="stylesheet" href="./style.css" />
 </head>
@@ -15,7 +15,7 @@
     <section class="game-area">
       <header class="topo">
         <h1>Anime Clicker Simulator</h1>
-        <p>Versão 4.2 - Economia balanceada, RNG 100x e 1000x</p>
+        <p>Versão 5.0 - Rank, Rebirth, Eventos, Coleção, Tickets e Conquistas</p>
       </header>
 
       <section class="status-principal">
@@ -26,7 +26,12 @@
 
         <div class="status-card">
           <span>Mundo atual</span>
-          <strong id="mundoAtualTexto">Vila Ninja</strong>
+          <strong id="mundoAtualTexto">Vila Ninja Oculta</strong>
+        </div>
+
+        <div class="status-card">
+          <span>Rank</span>
+          <strong id="rankJogador">E</strong>
         </div>
 
         <div class="status-card">
@@ -38,6 +43,11 @@
           <span>Multiplicador</span>
           <strong id="multiplicador">1x</strong>
         </div>
+
+        <div class="status-card">
+          <span>Evento ativo</span>
+          <strong id="eventoAtivoTexto">Nenhum</strong>
+        </div>
       </section>
 
       <section class="boss-resumo">
@@ -47,7 +57,7 @@
         </div>
 
         <div class="boss-vida-info">
-          <p>Vida: <span id="vidaBoss">50000</span>/<span id="vidaMaxBoss">50000</span></p>
+          <p>Vida: <span id="vidaBoss">50.000</span>/<span id="vidaMaxBoss">50.000</span></p>
           <div class="barra-vida">
             <div id="barraVidaBoss" class="barra-vida-preenchida"></div>
           </div>
@@ -65,9 +75,14 @@
       <nav class="tabs">
         <button class="tab-button active" data-tab="tab-status">Status</button>
         <button class="tab-button" data-tab="tab-upgrades">Upgrades</button>
+        <button class="tab-button" data-tab="tab-loja">Loja</button>
+        <button class="tab-button" data-tab="tab-rebirth">Rebirth</button>
         <button class="tab-button" data-tab="tab-mundos">Mundos</button>
         <button class="tab-button" data-tab="tab-rng">RNG</button>
         <button class="tab-button" data-tab="tab-mochila">Mochila</button>
+        <button class="tab-button" data-tab="tab-colecao">Coleção</button>
+        <button class="tab-button" data-tab="tab-historico">Histórico</button>
+        <button class="tab-button" data-tab="tab-conquistas">Conquistas</button>
         <button class="tab-button" data-tab="tab-missoes">Missões</button>
         <button class="tab-button" data-tab="tab-boss">Boss</button>
         <button class="tab-button" data-tab="tab-update-log">Update Log</button>
@@ -81,13 +96,18 @@
         <div class="painel">
           <p>Pontos por clique base: <span id="pontosPorClique">1</span></p>
           <p>Pontos por segundo: <span id="pontosPorSegundo">0</span></p>
+          <p>Nível da aura automática: <span id="nivelAura">0</span></p>
           <p>Multiplicador equipado: <span id="multiplicadorStatus">1x</span></p>
           <p>Ganho real por clique: <span id="ganhoRealStatus">1</span></p>
           <p>Sorte: <span id="nivelSorte">0</span></p>
-          <p>Personagens equipados: <span id="quantidadeEquipados">0</span>/3</p>
+          <p>Rebirths: <span id="rebirthsTexto">0</span></p>
+          <p>Bônus permanente: <span id="bonusRebirthTexto">0%</span></p>
+          <p>Personagens equipados: <span id="quantidadeEquipados">0</span>/<span id="limiteEquipadosTexto">3</span></p>
+          <p>Personagem favorito: <span id="favoritoTexto">Nenhum</span></p>
           <p>Total de cliques: <span id="totalCliques">0</span></p>
           <p>Total de giros: <span id="totalGiros">0</span></p>
           <p>Bosses derrotados: <span id="totalBosses">0</span></p>
+          <p>Pity atual: <span id="pityTexto">0</span> giros</p>
         </div>
 
         <button id="resetarJogo" class="botao-reset">
@@ -111,11 +131,53 @@
         </button>
       </section>
 
+      <section id="tab-loja" class="tab-content">
+        <h2>Loja especial</h2>
+
+        <p class="texto-info">
+          Melhorias permanentes para ajudar na progressão.
+        </p>
+
+        <button id="comprarDescontoRng" class="botao-upgrade especial">
+          Comprar desconto de RNG
+        </button>
+
+        <button id="comprarSlotEquipado" class="botao-upgrade especial">
+          Aumentar limite de equipados
+        </button>
+
+        <button id="comprarBonusBoss" class="botao-upgrade especial">
+          Aumentar recompensa de boss
+        </button>
+
+        <button id="comprarBonusPps" class="botao-upgrade especial">
+          Melhorar ganho por segundo
+        </button>
+      </section>
+
+      <section id="tab-rebirth" class="tab-content">
+        <h2>Rebirth / Prestígio</h2>
+
+        <div class="painel">
+          <p>Rebirths atuais: <span id="rebirthsPainel">0</span></p>
+          <p>Bônus permanente: <span id="bonusRebirthPainel">0%</span></p>
+          <p>Custo do próximo rebirth: <span id="custoRebirthTexto">1.000.000</span> pontos</p>
+        </div>
+
+        <p class="texto-info">
+          O rebirth reseta pontos e upgrades básicos, mas mantém mochila, mundos, coleção, conquistas e bônus permanente.
+        </p>
+
+        <button id="botaoRebirth" class="botao-rng extremo">
+          Fazer Rebirth
+        </button>
+      </section>
+
       <section id="tab-mundos" class="tab-content">
         <h2>Mundos</h2>
 
         <p class="texto-info">
-          Cada mundo tem RNG próprio, personagens diferentes e raridades melhores.
+          Agora os mundos exigem pontos e bosses derrotados.
         </p>
 
         <div id="listaMundos" class="lista-personagens"></div>
@@ -124,13 +186,12 @@
       <section id="tab-rng" class="tab-content">
         <h2>Aba RNG</h2>
 
-        <p class="texto-info">
-          O RNG muda conforme o mundo atual.
-        </p>
-
         <div class="painel">
-          <p>Mundo atual: <span id="mundoAtualRng">Vila Ninja</span></p>
+          <p>Mundo atual: <span id="mundoAtualRng">Vila Ninja Oculta</span></p>
           <p>Preço do giro: <span id="precoRngAtual">1.000</span> pontos</p>
+          <p>Tickets 1x: <span id="ticket1Texto">0</span></p>
+          <p>Tickets 10x: <span id="ticket10Texto">0</span></p>
+          <p>Tickets 100x: <span id="ticket100Texto">0</span></p>
         </div>
 
         <button id="botaoRng" class="botao-rng">
@@ -149,6 +210,18 @@
           Girar 1000x
         </button>
 
+        <button id="usarTicket1" class="botao-ticket">
+          Usar Ticket 1x
+        </button>
+
+        <button id="usarTicket10" class="botao-ticket">
+          Usar Ticket 10x
+        </button>
+
+        <button id="usarTicket100" class="botao-ticket">
+          Usar Ticket 100x
+        </button>
+
         <div class="resultado-rng">
           <p>Último personagem:</p>
           <h3 id="personagemAtual">Nenhum</h3>
@@ -164,7 +237,7 @@
         <h2>Mochila</h2>
 
         <p class="texto-info">
-          Equipados: <span id="quantidadeEquipadosMochila">0</span>/3
+          Equipados: <span id="quantidadeEquipadosMochila">0</span>/<span id="limiteEquipadosMochila">3</span>
         </p>
 
         <p class="texto-info">
@@ -172,6 +245,32 @@
         </p>
 
         <div id="mochilaPersonagens" class="lista-personagens mochila-lista"></div>
+      </section>
+
+      <section id="tab-colecao" class="tab-content">
+        <h2>Coleção / Index</h2>
+
+        <p class="texto-info">
+          Complete a coleção pegando todos os personagens de todos os mundos.
+        </p>
+
+        <div id="listaColecao" class="lista-personagens"></div>
+      </section>
+
+      <section id="tab-historico" class="tab-content">
+        <h2>Histórico de drops</h2>
+
+        <p class="texto-info">
+          Últimos personagens obtidos no RNG.
+        </p>
+
+        <div id="listaHistorico" class="lista-personagens"></div>
+      </section>
+
+      <section id="tab-conquistas" class="tab-content">
+        <h2>Conquistas</h2>
+
+        <div id="listaConquistas" class="lista-missoes"></div>
       </section>
 
       <section id="tab-missoes" class="tab-content">
@@ -185,14 +284,14 @@
         <div class="boss-card">
           <h3 id="nomeBossMenu">Dragão Sombrio</h3>
           <p>Nível: <span id="nivelBossMenu">1</span></p>
-          <p>Vida: <span id="vidaBossMenu">50000</span>/<span id="vidaMaxBossMenu">50000</span></p>
+          <p>Vida: <span id="vidaBossMenu">50.000</span>/<span id="vidaMaxBossMenu">50.000</span></p>
 
           <div class="barra-vida">
             <div id="barraVidaBossMenu" class="barra-vida-preenchida"></div>
           </div>
 
-          <p>Recompensa: <span id="recompensaBoss">1000</span> pontos</p>
-          <p class="texto-info">Cada ataque causa dano igual ao seu ganho real por clique.</p>
+          <p>Recompensa: <span id="recompensaBoss">1.000</span> pontos</p>
+          <p class="texto-info">Bosses podem dropar tickets de giro.</p>
         </div>
       </section>
 
@@ -214,7 +313,7 @@
         </p>
 
         <div class="codigo-box">
-          <input id="inputCodigo" class="input-adm" type="text" placeholder="Digite um código. Ex: Update42" />
+          <input id="inputCodigo" class="input-adm" type="text" placeholder="Digite um código. Ex: Update50" />
 
           <button id="botaoResgatarCodigo" class="botao-adm">
             Resgatar código
@@ -266,6 +365,24 @@
 
           <button id="admDerrotarBoss" class="botao-adm">
             Derrotar boss atual
+          </button>
+
+          <h3 class="titulo-lista">Eventos ADM</h3>
+
+          <button id="admEventoLuck" class="botao-adm">
+            Ativar 10x Luck RNG
+          </button>
+
+          <button id="admEventoPontos" class="botao-adm">
+            Ativar 10x Pontos
+          </button>
+
+          <button id="admEventoBoss" class="botao-adm">
+            Ativar Boss Frenzy
+          </button>
+
+          <button id="admEventoOff" class="botao-reset">
+            Desativar evento
           </button>
 
           <button id="admSalvar" class="botao-adm">
