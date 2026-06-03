@@ -14,7 +14,7 @@
 
     <section class="game">
       <h1>Anime Clicker Simulator</h1>
-      <p class="subtitulo">Clique, treine, gire personagens e fique mais forte!</p>
+      <p class="subtitulo">Clique, treine, gire personagens, derrote bosses e evolua!</p>
 
       <div class="painel">
         <p>Pontos: <span id="pontos">0</span></p>
@@ -22,6 +22,7 @@
         <p>Pontos por segundo: <span id="pontosPorSegundo">0</span></p>
         <p>Multiplicador equipado: <span id="multiplicador">1x</span></p>
         <p>Ganho real por clique: <span id="ganhoRealClique">1</span></p>
+        <p>Sorte: <span id="nivelSorte">0</span></p>
       </div>
 
       <button id="botaoClick" class="botao-principal">
@@ -29,25 +30,37 @@
       </button>
 
       <button id="upgradeClique" class="botao-upgrade">
-        Comprar treino de força - 10 pontos
+        Comprar treino de força
       </button>
 
       <button id="upgradeSegundo" class="botao-upgrade">
-        Comprar aura automática - 50 pontos
+        Comprar aura automática
+      </button>
+
+      <button id="upgradeSorte" class="botao-upgrade sorte">
+        Comprar sorte
       </button>
 
       <p id="mensagem"></p>
+
+      <button id="resetarJogo" class="botao-reset">
+        Resetar progresso
+      </button>
     </section>
 
     <aside class="rng-panel">
       <h2>Aba RNG</h2>
 
       <p class="rng-info">
-        Gire por 1.000 pontos e ganhe personagens para colocar na mochila.
+        Gire personagens. Repetidos acumulam na mochila.
       </p>
 
       <button id="botaoRng" class="botao-rng">
-        Girar RNG - 1000 pontos
+        Girar RNG - 1.000 pontos
+      </button>
+
+      <button id="botaoRng10" class="botao-rng secundario">
+        Girar 10x - 10.000 pontos
       </button>
 
       <div class="resultado-rng">
@@ -69,6 +82,25 @@
       </p>
 
       <div id="mochilaPersonagens" class="lista-personagens mochila-lista"></div>
+    </aside>
+
+    <aside class="extras-panel">
+      <h2>Boss Fight</h2>
+
+      <div class="boss-card">
+        <h3 id="nomeBoss">Dragão Sombrio</h3>
+        <p>Nível: <span id="nivelBoss">1</span></p>
+        <p>Vida: <span id="vidaBoss">10000</span>/<span id="vidaMaxBoss">10000</span></p>
+
+        <div class="barra-vida">
+          <div id="barraVidaBoss" class="barra-vida-preenchida"></div>
+        </div>
+
+        <p>Recompensa: <span id="recompensaBoss">5000</span> pontos</p>
+      </div>
+
+      <h2 class="titulo-missoes">Missões</h2>
+      <div id="listaMissoes" class="lista-missoes"></div>
     </aside>
 
   </main>
