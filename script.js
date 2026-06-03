@@ -1,4 +1,5 @@
-const SAVE_KEY = "animeClickerSimulatorSaveV2";
+const SAVE_KEY = "animeClickerSimulatorSaveV3";
+const ADM_CODE = "ARTSXS-ADM-2026";
 
 const personagens = [
   {
@@ -98,149 +99,90 @@ const missoes = [
 
 let jogo = criarJogoInicial();
 
-const textoPontos = document.getElementById("pontos");
-const textoPontosPorClique = document.getElementById("pontosPorClique");
-const textoPontosPorSegundo = document.getElementById("pontosPorSegundo");
-const textoMultiplicador = document.getElementById("multiplicador");
-const textoGanhoRealClique = document.getElementById("ganhoRealClique");
-const textoNivelSorte = document.getElementById("nivelSorte");
+const elementos = {
+  pontos: document.getElementById("pontos"),
+  ganhoRealClique: document.getElementById("ganhoRealClique"),
+  multiplicador: document.getElementById("multiplicador"),
+  nivelSorte: document.getElementById("nivelSorte"),
 
-const botaoClick = document.getElementById("botaoClick");
-const botaoUpgradeClique = document.getElementById("upgradeClique");
-const botaoUpgradeSegundo = document.getElementById("upgradeSegundo");
-const botaoUpgradeSorte = document.getElementById("upgradeSorte");
-const botaoRng = document.getElementById("botaoRng");
-const botaoRng10 = document.getElementById("botaoRng10");
-const botaoResetar = document.getElementById("resetarJogo");
+  pontosPorClique: document.getElementById("pontosPorClique"),
+  pontosPorSegundo: document.getElementById("pontosPorSegundo"),
+  multiplicadorStatus: document.getElementById("multiplicadorStatus"),
+  ganhoRealStatus: document.getElementById("ganhoRealStatus"),
+  quantidadeEquipados: document.getElementById("quantidadeEquipados"),
+  quantidadeEquipadosMochila: document.getElementById("quantidadeEquipadosMochila"),
+  totalCliques: document.getElementById("totalCliques"),
+  totalGiros: document.getElementById("totalGiros"),
+  totalBosses: document.getElementById("totalBosses"),
 
-const mensagem = document.getElementById("mensagem");
+  botaoClick: document.getElementById("botaoClick"),
+  upgradeClique: document.getElementById("upgradeClique"),
+  upgradeSegundo: document.getElementById("upgradeSegundo"),
+  upgradeSorte: document.getElementById("upgradeSorte"),
+  botaoRng: document.getElementById("botaoRng"),
+  botaoRng10: document.getElementById("botaoRng10"),
+  resetarJogo: document.getElementById("resetarJogo"),
 
-const personagemAtual = document.getElementById("personagemAtual");
-const chanceAtual = document.getElementById("chanceAtual");
-const multiplicadorAtual = document.getElementById("multiplicadorAtual");
-const listaPersonagens = document.getElementById("listaPersonagens");
+  mensagem: document.getElementById("mensagem"),
 
-const mochilaPersonagens = document.getElementById("mochilaPersonagens");
-const quantidadeEquipados = document.getElementById("quantidadeEquipados");
+  personagemAtual: document.getElementById("personagemAtual"),
+  chanceAtual: document.getElementById("chanceAtual"),
+  multiplicadorAtual: document.getElementById("multiplicadorAtual"),
+  listaPersonagens: document.getElementById("listaPersonagens"),
+  mochilaPersonagens: document.getElementById("mochilaPersonagens"),
+  listaMissoes: document.getElementById("listaMissoes"),
 
-const nomeBoss = document.getElementById("nomeBoss");
-const nivelBoss = document.getElementById("nivelBoss");
-const vidaBoss = document.getElementById("vidaBoss");
-const vidaMaxBoss = document.getElementById("vidaMaxBoss");
-const recompensaBoss = document.getElementById("recompensaBoss");
-const barraVidaBoss = document.getElementById("barraVidaBoss");
+  nomeBoss: document.getElementById("nomeBoss"),
+  nivelBoss: document.getElementById("nivelBoss"),
+  vidaBoss: document.getElementById("vidaBoss"),
+  vidaMaxBoss: document.getElementById("vidaMaxBoss"),
+  barraVidaBoss: document.getElementById("barraVidaBoss"),
 
-const listaMissoes = document.getElementById("listaMissoes");
+  nomeBossMenu: document.getElementById("nomeBossMenu"),
+  nivelBossMenu: document.getElementById("nivelBossMenu"),
+  vidaBossMenu: document.getElementById("vidaBossMenu"),
+  vidaMaxBossMenu: document.getElementById("vidaMaxBossMenu"),
+  barraVidaBossMenu: document.getElementById("barraVidaBossMenu"),
+  recompensaBoss: document.getElementById("recompensaBoss"),
+
+  senhaAdm: document.getElementById("senhaAdm"),
+  entrarAdm: document.getElementById("entrarAdm"),
+  admBloqueado: document.getElementById("admBloqueado"),
+  admLiberado: document.getElementById("admLiberado"),
+  admPontos: document.getElementById("admPontos"),
+  admPersonagem: document.getElementById("admPersonagem"),
+  admQuantidade: document.getElementById("admQuantidade"),
+  admAdicionarPontos: document.getElementById("admAdicionarPontos"),
+  admAdicionarPersonagem: document.getElementById("admAdicionarPersonagem"),
+  admDerrotarBoss: document.getElementById("admDerrotarBoss"),
+  admSalvar: document.getElementById("admSalvar"),
+  admSair: document.getElementById("admSair")
+};
 
 carregarJogo();
+configurarTabs();
+configurarEventos();
 montarListaPersonagens();
+montarSelectAdm();
 atualizarTudo();
-
-botaoClick.addEventListener("click", function () {
-  const ganho = calcularGanhoRealClique();
-
-  jogo.pontos += ganho;
-  jogo.stats.cliques += 1;
-
-  causarDanoNoBoss(ganho);
-
-  mensagem.textContent = "Você atacou, ganhou +" + formatarNumero(ganho) + " pontos e causou dano no boss!";
-
-  atualizarTudo();
-});
-
-botaoUpgradeClique.addEventListener("click", function () {
-  if (jogo.pontos >= jogo.precoUpgradeClique) {
-    jogo.pontos -= jogo.precoUpgradeClique;
-    jogo.pontosPorClique += 1;
-    jogo.precoUpgradeClique *= 3;
-
-    mensagem.textContent = "Treino de força comprado!";
-    atualizarTudo();
-  } else {
-    mensagem.textContent = "Pontos insuficientes para comprar treino de força.";
-  }
-});
-
-botaoUpgradeSegundo.addEventListener("click", function () {
-  if (jogo.pontos >= jogo.precoUpgradeSegundo) {
-    jogo.pontos -= jogo.precoUpgradeSegundo;
-    jogo.pontosPorSegundo += 1;
-    jogo.precoUpgradeSegundo *= 3;
-
-    mensagem.textContent = "Aura automática comprada!";
-    atualizarTudo();
-  } else {
-    mensagem.textContent = "Pontos insuficientes para comprar aura automática.";
-  }
-});
-
-botaoUpgradeSorte.addEventListener("click", function () {
-  if (jogo.pontos >= jogo.precoUpgradeSorte) {
-    jogo.pontos -= jogo.precoUpgradeSorte;
-    jogo.sorte += 1;
-    jogo.precoUpgradeSorte = Math.floor(jogo.precoUpgradeSorte * 2.5);
-
-    mensagem.textContent = "Sorte aumentada! Agora sua sorte é nível " + jogo.sorte + ".";
-    atualizarTudo();
-  } else {
-    mensagem.textContent = "Pontos insuficientes para comprar sorte.";
-  }
-});
-
-botaoRng.addEventListener("click", function () {
-  girarRng(1);
-});
-
-botaoRng10.addEventListener("click", function () {
-  girarRng(10);
-});
-
-botaoResetar.addEventListener("click", function () {
-  const confirmar = confirm("Tem certeza que deseja resetar todo o progresso?");
-
-  if (!confirmar) {
-    return;
-  }
-
-  localStorage.removeItem(SAVE_KEY);
-  jogo = criarJogoInicial();
-
-  mensagem.textContent = "Progresso resetado.";
-  atualizarTudo();
-});
-
-setInterval(function () {
-  if (jogo.pontosPorSegundo > 0) {
-    jogo.pontos += jogo.pontosPorSegundo;
-    atualizarTudo();
-  }
-}, 1000);
 
 function criarJogoInicial() {
   return {
     pontos: 0,
-
     pontosPorClique: 1,
     precoUpgradeClique: 10,
-
     pontosPorSegundo: 0,
     precoUpgradeSegundo: 50,
-
     precoRng: 1000,
-
     sorte: 0,
     precoUpgradeSorte: 5000,
-
     mochila: [],
     equipados: [],
-
     ultimoPersonagem: {
       nome: "Nenhum",
       chanceTexto: "---",
       multiplicador: 1
     },
-
     boss: {
       nome: "Dragão Sombrio",
       nivel: 1,
@@ -248,22 +190,138 @@ function criarJogoInicial() {
       vidaMax: 10000,
       recompensa: 5000
     },
-
     stats: {
       cliques: 0,
       giros: 0,
       bossesDerrotados: 0
     },
-
     missoesResgatadas: {}
   };
+}
+
+function configurarTabs() {
+  const botoes = document.querySelectorAll(".tab-button");
+  const abas = document.querySelectorAll(".tab-content");
+
+  botoes.forEach(function (botao) {
+    botao.addEventListener("click", function () {
+      const alvo = botao.dataset.tab;
+
+      botoes.forEach(function (item) {
+        item.classList.remove("active");
+      });
+
+      abas.forEach(function (aba) {
+        aba.classList.remove("active");
+      });
+
+      botao.classList.add("active");
+      document.getElementById(alvo).classList.add("active");
+    });
+  });
+}
+
+function configurarEventos() {
+  elementos.botaoClick.addEventListener("click", atacar);
+
+  elementos.upgradeClique.addEventListener("click", comprarUpgradeClique);
+  elementos.upgradeSegundo.addEventListener("click", comprarUpgradeSegundo);
+  elementos.upgradeSorte.addEventListener("click", comprarUpgradeSorte);
+
+  elementos.botaoRng.addEventListener("click", function () {
+    girarRng(1);
+  });
+
+  elementos.botaoRng10.addEventListener("click", function () {
+    girarRng(10);
+  });
+
+  elementos.resetarJogo.addEventListener("click", resetarJogo);
+
+  elementos.entrarAdm.addEventListener("click", liberarAdm);
+  elementos.admAdicionarPontos.addEventListener("click", admAdicionarPontos);
+  elementos.admAdicionarPersonagem.addEventListener("click", admAdicionarPersonagem);
+  elementos.admDerrotarBoss.addEventListener("click", admDerrotarBoss);
+  elementos.admSalvar.addEventListener("click", function () {
+    salvarJogo();
+    mostrarMensagem("ADM: progresso salvo manualmente.");
+  });
+
+  elementos.admSair.addEventListener("click", function () {
+    elementos.admLiberado.classList.add("escondido");
+    elementos.admBloqueado.classList.remove("escondido");
+    elementos.senhaAdm.value = "";
+    mostrarMensagem("ADM fechado.");
+  });
+
+  setInterval(function () {
+    if (jogo.pontosPorSegundo > 0) {
+      jogo.pontos += jogo.pontosPorSegundo;
+      atualizarTudo();
+    }
+  }, 1000);
+}
+
+function atacar() {
+  const ganho = calcularGanhoRealClique();
+
+  jogo.pontos += ganho;
+  jogo.stats.cliques += 1;
+
+  causarDanoNoBoss(ganho);
+
+  mostrarMensagem("Você atacou e ganhou +" + formatarNumero(ganho) + " pontos!");
+
+  atualizarTudo();
+}
+
+function comprarUpgradeClique() {
+  if (jogo.pontos < jogo.precoUpgradeClique) {
+    mostrarMensagem("Pontos insuficientes para comprar treino de força.");
+    return;
+  }
+
+  jogo.pontos -= jogo.precoUpgradeClique;
+  jogo.pontosPorClique += 1;
+  jogo.precoUpgradeClique *= 3;
+
+  mostrarMensagem("Treino de força comprado!");
+  atualizarTudo();
+}
+
+function comprarUpgradeSegundo() {
+  if (jogo.pontos < jogo.precoUpgradeSegundo) {
+    mostrarMensagem("Pontos insuficientes para comprar aura automática.");
+    return;
+  }
+
+  jogo.pontos -= jogo.precoUpgradeSegundo;
+  jogo.pontosPorSegundo += 1;
+  jogo.precoUpgradeSegundo *= 3;
+
+  mostrarMensagem("Aura automática comprada!");
+  atualizarTudo();
+}
+
+function comprarUpgradeSorte() {
+  if (jogo.pontos < jogo.precoUpgradeSorte) {
+    mostrarMensagem("Pontos insuficientes para comprar sorte.");
+    return;
+  }
+
+  jogo.pontos -= jogo.precoUpgradeSorte;
+  jogo.sorte += 1;
+  jogo.precoUpgradeSorte = Math.floor(jogo.precoUpgradeSorte * 2.5);
+
+  mostrarMensagem("Sorte aumentada para nível " + jogo.sorte + "!");
+  atualizarTudo();
 }
 
 function girarRng(quantidade) {
   const custoTotal = jogo.precoRng * quantidade;
 
   if (jogo.pontos < custoTotal) {
-    mensagem.textContent = "Você precisa de " + formatarNumero(custoTotal) + " pontos para girar " + quantidade + "x.";
+    mostrarMensagem("Você precisa de " + formatarNumero(custoTotal) + " pontos para girar " + quantidade + "x.");
     return;
   }
 
@@ -272,12 +330,12 @@ function girarRng(quantidade) {
   let melhorPersonagem = null;
 
   for (let i = 0; i < quantidade; i++) {
-    const personagemSorteado = sortearPersonagem();
-    adicionarNaMochila(personagemSorteado);
+    const personagem = sortearPersonagem();
+    adicionarNaMochila(personagem);
     jogo.stats.giros += 1;
 
-    if (!melhorPersonagem || personagemSorteado.multiplicador > melhorPersonagem.multiplicador) {
-      melhorPersonagem = personagemSorteado;
+    if (!melhorPersonagem || personagem.multiplicador > melhorPersonagem.multiplicador) {
+      melhorPersonagem = personagem;
     }
   }
 
@@ -287,65 +345,40 @@ function girarRng(quantidade) {
     multiplicador: melhorPersonagem.multiplicador
   };
 
-  mensagem.textContent =
-    "Você girou " +
-    quantidade +
-    "x! Melhor personagem: " +
-    melhorPersonagem.nome +
-    " (" +
-    melhorPersonagem.multiplicador +
-    "x).";
+  mostrarMensagem("Você girou " + quantidade + "x! Melhor personagem: " + melhorPersonagem.nome + " (" + melhorPersonagem.multiplicador + "x).");
 
   atualizarTudo();
 }
 
 function sortearPersonagem() {
   const numeroSorteado = Math.random();
-
   const bonusSorte = 1 + jogo.sorte * 0.08;
 
-  if (numeroSorteado < (1 / 2000) * bonusSorte) {
-    return personagens[6];
-  }
-
-  if (numeroSorteado < (1 / 500) * bonusSorte) {
-    return personagens[5];
-  }
-
-  if (numeroSorteado < (1 / 100) * bonusSorte) {
-    return personagens[4];
-  }
-
-  if (numeroSorteado < (1 / 50) * bonusSorte) {
-    return personagens[3];
-  }
-
-  if (numeroSorteado < (1 / 25) * bonusSorte) {
-    return personagens[2];
-  }
-
-  if (numeroSorteado < (1 / 10) * bonusSorte) {
-    return personagens[1];
-  }
+  if (numeroSorteado < (1 / 2000) * bonusSorte) return personagens[6];
+  if (numeroSorteado < (1 / 500) * bonusSorte) return personagens[5];
+  if (numeroSorteado < (1 / 100) * bonusSorte) return personagens[4];
+  if (numeroSorteado < (1 / 50) * bonusSorte) return personagens[3];
+  if (numeroSorteado < (1 / 25) * bonusSorte) return personagens[2];
+  if (numeroSorteado < (1 / 10) * bonusSorte) return personagens[1];
 
   return personagens[0];
 }
 
-function adicionarNaMochila(personagemSorteado) {
-  const personagemExistente = jogo.mochila.find(function (item) {
-    return item.nome === personagemSorteado.nome;
+function adicionarNaMochila(personagem) {
+  const existente = jogo.mochila.find(function (item) {
+    return item.nome === personagem.nome;
   });
 
-  if (personagemExistente) {
-    personagemExistente.quantidade += 1;
+  if (existente) {
+    existente.quantidade += 1;
     return;
   }
 
   jogo.mochila.push({
-    nome: personagemSorteado.nome,
-    chanceTexto: personagemSorteado.chanceTexto,
-    multiplicador: personagemSorteado.multiplicador,
-    raridade: personagemSorteado.raridade,
+    nome: personagem.nome,
+    chanceTexto: personagem.chanceTexto,
+    multiplicador: personagem.multiplicador,
+    raridade: personagem.raridade,
     quantidade: 1
   });
 }
@@ -356,25 +389,23 @@ function equiparPersonagem(nome) {
   });
 
   if (!personagem) {
-    mensagem.textContent = "Personagem não encontrado na mochila.";
+    mostrarMensagem("Personagem não encontrado na mochila.");
     return;
   }
 
-  const jaEquipado = jogo.equipados.includes(nome);
-
-  if (jaEquipado) {
-    mensagem.textContent = personagem.nome + " já está equipado.";
+  if (jogo.equipados.includes(nome)) {
+    mostrarMensagem(nome + " já está equipado.");
     return;
   }
 
   if (jogo.equipados.length >= 3) {
-    mensagem.textContent = "Você só pode equipar no máximo 3 personagens.";
+    mostrarMensagem("Você só pode equipar no máximo 3 personagens.");
     return;
   }
 
   jogo.equipados.push(nome);
+  mostrarMensagem(nome + " foi equipado!");
 
-  mensagem.textContent = personagem.nome + " foi equipado!";
   atualizarTudo();
 }
 
@@ -383,7 +414,8 @@ function desequiparPersonagem(nome) {
     return item !== nome;
   });
 
-  mensagem.textContent = nome + " foi desequipado.";
+  mostrarMensagem(nome + " foi desequipado.");
+
   atualizarTudo();
 }
 
@@ -418,10 +450,7 @@ function causarDanoNoBoss(dano) {
     jogo.pontos += jogo.boss.recompensa;
     jogo.stats.bossesDerrotados += 1;
 
-    mensagem.textContent =
-      "Boss derrotado! Você ganhou +" +
-      formatarNumero(jogo.boss.recompensa) +
-      " pontos.";
+    mostrarMensagem("Boss derrotado! Você ganhou +" + formatarNumero(jogo.boss.recompensa) + " pontos.");
 
     criarProximoBoss();
   }
@@ -451,49 +480,16 @@ function escolherNomeBoss(nivel) {
     "Imperador das Sombras"
   ];
 
-  const indice = (nivel - 1) % nomes.length;
-
-  return nomes[indice];
-}
-
-function resgatarMissao(id) {
-  const missao = missoes.find(function (item) {
-    return item.id === id;
-  });
-
-  if (!missao) {
-    return;
-  }
-
-  if (jogo.missoesResgatadas[id]) {
-    mensagem.textContent = "Essa missão já foi resgatada.";
-    return;
-  }
-
-  if (!missao.concluida()) {
-    mensagem.textContent = "Essa missão ainda não foi concluída.";
-    return;
-  }
-
-  jogo.pontos += missao.recompensa;
-  jogo.missoesResgatadas[id] = true;
-
-  mensagem.textContent =
-    "Missão concluída! Você ganhou +" +
-    formatarNumero(missao.recompensa) +
-    " pontos.";
-
-  atualizarTudo();
+  return nomes[(nivel - 1) % nomes.length];
 }
 
 function montarListaPersonagens() {
-  listaPersonagens.innerHTML = "";
+  elementos.listaPersonagens.innerHTML = "";
 
   personagens.forEach(function (personagem) {
     const card = document.createElement("div");
 
-    card.classList.add("personagem-card");
-    card.classList.add(personagem.raridade);
+    card.classList.add("personagem-card", personagem.raridade);
 
     card.innerHTML = `
       <strong>${personagem.nome}</strong>
@@ -501,18 +497,16 @@ function montarListaPersonagens() {
       <span>Multiplicador: ${personagem.multiplicador}x</span>
     `;
 
-    listaPersonagens.appendChild(card);
+    elementos.listaPersonagens.appendChild(card);
   });
 }
 
 function atualizarMochila() {
-  mochilaPersonagens.innerHTML = "";
+  elementos.mochilaPersonagens.innerHTML = "";
 
   if (jogo.mochila.length === 0) {
-    mochilaPersonagens.innerHTML =
+    elementos.mochilaPersonagens.innerHTML =
       '<p class="mochila-vazia">Sua mochila está vazia. Gire o RNG para ganhar personagens.</p>';
-
-    quantidadeEquipados.textContent = jogo.equipados.length;
     return;
   }
 
@@ -521,32 +515,27 @@ function atualizarMochila() {
 
     const card = document.createElement("div");
 
-    card.classList.add("personagem-card");
-    card.classList.add(personagem.raridade);
+    card.classList.add("personagem-card", personagem.raridade);
 
     if (estaEquipado) {
       card.classList.add("equipado");
     }
 
-    const tituloStatus = estaEquipado ? "Equipado" : "Na mochila";
-    const textoBotao = estaEquipado ? "Desequipar" : "Equipar";
-    const classeBotao = estaEquipado ? "botao-desequipar" : "botao-equipar";
-
     card.innerHTML = `
       <strong>${personagem.nome}</strong>
-      <span>Status: ${tituloStatus}</span>
+      <span>Status: ${estaEquipado ? "Equipado" : "Na mochila"}</span>
       <span>Chance: ${personagem.chanceTexto}</span>
       <span>Multiplicador: ${personagem.multiplicador}x</span>
       <span class="quantidade">Quantidade: x${personagem.quantidade}</span>
-      <button class="${classeBotao}" data-nome="${personagem.nome}">
-        ${textoBotao}
+      <button class="${estaEquipado ? "botao-desequipar" : "botao-equipar"}" data-nome="${personagem.nome}">
+        ${estaEquipado ? "Desequipar" : "Equipar"}
       </button>
     `;
 
-    mochilaPersonagens.appendChild(card);
+    elementos.mochilaPersonagens.appendChild(card);
   });
 
-  const botoes = mochilaPersonagens.querySelectorAll("button");
+  const botoes = elementos.mochilaPersonagens.querySelectorAll("button");
 
   botoes.forEach(function (botao) {
     botao.addEventListener("click", function () {
@@ -559,38 +548,25 @@ function atualizarMochila() {
       }
     });
   });
-
-  quantidadeEquipados.textContent = jogo.equipados.length;
 }
 
 function atualizarMissoes() {
-  listaMissoes.innerHTML = "";
+  elementos.listaMissoes.innerHTML = "";
 
   missoes.forEach(function (missao) {
     const concluida = missao.concluida();
     const resgatada = jogo.missoesResgatadas[missao.id];
 
     const card = document.createElement("div");
-
     card.classList.add("missao-card");
 
-    if (concluida) {
-      card.classList.add("missao-concluida");
-    }
-
-    if (resgatada) {
-      card.classList.add("missao-resgatada");
-    }
+    if (concluida) card.classList.add("missao-concluida");
+    if (resgatada) card.classList.add("missao-resgatada");
 
     let textoBotao = "Em andamento";
 
-    if (concluida && !resgatada) {
-      textoBotao = "Resgatar recompensa";
-    }
-
-    if (resgatada) {
-      textoBotao = "Resgatada";
-    }
+    if (concluida && !resgatada) textoBotao = "Resgatar recompensa";
+    if (resgatada) textoBotao = "Resgatada";
 
     card.innerHTML = `
       <h3>${missao.titulo}</h3>
@@ -602,10 +578,10 @@ function atualizarMissoes() {
       </button>
     `;
 
-    listaMissoes.appendChild(card);
+    elementos.listaMissoes.appendChild(card);
   });
 
-  const botoes = listaMissoes.querySelectorAll("button");
+  const botoes = elementos.listaMissoes.querySelectorAll("button");
 
   botoes.forEach(function (botao) {
     botao.addEventListener("click", function () {
@@ -614,56 +590,173 @@ function atualizarMissoes() {
   });
 }
 
-function atualizarBoss() {
-  nomeBoss.textContent = jogo.boss.nome;
-  nivelBoss.textContent = jogo.boss.nivel;
-  vidaBoss.textContent = formatarNumero(Math.max(0, Math.floor(jogo.boss.vidaAtual)));
-  vidaMaxBoss.textContent = formatarNumero(jogo.boss.vidaMax);
-  recompensaBoss.textContent = formatarNumero(jogo.boss.recompensa);
+function resgatarMissao(id) {
+  const missao = missoes.find(function (item) {
+    return item.id === id;
+  });
 
+  if (!missao || jogo.missoesResgatadas[id] || !missao.concluida()) {
+    return;
+  }
+
+  jogo.pontos += missao.recompensa;
+  jogo.missoesResgatadas[id] = true;
+
+  mostrarMensagem("Missão concluída! Você ganhou +" + formatarNumero(missao.recompensa) + " pontos.");
+
+  atualizarTudo();
+}
+
+function atualizarBoss() {
+  const vidaAtual = Math.max(0, Math.floor(jogo.boss.vidaAtual));
   const porcentagem = Math.max(0, (jogo.boss.vidaAtual / jogo.boss.vidaMax) * 100);
-  barraVidaBoss.style.width = porcentagem + "%";
+
+  elementos.nomeBoss.textContent = jogo.boss.nome;
+  elementos.nivelBoss.textContent = jogo.boss.nivel;
+  elementos.vidaBoss.textContent = formatarNumero(vidaAtual);
+  elementos.vidaMaxBoss.textContent = formatarNumero(jogo.boss.vidaMax);
+  elementos.barraVidaBoss.style.width = porcentagem + "%";
+
+  elementos.nomeBossMenu.textContent = jogo.boss.nome;
+  elementos.nivelBossMenu.textContent = jogo.boss.nivel;
+  elementos.vidaBossMenu.textContent = formatarNumero(vidaAtual);
+  elementos.vidaMaxBossMenu.textContent = formatarNumero(jogo.boss.vidaMax);
+  elementos.barraVidaBossMenu.style.width = porcentagem + "%";
+  elementos.recompensaBoss.textContent = formatarNumero(jogo.boss.recompensa);
 }
 
 function atualizarTela() {
   const multiplicadorTotal = calcularMultiplicadorTotal();
   const ganhoReal = calcularGanhoRealClique();
 
-  textoPontos.textContent = formatarNumero(Math.floor(jogo.pontos));
-  textoPontosPorClique.textContent = formatarNumero(jogo.pontosPorClique);
-  textoPontosPorSegundo.textContent = formatarNumero(jogo.pontosPorSegundo);
-  textoMultiplicador.textContent = formatarNumero(multiplicadorTotal) + "x";
-  textoGanhoRealClique.textContent = formatarNumero(ganhoReal);
-  textoNivelSorte.textContent = jogo.sorte;
+  elementos.pontos.textContent = formatarNumero(jogo.pontos);
+  elementos.ganhoRealClique.textContent = formatarNumero(ganhoReal);
+  elementos.multiplicador.textContent = formatarNumero(multiplicadorTotal) + "x";
+  elementos.nivelSorte.textContent = jogo.sorte;
 
-  botaoUpgradeClique.textContent =
+  elementos.pontosPorClique.textContent = formatarNumero(jogo.pontosPorClique);
+  elementos.pontosPorSegundo.textContent = formatarNumero(jogo.pontosPorSegundo);
+  elementos.multiplicadorStatus.textContent = formatarNumero(multiplicadorTotal) + "x";
+  elementos.ganhoRealStatus.textContent = formatarNumero(ganhoReal);
+  elementos.quantidadeEquipados.textContent = jogo.equipados.length;
+  elementos.quantidadeEquipadosMochila.textContent = jogo.equipados.length;
+
+  elementos.totalCliques.textContent = formatarNumero(jogo.stats.cliques);
+  elementos.totalGiros.textContent = formatarNumero(jogo.stats.giros);
+  elementos.totalBosses.textContent = formatarNumero(jogo.stats.bossesDerrotados);
+
+  elementos.upgradeClique.textContent =
     "Comprar treino de força - " + formatarNumero(jogo.precoUpgradeClique) + " pontos";
 
-  botaoUpgradeSegundo.textContent =
+  elementos.upgradeSegundo.textContent =
     "Comprar aura automática - " + formatarNumero(jogo.precoUpgradeSegundo) + " pontos";
 
-  botaoUpgradeSorte.textContent =
+  elementos.upgradeSorte.textContent =
     "Comprar sorte - " + formatarNumero(jogo.precoUpgradeSorte) + " pontos";
 
-  botaoRng.textContent =
+  elementos.botaoRng.textContent =
     "Girar RNG - " + formatarNumero(jogo.precoRng) + " pontos";
 
-  botaoRng10.textContent =
+  elementos.botaoRng10.textContent =
     "Girar 10x - " + formatarNumero(jogo.precoRng * 10) + " pontos";
 
-  quantidadeEquipados.textContent = jogo.equipados.length;
-
-  personagemAtual.textContent = jogo.ultimoPersonagem.nome;
-  chanceAtual.textContent = jogo.ultimoPersonagem.chanceTexto;
-  multiplicadorAtual.textContent = jogo.ultimoPersonagem.multiplicador + "x";
+  elementos.personagemAtual.textContent = jogo.ultimoPersonagem.nome;
+  elementos.chanceAtual.textContent = jogo.ultimoPersonagem.chanceTexto;
+  elementos.multiplicadorAtual.textContent = jogo.ultimoPersonagem.multiplicador + "x";
 }
 
 function atualizarTudo() {
   atualizarTela();
-  atualizarMochila();
   atualizarBoss();
+  atualizarMochila();
   atualizarMissoes();
   salvarJogo();
+}
+
+function montarSelectAdm() {
+  elementos.admPersonagem.innerHTML = "";
+
+  personagens.forEach(function (personagem) {
+    const option = document.createElement("option");
+    option.value = personagem.nome;
+    option.textContent = personagem.nome + " - " + personagem.multiplicador + "x";
+    elementos.admPersonagem.appendChild(option);
+  });
+}
+
+function liberarAdm() {
+  if (elementos.senhaAdm.value !== ADM_CODE) {
+    mostrarMensagem("Código ADM incorreto.");
+    return;
+  }
+
+  elementos.admBloqueado.classList.add("escondido");
+  elementos.admLiberado.classList.remove("escondido");
+
+  mostrarMensagem("ADM liberado.");
+}
+
+function admAdicionarPontos() {
+  const quantidade = Number(elementos.admPontos.value);
+
+  if (!quantidade || quantidade <= 0) {
+    mostrarMensagem("ADM: quantidade inválida.");
+    return;
+  }
+
+  jogo.pontos += quantidade;
+
+  mostrarMensagem("ADM: +" + formatarNumero(quantidade) + " pontos adicionados.");
+  atualizarTudo();
+}
+
+function admAdicionarPersonagem() {
+  const nome = elementos.admPersonagem.value;
+  const quantidade = Number(elementos.admQuantidade.value);
+
+  const personagem = personagens.find(function (item) {
+    return item.nome === nome;
+  });
+
+  if (!personagem || !quantidade || quantidade <= 0) {
+    mostrarMensagem("ADM: dados inválidos.");
+    return;
+  }
+
+  for (let i = 0; i < quantidade; i++) {
+    adicionarNaMochila(personagem);
+  }
+
+  jogo.ultimoPersonagem = {
+    nome: personagem.nome,
+    chanceTexto: personagem.chanceTexto,
+    multiplicador: personagem.multiplicador
+  };
+
+  mostrarMensagem("ADM: " + personagem.nome + " x" + quantidade + " adicionado à mochila.");
+  atualizarTudo();
+}
+
+function admDerrotarBoss() {
+  jogo.boss.vidaAtual = 0;
+  causarDanoNoBoss(1);
+
+  mostrarMensagem("ADM: boss derrotado.");
+  atualizarTudo();
+}
+
+function resetarJogo() {
+  const confirmar = confirm("Tem certeza que deseja resetar todo o progresso?");
+
+  if (!confirmar) {
+    return;
+  }
+
+  localStorage.removeItem(SAVE_KEY);
+  jogo = criarJogoInicial();
+
+  mostrarMensagem("Progresso resetado.");
+  atualizarTudo();
 }
 
 function salvarJogo() {
@@ -679,20 +772,21 @@ function carregarJogo() {
 
   try {
     const jogoSalvo = JSON.parse(dadosSalvos);
+    const base = criarJogoInicial();
 
     jogo = {
-      ...criarJogoInicial(),
+      ...base,
       ...jogoSalvo,
       stats: {
-        ...criarJogoInicial().stats,
+        ...base.stats,
         ...jogoSalvo.stats
       },
       boss: {
-        ...criarJogoInicial().boss,
+        ...base.boss,
         ...jogoSalvo.boss
       },
       ultimoPersonagem: {
-        ...criarJogoInicial().ultimoPersonagem,
+        ...base.ultimoPersonagem,
         ...jogoSalvo.ultimoPersonagem
       },
       missoesResgatadas: {
@@ -703,6 +797,10 @@ function carregarJogo() {
     console.error("Erro ao carregar save:", erro);
     jogo = criarJogoInicial();
   }
+}
+
+function mostrarMensagem(texto) {
+  elementos.mensagem.textContent = texto;
 }
 
 function formatarNumero(numero) {
