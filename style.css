@@ -252,6 +252,16 @@ body {
   background: linear-gradient(135deg, #b366ff, #ffdd57);
 }
 
+.botao-rng.especial {
+  background: linear-gradient(135deg, #00ff99, #ffdd57);
+  color: #111;
+}
+
+.botao-rng.extremo {
+  background: linear-gradient(135deg, #ff2e63, #ffdd57);
+  color: #111;
+}
+
 .botao-reset {
   background: #ff2e63;
   color: white;
