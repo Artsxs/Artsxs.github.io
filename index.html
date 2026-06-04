@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Anime Clicker Simulator 5.13</title>
+
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+
+  <main class="app">
+
+    <section class="game-area">
+      <header class="topo">
+        <h1>Anime Clicker Simulator</h1>
+        <p>Versão 5.13 - Auras e códigos com ponto</p>
+      </header>
+
+      <section class="status-principal">
+        <div class="status-card">
+          <span>Pontos</span>
+          <strong id="pontos">0</strong>
+        </div>
+
+        <div class="status-card">
+          <span>Mundo atual</span>
+          <strong id="mundoAtualTexto">Vila Ninja Oculta</strong>
+        </div>
+
+        <div class="status-card">
+          <span>Rank</span>
+          <strong id="rankJogador">E</strong>
+        </div>
+
+        <div class="status-card">
+          <span>Ganho por clique</span>
+          <strong id="ganhoRealClique">1</strong>
+        </div>
+
+        <div class="status-card">
+          <span>Multiplicador</span>
+          <strong id="multiplicador">1x</strong>
+        </div>
+
+        <div class="status-card">
+          <span>Evento ativo</span>
+          <strong id="eventoAtivoTexto">Nenhum</strong>
+        </div>
+      </section>
+
+      <section class="boss-resumo">
+        <div>
+          <h2 id="nomeBoss">Dragão Sombrio</h2>
+          <p>Nível <span id="nivelBoss">1</span></p>
+        </div>
+
+        <div class="boss-vida-info">
+          <p>Vida: <span id="vidaBoss">50.000</span>/<span id="vidaMaxBoss">50.000</span></p>
+          <div class="barra-vida">
+            <div id="barraVidaBoss" class="barra-vida-preenchida"></div>
+          </div>
+        </div>
+      </section>
+
+      <button id="botaoClick" class="botao-principal">
+        ATACAR
+      </button>
+
+      <div id="efeitosClique" class="efeitos-clique"></div>
+
+      <p id="mensagem" class="mensagem">Bem-vindo ao Anime Clicker Simulator!</p>
+    </section>
+
+    <aside class="menu-area">
+
+      <section class="menu-grupos">
+        <div class="menu-grupo">
+          <h3>Principal</h3>
+          <div class="tabs">
+            <button class="tab-button active" data-tab="tab-status">Status</button>
+            <button class="tab-button" data-tab="tab-rng">RNG</button>
+            <button class="tab-button" data-tab="tab-mochila">Mochila</button>
+            <button class="tab-button" data-tab="tab-mundos">Mundos</button>
+          </div>
+        </div>
+
+        <div class="menu-grupo">
+          <h3>Progressão</h3>
+          <div class="tabs">
+            <button class="tab-button" data-tab="tab-upgrades">Upgrades</button>
+            <button class="tab-button" data-tab="tab-loja">Loja</button>
+            <button class="tab-button" data-tab="tab-ticket-shop">Ticket Shop</button>
+            <button class="tab-button" data-tab="tab-auras">Auras</button>
+            <button class="tab-button" data-tab="tab-rebirth">Rebirth</button>
+            <button class="tab-button" data-tab="tab-boss">Boss</button>
+          </div>
+        </div>
+
+        <div class="menu-grupo">
+          <h3>Coleção</h3>
+          <div class="tabs">
+            <button class="tab-button" data-tab="tab-colecao">Coleção</button>
+            <button class="tab-button" data-tab="tab-historico">Histórico</button>
+            <button class="tab-button" data-tab="tab-conquistas">Conquistas</button>
+            <button class="tab-button" data-tab="tab-missoes">Missões</button>
+          </div>
+        </div>
+
+        <div class="menu-grupo">
+          <h3>Sistema</h3>
+          <div class="tabs">
+            <button class="tab-button" data-tab="tab-update-log">Update Log</button>
+            <button class="tab-button" data-tab="tab-codigos">Códigos</button>
+            <button class="tab-button" data-tab="tab-config">Configurações</button>
+            <button class="tab-button adm-tab" data-tab="tab-adm">ADM</button>
+          </div>
+        </div>
+      </section>
+
+      <section id="tab-status" class="tab-content active">
+        <h2>Status do jogador</h2>
+
+        <div class="painel">
+          <p>Pontos por clique base: <span id="pontosPorClique">1</span></p>
+          <p>Pontos por segundo: <span id="pontosPorSegundo">0</span></p>
+          <p>Nível da aura automática: <span id="nivelAura">0</span></p>
+          <p>Multiplicador equipado: <span id="multiplicadorStatus">1x</span></p>
+          <p>Ganho real por clique: <span id="ganhoRealStatus">1</span></p>
+          <p>Sorte: <span id="nivelSorte">0</span></p>
+          <p>Aura equipada: <span id="auraEquipadaTexto">Nenhuma</span></p>
+          <p>Rebirths: <span id="rebirthsTexto">0</span></p>
+          <p>Bônus permanente: <span id="bonusRebirthTexto">0%</span></p>
+          <p>Personagens equipados: <span id="quantidadeEquipados">0</span>/<span id="limiteEquipadosTexto">3</span></p>
+          <p>Personagem favorito: <span id="favoritoTexto">Nenhum</span></p>
+          <p>Total de cliques: <span id="totalCliques">0</span></p>
+          <p>Total de giros: <span id="totalGiros">0</span></p>
+          <p>Bosses derrotados: <span id="totalBosses">0</span></p>
+          <p>Pity atual: <span id="pityTexto">0</span> giros</p>
+        </div>
+
+        <button id="resetarJogo" class="botao-reset">
+          Resetar progresso
+        </button>
+      </section>
+
+      <section id="tab-upgrades" class="tab-content">
+        <h2>Upgrades</h2>
+
+        <button id="upgradeClique" class="botao-upgrade">
+          Comprar treino de força
+        </button>
+
+        <button id="upgradeSegundo" class="botao-upgrade">
+          Comprar aura automática
+        </button>
+
+        <button id="upgradeSorte" class="botao-upgrade sorte">
+          Comprar sorte
+        </button>
+      </section>
+
+      <section id="tab-loja" class="tab-content">
+        <h2>Loja especial</h2>
+
+        <p class="texto-info">
+          Melhorias permanentes para ajudar na progressão.
+        </p>
+
+        <button id="comprarDescontoRng" class="botao-upgrade especial">
+          Comprar desconto de RNG
+        </button>
+
+        <button id="comprarSlotEquipado" class="botao-upgrade especial">
+          Aumentar limite de equipados
+        </button>
+
+        <button id="comprarBonusBoss" class="botao-upgrade especial">
+          Aumentar recompensa de boss
+        </button>
+
+        <button id="comprarBonusPps" class="botao-upgrade especial">
+          Melhorar ganho por segundo
+        </button>
+      </section>
+
+      <section id="tab-auras" class="tab-content">
+        <h2>Auras</h2>
+
+        <p class="texto-info">
+          Compre e equipe auras para ganhar bônus permanentes de pontos e sorte.
+        </p>
+
+        <div class="painel">
+          <p>Aura equipada: <span id="auraEquipadaPainel">Nenhuma</span></p>
+          <p>Bônus de pontos: <span id="bonusAuraPontos">0%</span></p>
+          <p>Bônus de sorte: <span id="bonusAuraLuck">0%</span></p>
+        </div>
+
+        <div id="listaAuras" class="lista-personagens"></div>
+      </section>
+
+      <section id="tab-ticket-shop" class="tab-content">
+        <h2>Ticket Shop</h2>
+
+        <p class="texto-info">
+          Use seus tickets para comprar boosts, baús, conversões e recompensas especiais.
+        </p>
+
+        <div class="painel">
+          <p>Tickets 1x: <span id="ticketShop1">0</span></p>
+          <p>Tickets 10x: <span id="ticketShop10">0</span></p>
+          <p>Tickets 100x: <span id="ticketShop100">0</span></p>
+          <p>Boost ativo: <span id="boostTicketAtivo">Nenhum</span></p>
+        </div>
+
+        <h3 class="titulo-lista">Boosts temporários</h3>
+
+        <button id="comprarBoostPontosTicket" class="botao-ticket">
+          Comprar 2x Pontos por 2 minutos - 3 Tickets 10x
+        </button>
+
+        <button id="comprarBoostLuckTicket" class="botao-ticket">
+          Comprar 2x Luck por 2 minutos - 1 Ticket 100x
+        </button>
+
+        <button id="comprarBoostPontosGrande" class="botao-ticket">
+          Comprar 10x Pontos por 1 minuto - 5 Tickets 100x
+        </button>
+
+        <button id="comprarBoostLuckGrande" class="botao-ticket">
+          Comprar 5x Luck por 3 minutos - 3 Tickets 100x
+        </button>
+
+        <h3 class="titulo-lista">Baús</h3>
+
+        <button id="comprarBauComum" class="botao-rng">
+          Baú Comum - 5 Tickets 10x
+        </button>
+
+        <button id="comprarBauLendario" class="botao-rng especial">
+          Baú Lendário - 10 Tickets 100x
+        </button>
+
+        <h3 class="titulo-lista">Conversões</h3>
+
+        <button id="converterTicket1Para10" class="botao-adm">
+          Converter 10 Tickets 1x em 1 Ticket 10x
+        </button>
+
+        <button id="converterTicket10Para100" class="botao-adm">
+          Converter 10 Tickets 10x em 1 Ticket 100x
+        </button>
+
+        <h3 class="titulo-lista">Especial</h3>
+
+        <button id="comprarPremioTicket" class="botao-rng especial">
+          Comprar prêmio especial - 5 Tickets 100x
+        </button>
+      </section>
+
+      <section id="tab-rebirth" class="tab-content">
+        <h2>Rebirth / Prestígio</h2>
+
+        <div class="painel">
+          <p>Rebirths atuais: <span id="rebirthsPainel">0</span></p>
+          <p>Bônus permanente: <span id="bonusRebirthPainel">0%</span></p>
+          <p>Custo do próximo rebirth: <span id="custoRebirthTexto">1.000.000</span> pontos</p>
+        </div>
+
+        <p class="texto-info">
+          O rebirth reseta pontos e upgrades básicos, mas mantém mochila, mundos, coleção, conquistas e bônus permanente.
+        </p>
+
+        <button id="botaoRebirth" class="botao-rng extremo">
+          Fazer Rebirth
+        </button>
+      </section>
+
+      <section id="tab-mundos" class="tab-content">
+        <h2>Mundos</h2>
+
+        <p class="texto-info">
+          Agora os mundos exigem pontos e bosses derrotados.
+        </p>
+
+        <div id="listaMundos" class="lista-personagens"></div>
+      </section>
+
+      <section id="tab-rng" class="tab-content">
+        <h2>Aba RNG</h2>
+
+        <div class="painel">
+          <p>Mundo atual: <span id="mundoAtualRng">Vila Ninja Oculta</span></p>
+          <p>Preço do giro: <span id="precoRngAtual">1.000</span> pontos</p>
+          <p>Tickets 1x: <span id="ticket1Texto">0</span></p>
+          <p>Tickets 10x: <span id="ticket10Texto">0</span></p>
+          <p>Tickets 100x: <span id="ticket100Texto">0</span></p>
+        </div>
+
+        <button id="botaoRng" class="botao-rng">
+          Girar RNG
+        </button>
+
+        <button id="botaoRng10" class="botao-rng secundario">
+          Girar 10x
+        </button>
+
+        <button id="botaoRng10000" class="botao-rng especial">
+          Girar 10.000x
+        </button>
+
+        <button id="botaoRngTodos" class="botao-rng extremo">
+          Girar com todos os pontos
+        </button>
+
+        <div class="auto-rng-box">
+          <button id="botaoAutoRng" class="botao-ticket">
+            Auto RNG: OFF
+          </button>
+
+          <select id="autoRngQuantidade" class="input-adm">
+            <option value="1">Auto 1x</option>
+            <option value="10">Auto 10x</option>
+            <option value="100">Auto 100x</option>
+          </select>
+        </div>
+
+        <div id="animacaoRng" class="animacao-rng escondido">
+          Girando...
+        </div>
+
+        <div class="resultado-rng">
+          <p>Último personagem:</p>
+          <h3 id="personagemAtual">Nenhum</h3>
+          <p>Chance: <span id="chanceAtual">---</span></p>
+          <p>Multiplicador base: <span id="multiplicadorAtual">1x</span></p>
+        </div>
+
+        <h3 class="titulo-lista">Personagens deste mundo</h3>
+        <div id="listaPersonagens" class="lista-personagens"></div>
+      </section>
+
+      <section id="tab-mochila" class="tab-content">
+        <h2>Mochila</h2>
+
+        <p class="texto-info">
+          Equipados: <span id="quantidadeEquipadosMochila">0</span>/<span id="limiteEquipadosMochila">3</span>
+        </p>
+
+        <p class="texto-info">
+          Para evoluir: junte 10 cópias do mesmo personagem.
+        </p>
+
+        <div class="mochila-filtros">
+          <select id="ordenarMochila" class="input-adm">
+            <option value="poder">Ordenar por maior poder</option>
+            <option value="nivel">Ordenar por nível</option>
+            <option value="quantidade">Ordenar por quantidade</option>
+            <option value="nome">Ordenar por nome</option>
+          </select>
+
+          <select id="filtroMochila" class="input-adm">
+            <option value="todos">Mostrar todos</option>
+            <option value="favoritos">Apenas favorito</option>
+            <option value="equipados">Apenas equipados</option>
+            <option value="evoluiveis">Apenas evoluíveis</option>
+          </select>
+        </div>
+
+        <div class="mochila-acoes-topo">
+          <button id="equiparMelhores" class="botao-ticket">
+            Equipar melhores personagens
+          </button>
+
+          <button id="ativarMultSelecao" class="botao-adm">
+            Ativar multiseleção
+          </button>
+
+          <button id="evoluirTodosPossiveis" class="botao-upgrade especial">
+            Evoluir todos possíveis
+          </button>
+
+          <button id="selecionarTodos" class="botao-adm escondido">
+            Selecionar todos
+          </button>
+
+          <button id="desselecionarTodos" class="botao-adm escondido">
+            Desselecionar todos
+          </button>
+
+          <button id="excluirSelecionados" class="botao-reset escondido">
+            Excluir selecionados
+          </button>
+        </div>
+
+        <div id="mochilaPersonagens" class="lista-personagens mochila-lista"></div>
+      </section>
+
+      <section id="tab-colecao" class="tab-content">
+        <h2>Coleção / Index</h2>
+
+        <p class="texto-info">
+          Complete a coleção pegando todos os personagens de todos os mundos.
+        </p>
+
+        <div class="painel colecao-progresso-card">
+          <p>Progresso da coleção: <span id="porcentagemColecao">0%</span></p>
+          <p>Personagens obtidos: <span id="contadorColecao">0/0</span></p>
+
+          <div class="barra-colecao">
+            <div id="barraColecao" class="barra-colecao-preenchida"></div>
+          </div>
+
+          <p>Status da recompensa: <span id="statusRecompensaColecao">Não concluída</span></p>
+        </div>
+
+        <div id="listaColecao" class="lista-personagens"></div>
+      </section>
+
+      <section id="tab-historico" class="tab-content">
+        <h2>Histórico de drops</h2>
+
+        <p class="texto-info">
+          Últimos personagens obtidos no RNG.
+        </p>
+
+        <div id="listaHistorico" class="lista-personagens"></div>
+      </section>
+
+      <section id="tab-conquistas" class="tab-content">
+        <h2>Conquistas</h2>
+
+        <div id="listaConquistas" class="lista-missoes"></div>
+      </section>
+
+      <section id="tab-missoes" class="tab-content">
+        <h2>Missões</h2>
+        <div id="listaMissoes" class="lista-missoes"></div>
+      </section>
+
+      <section id="tab-boss" class="tab-content">
+        <h2>Boss Fight</h2>
+
+        <div class="boss-card">
+          <h3 id="nomeBossMenu">Dragão Sombrio</h3>
+          <p>Nível: <span id="nivelBossMenu">1</span></p>
+          <p>Vida: <span id="vidaBossMenu">50.000</span>/<span id="vidaMaxBossMenu">50.000</span></p>
+
+          <div class="barra-vida">
+            <div id="barraVidaBossMenu" class="barra-vida-preenchida"></div>
+          </div>
+
+          <p>Recompensa: <span id="recompensaBoss">1.000</span> pontos</p>
+          <p class="texto-info">Bosses podem dropar tickets de giro.</p>
+        </div>
+      </section>
+
+      <section id="tab-update-log" class="tab-content">
+        <h2>Update Log</h2>
+
+        <p class="texto-info">
+          Veja todas as versões lançadas do Anime Clicker Simulator.
+        </p>
+
+        <div id="listaUpdateLog" class="lista-update-log"></div>
+      </section>
+
+      <section id="tab-codigos" class="tab-content">
+        <h2>Códigos</h2>
+
+        <p class="texto-info">
+          Digite códigos de atualização para ganhar recompensas.
+        </p>
+
+        <div class="codigo-box">
+          <input id="inputCodigo" class="input-adm" type="text" placeholder="Digite um código. Ex: Update5.12" />
+
+          <button id="botaoResgatarCodigo" class="botao-adm">
+            Resgatar código
+          </button>
+        </div>
+
+        <h3 class="titulo-lista">Códigos disponíveis</h3>
+
+        <div id="listaCodigos" class="lista-update-log"></div>
+      </section>
+
+      <section id="tab-config" class="tab-content">
+        <h2>Configurações</h2>
+
+        <p class="texto-info">
+          Aqui você pode salvar manualmente, exportar o progresso e importar o save em outro navegador.
+        </p>
+
+        <div class="config-grid">
+          <button id="salvarManual" class="botao-adm">
+            Salvar manualmente
+          </button>
+
+          <button id="exportarSave" class="botao-ticket">
+            Exportar save
+          </button>
+
+          <button id="importarSave" class="botao-rng especial">
+            Importar save
+          </button>
+
+          <button id="copiarSave" class="botao-adm">
+            Copiar save
+          </button>
+        </div>
+
+        <div class="painel">
+          <p>Status do save: <span id="statusSaveTexto">Pronto</span></p>
+          <p>Animações: <span id="statusAnimacoes">Ligadas</span></p>
+          <p>Sons: <span id="statusSons">Desligados</span></p>
+        </div>
+
+        <div class="config-grid">
+          <button id="alternarAnimacoes" class="botao-upgrade especial">
+            Ativar/Desativar animações
+          </button>
+
+          <button id="alternarSons" class="botao-upgrade especial">
+            Ativar/Desativar sons
+          </button>
+        </div>
+
+        <textarea id="campoSave" class="campo-save" placeholder="Seu save exportado/importado aparecerá aqui."></textarea>
+
+        <p class="texto-info">
+          Dica: guarde o texto exportado em um bloco de notas. Assim você não perde o progresso se trocar de celular, navegador ou computador.
+        </p>
+      </section>
+
+      <section id="tab-adm" class="tab-content">
+        <h2>Menu ADM</h2>
+
+        <div id="admBloqueado" class="adm-box">
+          <p class="texto-info">
+            Área de administrador para testes.
+          </p>
+
+          <input id="senhaAdm" class="input-adm" type="password" placeholder="Digite o código ADM" />
+
+          <button id="entrarAdm" class="botao-adm">
+            Entrar no ADM
+          </button>
+        </div>
+
+        <div id="admLiberado" class="adm-box escondido">
+          <h3>Ferramentas ADM</h3>
+
+          <label>Adicionar pontos</label>
+          <input id="admPontos" class="input-adm" type="number" value="1000000" min="1" />
+          <button id="admAdicionarPontos" class="botao-adm">
+            Adicionar pontos
+          </button>
+
+          <label>Adicionar personagem</label>
+          <select id="admPersonagem" class="input-adm"></select>
+
+          <label>Quantidade</label>
+          <input id="admQuantidade" class="input-adm" type="number" value="1" min="1" />
+
+          <button id="admAdicionarPersonagem" class="botao-adm">
+            Adicionar personagem
+          </button>
+
+          <button id="admDesbloquearMundos" class="botao-adm">
+            Desbloquear todos os mundos
+          </button>
+
+          <button id="admDerrotarBoss" class="botao-adm">
+            Derrotar boss atual
+          </button>
+
+          <h3 class="titulo-lista">Eventos ADM</h3>
+
+          <button id="admEventoLuck" class="botao-adm">
+            Ativar 10x Luck RNG
+          </button>
+
+          <button id="admEventoPontos" class="botao-adm">
+            Ativar 10x Pontos
+          </button>
+
+          <button id="admEventoBoss" class="botao-adm">
+            Ativar Boss Frenzy
+          </button>
+
+          <button id="admEventoOff" class="botao-reset">
+            Desativar evento
+          </button>
+
+          <button id="admSalvar" class="botao-adm">
+            Salvar agora
+          </button>
+
+          <button id="admSair" class="botao-reset">
+            Sair do ADM
+          </button>
+        </div>
+      </section>
+    </aside>
+
+  </main>
+
+
+  <div id="popupDrop" class="popup-drop escondido">
+    <div id="popupDropCard" class="popup-drop-card">
+      <button id="fecharPopupDrop" class="fechar-popup">×</button>
+
+      <p id="popupDropRaridade" class="popup-raridade">DROP ESPECIAL</p>
+
+      <div id="popupDropAvatar" class="popup-avatar"></div>
+
+      <h2 id="popupDropNome">Personagem</h2>
+
+      <p>Chance: <span id="popupDropChance">---</span></p>
+      <p>Multiplicador: <span id="popupDropMultiplicador">1x</span></p>
+      <p>Mundo: <span id="popupDropMundo">---</span></p>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+</body>
+</html>
