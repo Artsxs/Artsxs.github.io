@@ -10,13 +10,13 @@ Este projeto foi criado com foco em aprendizado de programação web, lógica de
 
 ## 🚀 Versão atual
 
-### ✅ Versão 6.6 — Correção do botão atacar e bugfixes
+### ✅ Versão 6.7 — Correção do botão atacar e bugfixes
 
-A versão **6.6** corrigiu o problema do botão **ATACAR**, que podia parar de funcionar depois da grande atualização visual da versão 6.5.
+A versão **6.7** corrigiu o problema do botão **ATACAR**, que podia parar de funcionar depois da grande atualização visual da versão 6.5.
 
 Também foram ajustadas camadas visuais, overlays, efeitos e cliques no mobile.
 
 ### 🎁 Código da versão
 
 ```txt
-Update6.6
+Update6.7
