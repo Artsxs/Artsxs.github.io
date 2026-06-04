@@ -1,5 +1,54 @@
-const SAVE_KEY = "animeClickerSimulatorSaveV50";
+const SAVE_KEY = "animeClickerSimulatorSaveV51";
 const ADM_CODE = "ARTSXS-ADM-2026";
+
+const imagensPersonagens = {
+  Naruto: "./img/personagens/naruto.png",
+  Sasuke: "./img/personagens/sasuke.png",
+  Zetsu: "./img/personagens/zetsu.png",
+  Minato: "./img/personagens/minato.png",
+  Obito: "./img/personagens/obito.png",
+  Madara: "./img/personagens/madara.png",
+  Kaguya: "./img/personagens/kaguya.png",
+
+  Zoro: "./img/personagens/zoro.png",
+  Sanji: "./img/personagens/sanji.png",
+  Law: "./img/personagens/law.png",
+  Luffy: "./img/personagens/luffy.png",
+  Kaido: "./img/personagens/kaido.png",
+  Imu: "./img/personagens/imu.png",
+  JoyBoy: "./img/personagens/joyboy.png",
+
+  Itadori: "./img/personagens/itadori.png",
+  Nanami: "./img/personagens/nanami.png",
+  Jogo: "./img/personagens/jogo.png",
+  Mahito: "./img/personagens/mahito.png",
+  Gojo: "./img/personagens/gojo.png",
+  Sukuna: "./img/personagens/sukuna.png",
+  Yuta: "./img/personagens/yuta.png",
+
+  Murata: "./img/personagens/murata.png",
+  Inosuke: "./img/personagens/inosuke.png",
+  Zenitsu: "./img/personagens/zenitsu.png",
+  Nezuko: "./img/personagens/nezuko.png",
+  Rengoku: "./img/personagens/rengoku.png",
+  Tanjiro: "./img/personagens/tanjiro.png",
+  Muzan: "./img/personagens/muzan.png"
+};
+
+function criarAvatarPersonagem(nome) {
+  const imagem = imagensPersonagens[nome];
+
+  return `
+    <div class="avatar-personagem">
+      <img 
+        src="${imagem || ""}" 
+        alt="${nome}" 
+        onerror="this.style.display='none'; this.parentElement.querySelector('.avatar-fallback').style.display='grid';"
+      />
+      <span class="avatar-fallback">${nome.charAt(0)}</span>
+    </div>
+  `;
+}
 
 const updateLogs = [
   {
@@ -50,6 +99,13 @@ const updateLogs = [
     titulo: "Rank, Rebirth, Eventos e Coleção",
     descricao: "Adicionados rank, rebirth, eventos ADM, coleção, conquistas, tickets, pity, loja especial e progressão avançada.",
     recompensaTexto: "25.000 pontos"
+  },
+  {
+    versao: "5.1",
+    codigo: "Update51",
+    titulo: "Interface limpa e imagens",
+    descricao: "Interface visual reorganizada, cards mais limpos e imagens adicionadas aos personagens.",
+    recompensaTexto: "35.000 pontos + 2 Tickets 10x"
   }
 ];
 
@@ -86,6 +142,15 @@ const codigosPromocionais = {
       t100: 0
     },
     mensagem: "Código Update50 resgatado! Você ganhou 25.000 pontos, 5 Tickets 1x e 1 Ticket 10x."
+  },
+  Update51: {
+    pontos: 35000,
+    tickets: {
+      t1: 0,
+      t10: 2,
+      t100: 0
+    },
+    mensagem: "Código Update51 resgatado! Você ganhou 35.000 pontos e 2 Tickets 10x."
   }
 };
 
@@ -1263,13 +1328,17 @@ function montarListaPersonagens() {
   mundo.personagens.forEach(function (personagem) {
     const card = document.createElement("div");
 
-    card.classList.add("personagem-card", personagem.raridade);
+    card.classList.add("personagem-card", personagem.raridade, "personagem-card-clean");
 
     card.innerHTML = `
-      <strong>${personagem.nome}</strong>
-      <span>Chance: ${personagem.chanceTexto}</span>
-      <span>Multiplicador base: ${formatarNumero(personagem.multiplicador)}x</span>
-      <span>Mundo: ${mundo.nome}</span>
+      ${criarAvatarPersonagem(personagem.nome)}
+
+      <div class="personagem-info">
+        <strong>${personagem.nome}</strong>
+        <span>Chance: ${personagem.chanceTexto}</span>
+        <span>Base: ${formatarNumero(personagem.multiplicador)}x</span>
+        <span class="tag-raridade">${personagem.raridade}</span>
+      </div>
     `;
 
     elementos.listaPersonagens.appendChild(card);
@@ -1288,6 +1357,7 @@ function atualizarMochila() {
   jogo.mochila.forEach(function (personagem) {
     const estaEquipado = jogo.equipados.includes(personagem.chave);
     const ehFavorito = jogo.personagemFavorito === personagem.chave;
+
     const mundo = mundos.find(function (item) {
       return item.id === personagem.mundoId;
     });
@@ -1296,7 +1366,7 @@ function atualizarMochila() {
     const podeFundir = personagem.quantidade >= 10;
 
     const card = document.createElement("div");
-    card.classList.add("personagem-card", personagem.raridade);
+    card.classList.add("personagem-card", personagem.raridade, "personagem-card-clean");
 
     if (estaEquipado) {
       card.classList.add("equipado");
@@ -1307,27 +1377,29 @@ function atualizarMochila() {
     }
 
     card.innerHTML = `
-      <strong>${ehFavorito ? "⭐ " : ""}${personagem.nome}</strong>
-      <span>Status: ${estaEquipado ? "Equipado" : "Na mochila"}</span>
-      <span>Mundo: ${mundo ? mundo.nome : "Desconhecido"}</span>
-      <span>Chance: ${personagem.chanceTexto}</span>
-      <span>Multiplicador base: ${formatarNumero(personagem.multiplicadorBase)}x</span>
-      <span>Multiplicador atual: ${formatarNumero(multiplicadorAtual)}x</span>
-      <span class="nivel-personagem">Nível: ${personagem.nivel}</span>
-      <span class="estagio-personagem">Estágio: ${obterEstagioPersonagem(personagem.nivel)}</span>
-      <span class="quantidade">Quantidade: x${personagem.quantidade}</span>
+      ${criarAvatarPersonagem(personagem.nome)}
 
-      <button class="${estaEquipado ? "botao-desequipar" : "botao-equipar"}" data-chave="${personagem.chave}" data-acao="equipar">
-        ${estaEquipado ? "Desequipar" : "Equipar"}
-      </button>
+      <div class="personagem-info">
+        <strong>${ehFavorito ? "⭐ " : ""}${personagem.nome}</strong>
+        <span>Mundo: ${mundo ? mundo.nome : "Desconhecido"}</span>
+        <span>Atual: ${formatarNumero(multiplicadorAtual)}x</span>
+        <span>Nível ${personagem.nivel} • ${obterEstagioPersonagem(personagem.nivel)}</span>
+        <span>Qtd: x${personagem.quantidade}</span>
 
-      <button class="botao-favorito" data-chave="${personagem.chave}" data-acao="favoritar">
-        Favoritar
-      </button>
+        <div class="acoes-card">
+          <button class="${estaEquipado ? "botao-desequipar" : "botao-equipar"}" data-chave="${personagem.chave}" data-acao="equipar">
+            ${estaEquipado ? "Desequipar" : "Equipar"}
+          </button>
 
-      <button class="botao-fundir" data-chave="${personagem.chave}" data-acao="fundir" ${podeFundir ? "" : "disabled"}>
-        Fundir 10 cópias / Evoluir
-      </button>
+          <button class="botao-favorito" data-chave="${personagem.chave}" data-acao="favoritar">
+            Favoritar
+          </button>
+
+          <button class="botao-fundir" data-chave="${personagem.chave}" data-acao="fundir" ${podeFundir ? "" : "disabled"}>
+            Evoluir
+          </button>
+        </div>
+      </div>
     `;
 
     elementos.mochilaPersonagens.appendChild(card);
@@ -1368,15 +1440,19 @@ function montarColecao() {
       const obtido = jogo.colecaoObtidos[chave];
 
       const card = document.createElement("div");
-      card.classList.add("colecao-card");
+      card.classList.add("colecao-card", "personagem-card-clean");
       card.classList.add(obtido ? "colecao-obtido" : "colecao-nao-obtido");
 
       card.innerHTML = `
-        <h3>${obtido ? personagem.nome : "???"}</h3>
-        <p>Mundo: <span>${mundo.nome}</span></p>
-        <p>Chance: <span>${personagem.chanceTexto}</span></p>
-        <p>Raridade: <span>${personagem.raridade}</span></p>
-        <p>Status: <span>${obtido ? "Obtido" : "Não obtido"}</span></p>
+        ${criarAvatarPersonagem(obtido ? personagem.nome : "?")}
+
+        <div class="personagem-info">
+          <strong>${obtido ? personagem.nome : "???"}</strong>
+          <span>Mundo: ${mundo.nome}</span>
+          <span>Chance: ${personagem.chanceTexto}</span>
+          <span>Raridade: ${personagem.raridade}</span>
+          <span>Status: ${obtido ? "Obtido" : "Não obtido"}</span>
+        </div>
       `;
 
       elementos.listaColecao.appendChild(card);
@@ -1394,14 +1470,18 @@ function montarHistorico() {
 
   jogo.historicoDrops.forEach(function (drop) {
     const card = document.createElement("div");
-    card.classList.add("historico-card");
+    card.classList.add("historico-card", "personagem-card-clean");
 
     card.innerHTML = `
-      <h3>${drop.nome}</h3>
-      <p>Mundo: <span>${drop.mundo}</span></p>
-      <p>Chance: <span>${drop.chanceTexto}</span></p>
-      <p>Multiplicador: <span>${formatarNumero(drop.multiplicador)}x</span></p>
-      <p>Raridade: <span>${drop.raridade}</span></p>
+      ${criarAvatarPersonagem(drop.nome)}
+
+      <div class="personagem-info">
+        <strong>${drop.nome}</strong>
+        <span>Mundo: ${drop.mundo}</span>
+        <span>Chance: ${drop.chanceTexto}</span>
+        <span>Multiplicador: ${formatarNumero(drop.multiplicador)}x</span>
+        <span>Raridade: ${drop.raridade}</span>
+      </div>
     `;
 
     elementos.listaHistorico.appendChild(card);
@@ -1944,6 +2024,14 @@ function carregarJogo() {
 
     if (!jogo.mundoAtual) {
       jogo.mundoAtual = "vila_ninja";
+    }
+
+    if (!jogo.historicoDrops) {
+      jogo.historicoDrops = [];
+    }
+
+    if (!jogo.personagemFavorito) {
+      jogo.personagemFavorito = null;
     }
 
     jogo.mochila = jogo.mochila.map(function (personagem) {
