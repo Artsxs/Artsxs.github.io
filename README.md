@@ -9,7 +9,7 @@ O projeto foi criado com foco em aprendizado, evolução prática de lógica de 
 ## 🚀 Status do Projeto
 
 ✅ Projeto em desenvolvimento  
-✅ Versão atual: **5.15**  
+✅ Versão atual: **6.0**  
 ✅ Hospedado com GitHub Pages  
 ✅ Desenvolvido com HTML, CSS e JavaScript puro
 
