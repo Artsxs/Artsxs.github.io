@@ -18,21 +18,21 @@ const imagensPersonagens = {
   Imu: "./img/imu.png",
   JoyBoy: "./img/joyboy.png",
 
-  Itadori: "./img/personagens/itadori.png",
-  Nanami: "./img/personagens/nanami.png",
-  Jogo: "./img/personagens/jogo.png",
-  Mahito: "./img/personagens/mahito.png",
-  Gojo: "./img/personagens/gojo.png",
-  Sukuna: "./img/personagens/sukuna.png",
-  Yuta: "./img/personagens/yuta.png",
+  Itadori: "./img/itadori.png",
+  Nanami: "./img/nanami.png",
+  Jogo: "./img/jogo.png",
+  Mahito: "./img/mahito.png",
+  Gojo: "./img/gojo.png",
+  Sukuna: "./img/sukuna.png",
+  Yuta: "./img/yuta.png",
 
-  Murata: "./img/personagens/murata.png",
-  Inosuke: "./img/personagens/inosuke.png",
-  Zenitsu: "./img/personagens/zenitsu.png",
-  Nezuko: "./img/personagens/nezuko.png",
-  Rengoku: "./img/personagens/rengoku.png",
-  Tanjiro: "./img/personagens/tanjiro.png",
-  Muzan: "./img/personagens/muzan.png"
+  Murata: "./img/murata.png",
+  Inosuke: "./img/inosuke.png",
+  Zenitsu: "./img/zenitsu.png",
+  Nezuko: "./img/nezuko.png",
+  Rengoku: "./img/rengoku.png",
+  Tanjiro: "./img/tanjiro.png",
+  Muzan: "./img/muzan.png"
 };
 
 function criarAvatarPersonagem(nome) {
