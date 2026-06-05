@@ -1,0 +1,2744 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(125, 249, 255, 0.12), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(255, 221, 87, 0.10), transparent 28%),
+    linear-gradient(135deg, #070716, #11142b, #201342);
+  color: white;
+}
+
+.app {
+  min-height: 100vh;
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(300px, 430px) minmax(360px, 680px);
+  gap: 18px;
+  padding: 18px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.game-area,
+.menu-area {
+  background: rgba(0, 0, 0, 0.72);
+  border-radius: 20px;
+  padding: 18px;
+  backdrop-filter: blur(6px);
+}
+
+.game-area {
+  text-align: center;
+  border: 2px solid #ffdd57;
+  box-shadow: 0 0 30px rgba(255, 221, 87, 0.35);
+}
+
+.menu-area {
+  border: 2px solid #7df9ff;
+  box-shadow: 0 0 30px rgba(125, 249, 255, 0.25);
+}
+
+.topo h1 {
+  color: #ffdd57;
+  font-size: 28px;
+  margin-bottom: 8px;
+  text-shadow: 0 0 12px #ff2e63;
+}
+
+.topo p {
+  color: #e6e6e6;
+  margin-bottom: 18px;
+  font-size: 14px;
+}
+
+.status-principal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.status-card {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.status-card span {
+  display: block;
+  font-size: 12px;
+  color: #ddd;
+  margin-bottom: 6px;
+}
+
+.status-card strong {
+  color: #ffdd57;
+  font-size: 17px;
+}
+
+.boss-resumo {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 14px;
+}
+
+.boss-resumo h2 {
+  color: #7df9ff;
+  margin-bottom: 5px;
+  font-size: 19px;
+}
+
+.boss-vida-info {
+  margin-top: 10px;
+}
+
+.botao-principal {
+  width: 155px;
+  height: 155px;
+  border-radius: 50%;
+  border: none;
+  background: radial-gradient(circle, #ffdd57, #ff2e63);
+  color: white;
+  font-size: 23px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 8px 0 14px;
+  box-shadow: 0 0 35px rgba(255, 46, 99, 0.75);
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+
+.botao-principal:hover {
+  box-shadow: 0 0 45px rgba(255, 221, 87, 0.8);
+}
+
+.botao-principal:active {
+  transform: scale(0.94);
+}
+
+.mensagem {
+  min-height: 36px;
+  color: #ffdd57;
+  font-weight: bold;
+  line-height: 1.4;
+  font-size: 14px;
+}
+
+.menu-grupos {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.menu-grupo {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(125, 249, 255, 0.18);
+  border-radius: 16px;
+  padding: 10px;
+}
+
+.menu-grupo h3 {
+  color: #7df9ff;
+  font-size: 13px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tab-button {
+  flex: 1 1 auto;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.tab-button.active {
+  background: #ffdd57;
+  color: #111;
+}
+
+.tab-button.adm-tab {
+  background: rgba(255, 46, 99, 0.35);
+}
+
+.tab-button.adm-tab.active {
+  background: #ff2e63;
+  color: white;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-content h2 {
+  color: #7df9ff;
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 22px;
+  text-shadow: 0 0 10px #7df9ff;
+}
+
+.painel,
+.resultado-rng,
+.boss-card,
+.missao-card,
+.adm-box,
+.mundo-card,
+.update-card,
+.codigo-card,
+.codigo-box,
+.conquista-card,
+.historico-card,
+.colecao-card {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 12px;
+  border-radius: 14px;
+  margin-bottom: 10px;
+}
+
+.painel p {
+  margin: 6px 0;
+  font-size: 14px;
+}
+
+.painel span,
+.resultado-rng span,
+.boss-card span,
+.missao-card span,
+.mundo-card span,
+.update-card span,
+.codigo-card span,
+.conquista-card span,
+.historico-card span,
+.colecao-card span {
+  color: #ffdd57;
+  font-weight: bold;
+}
+
+.texto-info {
+  text-align: center;
+  color: #e6e6e6;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.botao-upgrade,
+.botao-rng,
+.botao-reset,
+.botao-adm,
+.botao-equipar,
+.botao-desequipar,
+.botao-missao,
+.botao-mundo,
+.botao-fundir,
+.botao-favorito,
+.botao-ticket {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.botao-upgrade {
+  background: #ffdd57;
+  color: #111;
+}
+
+.botao-upgrade:hover {
+  background: #fff176;
+}
+
+.botao-upgrade.sorte,
+.botao-upgrade.especial {
+  background: #b366ff;
+  color: white;
+}
+
+.botao-rng {
+  background: linear-gradient(135deg, #7df9ff, #ffdd57);
+  color: #111;
+}
+
+.botao-rng.secundario {
+  background: linear-gradient(135deg, #b366ff, #ffdd57);
+}
+
+.botao-rng.especial {
+  background: linear-gradient(135deg, #00ff99, #ffdd57);
+  color: #111;
+}
+
+.botao-rng.extremo {
+  background: linear-gradient(135deg, #ff2e63, #ffdd57);
+  color: #111;
+}
+
+.botao-ticket {
+  background: linear-gradient(135deg, #00ff99, #7df9ff);
+  color: #111;
+}
+
+.botao-reset {
+  background: #ff2e63;
+  color: white;
+}
+
+.botao-adm,
+.botao-mundo {
+  background: #7df9ff;
+  color: #111;
+}
+
+.botao-mundo.atual {
+  background: #ffdd57;
+  color: #111;
+}
+
+.botao-mundo.bloqueado {
+  background: #ff2e63;
+  color: white;
+}
+
+.resultado-rng h3,
+.boss-card h3,
+.missao-card h3,
+.mundo-card h3,
+.update-card h3,
+.codigo-card h3,
+.conquista-card h3,
+.historico-card h3,
+.colecao-card h3 {
+  color: #ffdd57;
+  margin: 8px 0;
+  text-align: center;
+}
+
+.update-card,
+.codigo-card,
+.conquista-card,
+.historico-card,
+.colecao-card {
+  border-left: 5px solid #ffdd57;
+}
+
+.codigo-resgatado,
+.conquista-resgatada {
+  opacity: 0.6;
+  border-left-color: #7df9ff;
+}
+
+.codigo-nao-resgatado,
+.conquista-disponivel {
+  border-left-color: #ffdd57;
+}
+
+.colecao-obtido {
+  border-left-color: #00ff99;
+}
+
+.colecao-nao-obtido {
+  opacity: 0.65;
+  border-left-color: #ff2e63;
+}
+
+.titulo-lista {
+  color: #ffdd57;
+  text-align: center;
+  margin: 16px 0 10px;
+}
+
+.lista-personagens,
+.lista-missoes,
+.lista-update-log {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mochila-lista {
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.mochila-lista::-webkit-scrollbar {
+  width: 6px;
+}
+
+.mochila-lista::-webkit-scrollbar-thumb {
+  background: #ff2e63;
+  border-radius: 10px;
+}
+
+.personagem-card {
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  border-left: 5px solid #ffdd57;
+}
+
+.personagem-card strong {
+  display: block;
+  margin-bottom: 5px;
+  color: white;
+}
+
+.personagem-card span {
+  display: block;
+  margin-top: 3px;
+  color: #7df9ff;
+  font-size: 12px;
+}
+
+.personagem-card.equipado {
+  background: rgba(255, 221, 87, 0.2);
+  border: 2px solid #ffdd57;
+}
+
+.personagem-card.favorito {
+  box-shadow: 0 0 18px rgba(255, 221, 87, 0.8);
+}
+
+.personagem-card-clean {
+  display: grid;
+  grid-template-columns: 74px 1fr;
+  gap: 12px;
+  align-items: center;
+  min-height: 92px;
+}
+
+.avatar-personagem {
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.10);
+  border: 2px solid rgba(255, 221, 87, 0.45);
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.avatar-personagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-fallback {
+  display: none;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #ffdd57;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.personagem-info {
+  min-width: 0;
+}
+
+.personagem-info strong {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.personagem-info span {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.tag-raridade {
+  display: inline-block !important;
+  margin-top: 6px !important;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(255, 221, 87, 0.18);
+  color: #ffdd57 !important;
+  text-transform: capitalize;
+}
+
+.acoes-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.acoes-card button {
+  margin-top: 0;
+  padding: 8px;
+  font-size: 12px;
+}
+
+.quantidade {
+  display: inline-block !important;
+  margin-top: 8px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #ffdd57;
+  color: #111 !important;
+  font-weight: bold;
+}
+
+.nivel-personagem,
+.estagio-personagem {
+  display: inline-block !important;
+  margin-top: 8px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: #7df9ff;
+  color: #111 !important;
+  font-weight: bold;
+}
+
+.estagio-personagem {
+  background: #00ff99;
+}
+
+.botao-equipar {
+  background: #7df9ff;
+  color: #111;
+}
+
+.botao-desequipar {
+  background: #ff2e63;
+  color: white;
+}
+
+.botao-fundir,
+.botao-favorito {
+  background: #b366ff;
+  color: white;
+}
+
+.botao-fundir:disabled,
+.botao-missao:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.botao-missao {
+  background: #ffdd57;
+  color: #111;
+}
+
+.missao-concluida {
+  border: 2px solid #7df9ff;
+}
+
+.missao-resgatada {
+  opacity: 0.65;
+}
+
+.mochila-vazia {
+  color: #ccc;
+  text-align: center;
+  padding: 10px;
+}
+
+.barra-vida {
+  width: 100%;
+  height: 16px;
+  background: #222;
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 12px 0;
+  border: 1px solid #ffdd57;
+}
+
+.barra-vida-preenchida {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #ff2e63, #ffdd57);
+  transition: width 0.2s;
+}
+
+.input-adm {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 12px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+}
+
+.adm-box label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #ffdd57;
+}
+
+.escondido {
+  display: none;
+}
+
+.comum {
+  border-left-color: #bbbbbb;
+}
+
+.raro {
+  border-left-color: #4da6ff;
+}
+
+.epico {
+  border-left-color: #b366ff;
+}
+
+.lendario {
+  border-left-color: #ffdd57;
+}
+
+.mitico {
+  border-left-color: #ff2e63;
+}
+
+.divino {
+  border-left-color: #7df9ff;
+}
+
+.secreto {
+  border-left-color: #ffffff;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.7);
+}
+
+.celestial {
+  border-left-color: #00ff99;
+  box-shadow: 0 0 18px rgba(0, 255, 153, 0.7);
+}
+
+.universal {
+  border-left-color: #ff8c00;
+  box-shadow: 0 0 18px rgba(255, 140, 0, 0.8);
+}
+
+@media (max-width: 1000px) {
+  .app {
+    grid-template-columns: 1fr;
+  }
+
+  .game-area,
+  .menu-area {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 700px) {
+  .app {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+
+  .personagem-card-clean {
+    grid-template-columns: 58px 1fr;
+  }
+
+  .avatar-personagem {
+    width: 58px;
+    height: 58px;
+    border-radius: 12px;
+  }
+
+  .acoes-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .status-principal {
+    grid-template-columns: 1fr;
+  }
+
+  .botao-principal {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.3 - MOCHILA MELHORADA */
+/* ============================= */
+
+.mochila-acoes-topo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.mochila-acoes-topo button {
+  margin-top: 0;
+}
+
+.card-checkbox-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox-excluir {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  accent-color: #ff2e63;
+}
+
+.personagem-card.selecionado-exclusao {
+  outline: 2px solid #ff2e63;
+  background: rgba(255, 46, 99, 0.18);
+}
+
+.personagem-card-clean.com-checkbox {
+  grid-template-columns: 32px 74px 1fr;
+}
+
+.botao-favorito.favoritado {
+  background: #ffdd57;
+  color: #111;
+}
+
+@media (max-width: 700px) {
+  .mochila-acoes-topo {
+    grid-template-columns: 1fr;
+  }
+
+  .personagem-card-clean.com-checkbox {
+    grid-template-columns: 28px 58px 1fr;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.4 - MOBILE MELHORADO */
+/* ============================= */
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+button,
+input,
+select {
+  max-width: 100%;
+}
+
+.game-area,
+.menu-area {
+  width: 100%;
+}
+
+.mochila-acoes-topo {
+  grid-template-columns: 1fr 1fr;
+}
+
+@media (max-width: 850px) {
+  .app {
+    grid-template-columns: 1fr;
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    gap: 12px;
+  }
+
+  .game-area,
+  .menu-area {
+    width: 100%;
+    max-width: 100%;
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .topo h1 {
+    font-size: 24px;
+    line-height: 1.15;
+  }
+
+  .topo p {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+
+  .status-principal {
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+  }
+
+  .status-card {
+    padding: 8px;
+  }
+
+  .status-card span {
+    font-size: 11px;
+  }
+
+  .status-card strong {
+    font-size: 15px;
+    word-break: break-word;
+  }
+
+  .boss-resumo {
+    padding: 10px;
+  }
+
+  .botao-principal {
+    width: 135px;
+    height: 135px;
+    font-size: 20px;
+  }
+
+  .menu-grupos {
+    gap: 8px;
+  }
+
+  .menu-grupo {
+    padding: 8px;
+    border-radius: 14px;
+  }
+
+  .menu-grupo h3 {
+    font-size: 12px;
+    margin-bottom: 7px;
+  }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .tab-button {
+    width: 100%;
+    padding: 9px 6px;
+    font-size: 12px;
+    white-space: normal;
+    line-height: 1.15;
+  }
+
+  .tab-content h2 {
+    font-size: 19px;
+  }
+
+  .painel,
+  .resultado-rng,
+  .boss-card,
+  .missao-card,
+  .adm-box,
+  .mundo-card,
+  .update-card,
+  .codigo-card,
+  .codigo-box,
+  .conquista-card,
+  .historico-card,
+  .colecao-card,
+  .personagem-card {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .painel p {
+    font-size: 13px;
+  }
+
+  .botao-upgrade,
+  .botao-rng,
+  .botao-reset,
+  .botao-adm,
+  .botao-equipar,
+  .botao-desequipar,
+  .botao-missao,
+  .botao-mundo,
+  .botao-fundir,
+  .botao-favorito,
+  .botao-ticket {
+    padding: 11px 8px;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .mochila-acoes-topo {
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+  }
+
+  .personagem-card-clean {
+    grid-template-columns: 56px 1fr;
+    gap: 9px;
+    min-height: auto;
+  }
+
+  .personagem-card-clean.com-checkbox {
+    grid-template-columns: 26px 56px 1fr;
+  }
+
+  .avatar-personagem {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+  }
+
+  .avatar-fallback {
+    font-size: 22px;
+  }
+
+  .personagem-info strong {
+    font-size: 14px;
+  }
+
+  .personagem-info span {
+    font-size: 11px;
+  }
+
+  .acoes-card {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  .acoes-card button {
+    padding: 8px;
+    font-size: 11px;
+  }
+
+  .mochila-lista {
+    max-height: 560px;
+  }
+}
+
+@media (max-width: 430px) {
+  .app {
+    padding: 8px;
+  }
+
+  .game-area,
+  .menu-area {
+    padding: 12px;
+  }
+
+  .status-principal {
+    grid-template-columns: 1fr;
+  }
+
+  .tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .mochila-acoes-topo {
+    grid-template-columns: 1fr;
+  }
+
+  .personagem-card-clean {
+    grid-template-columns: 50px 1fr;
+  }
+
+  .personagem-card-clean.com-checkbox {
+    grid-template-columns: 24px 50px 1fr;
+  }
+
+  .avatar-personagem {
+    width: 50px;
+    height: 50px;
+  }
+
+  .botao-principal {
+    width: 125px;
+    height: 125px;
+    font-size: 18px;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.5 - CORREÇÃO MOCHILA */
+/* ============================= */
+
+.personagem-card-clean {
+  align-items: center;
+}
+
+.personagem-card-clean .avatar-personagem {
+  align-self: center;
+}
+
+.personagem-card-clean .personagem-info {
+  align-self: center;
+}
+
+.personagem-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.personagem-info strong,
+.personagem-info span {
+  line-height: 1.25;
+}
+
+.acoes-card {
+  align-items: center;
+}
+
+/* Scroll interno nas abas grandes */
+#tab-colecao,
+#tab-historico,
+#tab-conquistas,
+#tab-missoes,
+#tab-update-log,
+#tab-codigos {
+  max-height: 68vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+#tab-colecao::-webkit-scrollbar,
+#tab-historico::-webkit-scrollbar,
+#tab-conquistas::-webkit-scrollbar,
+#tab-missoes::-webkit-scrollbar,
+#tab-update-log::-webkit-scrollbar,
+#tab-codigos::-webkit-scrollbar {
+  width: 7px;
+}
+
+#tab-colecao::-webkit-scrollbar-thumb,
+#tab-historico::-webkit-scrollbar-thumb,
+#tab-conquistas::-webkit-scrollbar-thumb,
+#tab-missoes::-webkit-scrollbar-thumb,
+#tab-update-log::-webkit-scrollbar-thumb,
+#tab-codigos::-webkit-scrollbar-thumb {
+  background: #7df9ff;
+  border-radius: 999px;
+}
+
+#tab-colecao::-webkit-scrollbar-track,
+#tab-historico::-webkit-scrollbar-track,
+#tab-conquistas::-webkit-scrollbar-track,
+#tab-missoes::-webkit-scrollbar-track,
+#tab-update-log::-webkit-scrollbar-track,
+#tab-codigos::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+/* Ajuste especial para mochila no mobile */
+@media (max-width: 850px) {
+  .personagem-card-clean {
+    align-items: center;
+  }
+
+  .personagem-card-clean.com-checkbox {
+    align-items: center;
+  }
+
+  .personagem-card-clean .avatar-personagem {
+    align-self: center;
+    margin-top: 0;
+  }
+
+  .personagem-card-clean .personagem-info {
+    align-self: center;
+    justify-content: center;
+  }
+
+  .personagem-info strong {
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  .personagem-info span {
+    font-size: 11px;
+    margin-top: 1px;
+  }
+
+  .acoes-card {
+    margin-top: 6px;
+  }
+
+  #tab-colecao,
+  #tab-historico,
+  #tab-conquistas,
+  #tab-missoes,
+  #tab-update-log,
+  #tab-codigos {
+    max-height: 62vh;
+  }
+}
+
+/* No celular pequeno, mantém a página parada e só a aba rola */
+@media (max-width: 430px) {
+  #tab-colecao,
+  #tab-historico,
+  #tab-conquistas,
+  #tab-missoes,
+  #tab-update-log,
+  #tab-codigos {
+    max-height: 58vh;
+    padding-right: 4px;
+  }
+
+  .personagem-card-clean {
+    gap: 8px;
+  }
+
+  .personagem-card-clean.com-checkbox {
+    gap: 6px;
+  }
+
+  .avatar-personagem {
+    flex-shrink: 0;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.6 - MOCHILA E COLEÇÃO */
+/* ============================= */
+
+/* Corrige botões da mochila ficando baixos/fora do card */
+.personagem-card-clean {
+  align-items: start !important;
+  grid-auto-rows: auto;
+  overflow: visible;
+}
+
+.personagem-card-clean .avatar-personagem {
+  align-self: start !important;
+  margin-top: 4px;
+}
+
+.personagem-card-clean .personagem-info {
+  align-self: start !important;
+  justify-content: flex-start !important;
+  min-width: 0;
+  width: 100%;
+}
+
+.personagem-info {
+  display: block !important;
+}
+
+.acoes-card {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 8px;
+  width: 100%;
+  position: static;
+}
+
+.acoes-card button {
+  width: 100%;
+  min-height: 30px;
+  margin: 0;
+  padding: 7px 6px;
+  line-height: 1.1;
+  position: static;
+}
+
+.personagem-card {
+  overflow: visible;
+  height: auto;
+  min-height: unset;
+}
+
+/* Barra da coleção */
+.colecao-progresso-card {
+  border: 1px solid rgba(255, 221, 87, 0.35);
+}
+
+.barra-colecao {
+  width: 100%;
+  height: 18px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid #ffdd57;
+  margin: 10px 0;
+}
+
+.barra-colecao-preenchida {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #7df9ff, #ffdd57, #00ff99);
+  transition: width 0.25s;
+}
+
+@media (max-width: 850px) {
+  .personagem-card-clean {
+    grid-template-columns: 58px 1fr !important;
+    align-items: start !important;
+    gap: 9px;
+  }
+
+  .personagem-card-clean.com-checkbox {
+    grid-template-columns: 26px 58px 1fr !important;
+  }
+
+  .personagem-card-clean .avatar-personagem {
+    width: 58px;
+    height: 58px;
+    align-self: start !important;
+    margin-top: 3px;
+  }
+
+  .personagem-info strong {
+    font-size: 14px;
+    margin-bottom: 3px;
+  }
+
+  .personagem-info span {
+    font-size: 11px;
+    margin-top: 1px;
+    line-height: 1.2;
+  }
+
+  .acoes-card {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 5px;
+    margin-top: 7px;
+  }
+
+  .acoes-card button {
+    font-size: 11px;
+    padding: 7px 4px;
+    min-height: 29px;
+  }
+}
+
+@media (max-width: 430px) {
+  .personagem-card-clean {
+    grid-template-columns: 52px 1fr !important;
+    gap: 8px;
+  }
+
+  .personagem-card-clean.com-checkbox {
+    grid-template-columns: 24px 52px 1fr !important;
+    gap: 6px;
+  }
+
+  .personagem-card-clean .avatar-personagem {
+    width: 52px;
+    height: 52px;
+  }
+
+  .acoes-card {
+    grid-template-columns: 1fr !important;
+  }
+
+  .acoes-card button {
+    min-height: 31px;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.7 - QOL E RNG */
+/* ============================= */
+
+.botao-rng:disabled,
+.botao-upgrade:disabled,
+.botao-ticket:disabled,
+.botao-adm:disabled,
+.botao-reset:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.35);
+}
+
+.resultado-rng {
+  border: 1px solid rgba(255, 221, 87, 0.25);
+}
+
+@media (max-width: 850px) {
+  #tab-rng .botao-rng {
+    margin-top: 8px;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.8 - QOL GERAL */
+/* ============================= */
+
+.auto-rng-box,
+.mochila-filtros {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.animacao-rng {
+  text-align: center;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 14px;
+  background: rgba(255, 221, 87, 0.15);
+  border: 1px solid rgba(255, 221, 87, 0.45);
+  color: #ffdd57;
+  font-weight: bold;
+  animation: pulseRng 0.6s infinite alternate;
+}
+
+@keyframes pulseRng {
+  from {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+
+  to {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+}
+
+.drop-especial {
+  box-shadow: 0 0 22px rgba(255, 221, 87, 0.65);
+  border-color: #ffdd57 !important;
+}
+
+.personagem-card.mitico,
+.personagem-card.divino,
+.personagem-card.secreto,
+.personagem-card.celestial,
+.personagem-card.universal {
+  position: relative;
+}
+
+.personagem-card.mitico::after,
+.personagem-card.divino::after,
+.personagem-card.secreto::after,
+.personagem-card.celestial::after,
+.personagem-card.universal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 14px;
+  box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.15);
+}
+
+@media (max-width: 850px) {
+  .auto-rng-box,
+  .mochila-filtros {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.9 - NÚMEROS COMPACTOS */
+/* ============================= */
+
+.status-card strong,
+.painel span,
+.resultado-rng span,
+.boss-card span,
+.missao-card span,
+.mundo-card span,
+.update-card span,
+.codigo-card span,
+.conquista-card span,
+.historico-card span,
+.colecao-card span {
+  word-break: keep-all;
+}
+
+@media (max-width: 850px) {
+  .status-card strong {
+    font-size: 14px;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.10 - CONFIGURAÇÕES */
+/* ============================= */
+
+.config-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.config-grid button {
+  margin-top: 0;
+}
+
+.campo-save {
+  width: 100%;
+  min-height: 170px;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid rgba(125, 249, 255, 0.35);
+  border-radius: 14px;
+  outline: none;
+  resize: vertical;
+  background: rgba(0, 0, 0, 0.45);
+  color: white;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.campo-save:focus {
+  border-color: #ffdd57;
+  box-shadow: 0 0 14px rgba(255, 221, 87, 0.25);
+}
+
+@media (max-width: 700px) {
+  .config-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .campo-save {
+    min-height: 210px;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.11 - POP-UP E EFEITOS */
+/* ============================= */
+
+.game-area {
+  position: relative;
+}
+
+.efeitos-clique {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.numero-flutuante {
+  position: absolute;
+  left: 50%;
+  top: 58%;
+  transform: translate(-50%, -50%);
+  color: #ffdd57;
+  font-weight: bold;
+  font-size: 20px;
+  text-shadow: 0 0 10px #ff2e63;
+  animation: subirNumero 0.85s ease-out forwards;
+  white-space: nowrap;
+}
+
+@keyframes subirNumero {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate(-50%, -145%) scale(1.25);
+  }
+}
+
+.popup-drop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.74);
+  backdrop-filter: blur(6px);
+}
+
+.popup-drop.escondido {
+  display: none;
+}
+
+.popup-drop-card {
+  width: min(420px, 94vw);
+  position: relative;
+  text-align: center;
+  border-radius: 24px;
+  padding: 22px;
+  background:
+    radial-gradient(circle at top, rgba(255, 221, 87, 0.28), transparent 35%),
+    linear-gradient(135deg, #11142b, #201342, #070716);
+  border: 2px solid #ffdd57;
+  box-shadow: 0 0 40px rgba(255, 221, 87, 0.55);
+  animation: popupEntrada 0.25s ease-out;
+}
+
+@keyframes popupEntrada {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.fechar-popup {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  background: #ff2e63;
+  color: white;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.popup-raridade {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+  background: rgba(255, 221, 87, 0.20);
+  color: #ffdd57;
+  font-weight: bold;
+  letter-spacing: 0.8px;
+}
+
+.popup-avatar {
+  width: 118px;
+  height: 118px;
+  margin: 0 auto 12px;
+  border-radius: 24px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border: 2px solid rgba(255, 221, 87, 0.75);
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.popup-avatar .avatar-personagem {
+  width: 118px;
+  height: 118px;
+  border-radius: 22px;
+  border: none;
+}
+
+.popup-drop-card h2 {
+  color: #ffdd57;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.popup-drop-card p {
+  margin: 6px 0;
+  color: white;
+}
+
+.popup-drop-card span {
+  color: #7df9ff;
+  font-weight: bold;
+}
+
+.popup-drop-card.lendario {
+  border-color: #ffdd57;
+  box-shadow: 0 0 45px rgba(255, 221, 87, 0.65);
+}
+
+.popup-drop-card.mitico {
+  border-color: #ff2e63;
+  box-shadow: 0 0 45px rgba(255, 46, 99, 0.70);
+}
+
+.popup-drop-card.divino {
+  border-color: #7df9ff;
+  box-shadow: 0 0 45px rgba(125, 249, 255, 0.70);
+}
+
+.popup-drop-card.secreto,
+.popup-drop-card.celestial,
+.popup-drop-card.universal {
+  border-color: white;
+  box-shadow: 0 0 55px rgba(255, 255, 255, 0.85);
+  animation: popupEntrada 0.25s ease-out, brilhoSecreto 1s infinite alternate;
+}
+
+@keyframes brilhoSecreto {
+  from {
+    filter: brightness(1);
+  }
+
+  to {
+    filter: brightness(1.22);
+  }
+}
+
+@media (max-width: 600px) {
+  .popup-drop-card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+
+  .popup-drop-card h2 {
+    font-size: 24px;
+  }
+
+  .popup-avatar,
+  .popup-avatar .avatar-personagem {
+    width: 96px;
+    height: 96px;
+  }
+
+  .numero-flutuante {
+    font-size: 17px;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.12 - TICKET SHOP PLUS */
+/* ============================= */
+
+#tab-ticket-shop .titulo-lista {
+  margin-top: 18px;
+  margin-bottom: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+#tab-ticket-shop button {
+  margin-top: 8px;
+}
+
+#tab-ticket-shop {
+  max-height: 68vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+#tab-ticket-shop::-webkit-scrollbar {
+  width: 7px;
+}
+
+#tab-ticket-shop::-webkit-scrollbar-thumb {
+  background: #ffdd57;
+  border-radius: 999px;
+}
+
+#tab-ticket-shop::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+@media (max-width: 850px) {
+  #tab-ticket-shop {
+    max-height: 62vh;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.13 - AURAS */
+/* ============================= */
+
+.aura-card {
+  background: rgba(255, 255, 255, 0.12);
+  border-left: 5px solid #7df9ff;
+  padding: 12px;
+  border-radius: 14px;
+  margin-bottom: 10px;
+}
+
+.aura-card h3 {
+  color: #ffdd57;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.aura-card p {
+  margin: 5px 0;
+  font-size: 13px;
+}
+
+.aura-card span {
+  color: #7df9ff;
+  font-weight: bold;
+}
+
+.aura-card.equipada {
+  border: 2px solid #ffdd57;
+  box-shadow: 0 0 18px rgba(255, 221, 87, 0.45);
+}
+
+.aura-card.comprada {
+  border-left-color: #00ff99;
+}
+
+.aura-card.bloqueada {
+  opacity: 0.78;
+}
+
+.aura-botoes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.aura-botoes button {
+  margin-top: 0;
+}
+
+#tab-auras {
+  max-height: 68vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+#tab-auras::-webkit-scrollbar {
+  width: 7px;
+}
+
+#tab-auras::-webkit-scrollbar-thumb {
+  background: #7df9ff;
+  border-radius: 999px;
+}
+
+#tab-auras::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+@media (max-width: 850px) {
+  #tab-auras {
+    max-height: 62vh;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.14 - PETS */
+/* ============================= */
+
+.pet-card {
+  background: rgba(255, 255, 255, 0.12);
+  border-left: 5px solid #00ff99;
+  padding: 12px;
+  border-radius: 14px;
+  margin-bottom: 10px;
+}
+
+.pet-card h3 {
+  color: #ffdd57;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.pet-card p {
+  margin: 5px 0;
+  font-size: 13px;
+}
+
+.pet-card span {
+  color: #7df9ff;
+  font-weight: bold;
+}
+
+.pet-card.equipado {
+  border: 2px solid #00ff99;
+  box-shadow: 0 0 18px rgba(0, 255, 153, 0.45);
+}
+
+.pet-card.comprado {
+  border-left-color: #00ff99;
+}
+
+.pet-card.bloqueado {
+  opacity: 0.78;
+}
+
+.pet-botoes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.pet-botoes button {
+  margin-top: 0;
+}
+
+.pet-emoji {
+  text-align: center;
+  font-size: 42px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 8px rgba(255, 221, 87, 0.35));
+}
+
+#tab-pets {
+  max-height: 68vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+#tab-pets::-webkit-scrollbar {
+  width: 7px;
+}
+
+#tab-pets::-webkit-scrollbar-thumb {
+  background: #00ff99;
+  border-radius: 999px;
+}
+
+#tab-pets::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+@media (max-width: 850px) {
+  #tab-pets {
+    max-height: 62vh;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 5.15 - BOSS ESPECIAL */
+/* ============================= */
+
+.boss-card.boss-raro,
+.boss-resumo.boss-raro {
+  border: 2px solid #4da6ff;
+  box-shadow: 0 0 18px rgba(77, 166, 255, 0.45);
+}
+
+.boss-card.boss-lendario,
+.boss-resumo.boss-lendario {
+  border: 2px solid #ffdd57;
+  box-shadow: 0 0 22px rgba(255, 221, 87, 0.55);
+}
+
+.boss-card.boss-mitico,
+.boss-resumo.boss-mitico {
+  border: 2px solid #ff2e63;
+  box-shadow: 0 0 24px rgba(255, 46, 99, 0.60);
+}
+
+.boss-card.boss-secreto,
+.boss-resumo.boss-secreto {
+  border: 2px solid white;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.70);
+  animation: brilhoSecreto 1s infinite alternate;
+}
+
+.drop-boss-info {
+  color: #00ff99 !important;
+  font-weight: bold;
+}
+
+
+/* ============================= */
+/* UPDATE 6.0 - LEVEL E REBIRTH SHOP */
+/* ============================= */
+
+.rebirth-shop-card {
+  background: rgba(255, 255, 255, 0.12);
+  border-left: 5px solid #ffdd57;
+  padding: 12px;
+  border-radius: 14px;
+  margin-bottom: 10px;
+}
+
+.rebirth-shop-card h3 {
+  color: #ffdd57;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.rebirth-shop-card p {
+  margin: 5px 0;
+  font-size: 13px;
+}
+
+.rebirth-shop-card span {
+  color: #7df9ff;
+  font-weight: bold;
+}
+
+.rebirth-shop-card.maximo {
+  border: 2px solid #00ff99;
+  box-shadow: 0 0 18px rgba(0, 255, 153, 0.45);
+}
+
+.barra-xp {
+  width: 100%;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid #7df9ff;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.barra-xp-preenchida {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #7df9ff, #ffdd57);
+  transition: width 0.2s;
+}
+
+#tab-rebirth-shop {
+  max-height: 68vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+#tab-rebirth-shop::-webkit-scrollbar {
+  width: 7px;
+}
+
+#tab-rebirth-shop::-webkit-scrollbar-thumb {
+  background: #ffdd57;
+  border-radius: 999px;
+}
+
+#tab-rebirth-shop::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+@media (max-width: 850px) {
+  #tab-rebirth-shop {
+    max-height: 62vh;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 6.1 - TELA INICIAL */
+/* ============================= */
+
+.tela-inicial {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background:
+    radial-gradient(circle at top left, rgba(125, 249, 255, 0.20), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(255, 221, 87, 0.16), transparent 30%),
+    linear-gradient(135deg, #070716, #11142b, #201342);
+}
+
+.tela-inicial.escondido {
+  display: none;
+}
+
+.tela-inicial-card {
+  width: min(520px, 94vw);
+  text-align: center;
+  padding: 26px;
+  border-radius: 28px;
+  background: rgba(0, 0, 0, 0.72);
+  border: 2px solid #ffdd57;
+  box-shadow: 0 0 45px rgba(255, 221, 87, 0.38);
+  backdrop-filter: blur(8px);
+}
+
+.tela-inicial-card h1 {
+  color: #ffdd57;
+  font-size: 34px;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  text-shadow: 0 0 16px rgba(255, 46, 99, 0.85);
+}
+
+.subtitulo-menu {
+  color: #e6e6e6;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.menu-inicial-botoes {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.botao-menu-principal,
+.botao-menu-secundario {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  padding: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.botao-menu-principal {
+  background: linear-gradient(135deg, #ffdd57, #ff2e63);
+  color: white;
+  box-shadow: 0 0 18px rgba(255, 46, 99, 0.45);
+}
+
+.botao-menu-secundario {
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  border: 1px solid rgba(125, 249, 255, 0.28);
+}
+
+.botao-menu-secundario:hover {
+  background: rgba(125, 249, 255, 0.18);
+}
+
+.botao-voltar-menu {
+  float: right;
+  border: none;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.12);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid rgba(255, 221, 87, 0.35);
+}
+
+.botao-voltar-menu:hover {
+  background: #ffdd57;
+  color: #111;
+}
+
+.creditos-card h3 {
+  color: #ffdd57;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.creditos-card p {
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+#tab-creditos {
+  max-height: 68vh;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+#tab-creditos::-webkit-scrollbar {
+  width: 7px;
+}
+
+#tab-creditos::-webkit-scrollbar-thumb {
+  background: #ffdd57;
+  border-radius: 999px;
+}
+
+#tab-creditos::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+}
+
+@media (max-width: 700px) {
+  .tela-inicial-card {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .tela-inicial-card h1 {
+    font-size: 28px;
+  }
+
+  .botao-menu-principal,
+  .botao-menu-secundario {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .botao-voltar-menu {
+    float: none;
+    display: block;
+    margin: 0 auto 10px;
+  }
+}
+
+
+/* ============================= */
+/* UPDATE 6.2 - TELAS EXTRAS SEPARADAS */
+/* ============================= */
+
+.tela-menu-extra {
+  border: 1px solid rgba(255, 221, 87, 0.22);
+  border-radius: 16px;
+  padding: 12px;
+}
+
+.botao-voltar-home {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 10px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ffdd57, #7df9ff);
+  color: #111;
+  font-weight: bold;
+}
+
+.botao-voltar-home:hover {
+  filter: brightness(1.08);
+}
+
+.menu-inicial-botoes .botao-menu-secundario {
+  display: block;
+}
+
+
+/* ===================================================== */
+/* UPDATE 6.5 - GRANDE ATUALIZAÇÃO DE INTERFACE          */
+/* ===================================================== */
+
+:root {
+  --ui-bg: #071d24;
+  --ui-teal: #3ff7e8;
+  --ui-teal-soft: rgba(63, 247, 232, 0.16);
+  --ui-purple: #5514d8;
+  --ui-purple-dark: #18063f;
+  --ui-yellow: #ffdf4d;
+  --ui-pink: #ff2e86;
+  --ui-panel: rgba(18, 9, 55, 0.88);
+}
+
+body {
+  background:
+    radial-gradient(circle at 28% 22%, rgba(63, 247, 232, 0.18), transparent 26%),
+    radial-gradient(circle at 72% 24%, rgba(255, 223, 77, 0.16), transparent 24%),
+    linear-gradient(135deg, #071d24, #123d42 46%, #13042f);
+}
+
+.app {
+  max-width: none;
+  width: 100%;
+  min-height: 100vh;
+  height: 100vh;
+  padding: 0;
+  gap: 0;
+  grid-template-columns: minmax(520px, 1fr) minmax(420px, 500px);
+  align-items: stretch;
+}
+
+.game-area {
+  position: relative;
+  min-height: 100vh;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  background:
+    radial-gradient(circle at center 54%, rgba(255, 223, 77, 0.20), transparent 18%),
+    radial-gradient(circle at center 54%, rgba(63, 247, 232, 0.24), transparent 34%),
+    linear-gradient(180deg, rgba(19, 108, 103, 0.88), rgba(8, 61, 70, 0.94));
+}
+
+.game-area::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 54px 54px;
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.game-area::after {
+  content: "";
+  position: absolute;
+  left: -12%;
+  right: -12%;
+  bottom: -120px;
+  height: 260px;
+  background: rgba(10, 34, 34, 0.34);
+  border-radius: 50% 50% 0 0;
+  pointer-events: none;
+}
+
+.topo,
+.status-principal,
+.boss-resumo,
+.arena-click,
+.mensagem {
+  position: relative;
+  z-index: 2;
+}
+
+.topo {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: 14px 18px;
+  border-radius: 22px;
+  background: rgba(4, 18, 26, 0.38);
+  border: 1px solid rgba(63, 247, 232, 0.22);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+}
+
+.topo h1 {
+  font-size: clamp(24px, 4vw, 42px);
+  letter-spacing: 1px;
+  color: white;
+  text-shadow:
+    0 3px 0 rgba(0,0,0,0.40),
+    0 0 18px rgba(255, 223, 77, 0.45);
+}
+
+.topo p {
+  margin-bottom: 0;
+  color: #bdfdf8;
+}
+
+.botao-voltar-menu {
+  background: rgba(16, 7, 46, 0.72);
+  border: 2px solid rgba(255, 223, 77, 0.65);
+  box-shadow: 0 0 16px rgba(255, 223, 77, 0.18);
+}
+
+.status-principal {
+  width: min(840px, 100%);
+  margin: 16px auto 0;
+  grid-template-columns: repeat(4, minmax(110px, 1fr));
+}
+
+.status-card {
+  border-radius: 18px;
+  background: rgba(17, 6, 52, 0.70);
+  border: 2px solid rgba(73, 31, 192, 0.65);
+  box-shadow: inset 0 -7px 0 rgba(0,0,0,0.18), 0 8px 18px rgba(0,0,0,0.18);
+}
+
+.status-card span {
+  color: #d7fff9;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.status-card strong {
+  color: white;
+  text-shadow: 0 2px 0 rgba(0,0,0,0.45);
+}
+
+.boss-resumo {
+  width: min(720px, 100%);
+  margin: 14px auto 0;
+  border-radius: 20px;
+  background: rgba(17, 6, 52, 0.72);
+  border: 2px solid rgba(255, 223, 77, 0.45);
+}
+
+.boss-resumo h2 {
+  color: var(--ui-yellow);
+}
+
+.arena-click {
+  position: relative;
+  z-index: 2;
+  min-height: 310px;
+  display: grid;
+  place-items: center;
+  margin: 8px 0;
+}
+
+.energia-anel {
+  position: absolute;
+  width: min(390px, 72vw);
+  height: min(390px, 72vw);
+  border-radius: 50%;
+  border: 14px solid rgba(255, 223, 77, 0.14);
+  box-shadow:
+    0 0 0 22px rgba(63, 247, 232, 0.08),
+    0 0 55px rgba(255, 223, 77, 0.28),
+    inset 0 0 45px rgba(63, 247, 232, 0.18);
+  animation: girarEnergia 5s linear infinite;
+}
+
+@keyframes girarEnergia {
+  from { transform: rotate(0deg) scale(1); }
+  to { transform: rotate(360deg) scale(1.03); }
+}
+
+.botao-principal {
+  width: min(250px, 56vw);
+  height: min(250px, 56vw);
+  margin: 0;
+  border: 7px solid rgba(255, 255, 255, 0.32);
+  background:
+    radial-gradient(circle at 35% 28%, #fff4a7, transparent 23%),
+    radial-gradient(circle, #ffdf4d, #ff8b2e 48%, #ff2e86);
+  box-shadow:
+    0 18px 0 rgba(76, 16, 83, 0.65),
+    0 0 55px rgba(255, 223, 77, 0.65);
+  font-size: clamp(22px, 4vw, 34px);
+  letter-spacing: 1px;
+}
+
+.botao-principal:active {
+  transform: translateY(8px) scale(0.96);
+  box-shadow:
+    0 9px 0 rgba(76, 16, 83, 0.65),
+    0 0 48px rgba(255, 223, 77, 0.65);
+}
+
+.mensagem {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  min-height: 48px;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(4, 18, 26, 0.42);
+  border: 1px solid rgba(255, 223, 77, 0.22);
+}
+
+.menu-area {
+  height: 100vh;
+  overflow-y: auto;
+  border: none;
+  border-left: 4px solid rgba(63, 247, 232, 0.50);
+  border-radius: 28px 0 0 28px;
+  padding: 18px;
+  background:
+    linear-gradient(180deg, rgba(85, 20, 216, 0.94), rgba(24, 6, 63, 0.96)),
+    var(--ui-panel);
+  box-shadow: -18px 0 35px rgba(0,0,0,0.32);
+}
+
+.menu-area::-webkit-scrollbar {
+  width: 8px;
+}
+
+.menu-area::-webkit-scrollbar-thumb {
+  background: var(--ui-yellow);
+  border-radius: 999px;
+}
+
+.menu-grupos {
+  display: block;
+}
+
+.menu-grupo {
+  background: rgba(0, 0, 0, 0.22);
+  border: 2px solid rgba(255, 255, 255, 0.10);
+  margin-bottom: 12px;
+  box-shadow: inset 0 -6px 0 rgba(0,0,0,0.12);
+}
+
+.menu-grupo h3 {
+  color: var(--ui-yellow);
+  text-align: center;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tab-button {
+  border-radius: 14px;
+  padding: 10px 8px;
+  background: rgba(255,255,255,0.12);
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.15);
+}
+
+.tab-button.active {
+  background: linear-gradient(135deg, var(--ui-yellow), #ff9f2e);
+}
+
+.tab-content {
+  padding: 12px;
+  border-radius: 20px;
+  background: rgba(0,0,0,0.14);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.tab-content h2 {
+  color: white;
+  text-shadow: 0 3px 0 rgba(0,0,0,0.35);
+}
+
+/* Tela inicial mais premium */
+.tela-inicial {
+  background:
+    radial-gradient(circle at center 20%, rgba(255, 223, 77, 0.20), transparent 18%),
+    radial-gradient(circle at left 65%, rgba(63, 247, 232, 0.22), transparent 28%),
+    radial-gradient(circle at right 75%, rgba(255, 46, 134, 0.20), transparent 26%),
+    linear-gradient(135deg, #071d24, #163f45 44%, #160737);
+}
+
+.tela-inicial-card {
+  border-radius: 34px;
+  padding: 32px;
+  background:
+    linear-gradient(180deg, rgba(83, 21, 204, 0.75), rgba(14, 5, 44, 0.86));
+  border: 3px solid rgba(255, 223, 77, 0.80);
+  box-shadow:
+    0 24px 0 rgba(0,0,0,0.22),
+    0 0 60px rgba(255, 223, 77, 0.30);
+}
+
+.logo-menu-orb {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 14px;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at 30% 24%, #fff7b8, transparent 24%),
+    linear-gradient(135deg, #ffdf4d, #ff2e86);
+  color: white;
+  font-size: 26px;
+  font-weight: 900;
+  box-shadow: 0 14px 0 rgba(0,0,0,0.28), 0 0 34px rgba(255,223,77,0.55);
+}
+
+.tela-inicial-card h1 {
+  font-size: clamp(31px, 6vw, 54px);
+}
+
+.botao-menu-principal,
+.botao-menu-secundario {
+  border-radius: 18px;
+  border: 2px solid rgba(255,255,255,0.16);
+  box-shadow: inset 0 -7px 0 rgba(0,0,0,0.18), 0 10px 18px rgba(0,0,0,0.20);
+}
+
+.botao-menu-principal {
+  font-size: 18px;
+}
+
+/* Painéis extras independentes do jogo */
+.painel-extra-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: grid;
+  place-items: end center;
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.64);
+  backdrop-filter: blur(7px);
+}
+
+.painel-extra-menu.escondido {
+  display: none;
+}
+
+.painel-extra-card {
+  width: min(760px, 96vw);
+  max-height: 86vh;
+  overflow-y: auto;
+  border-radius: 28px 28px 18px 18px;
+  padding: 18px;
+  background:
+    linear-gradient(180deg, rgba(85, 20, 216, 0.98), rgba(18, 5, 49, 0.98));
+  border: 3px solid rgba(255, 223, 77, 0.82);
+  box-shadow: 0 -20px 55px rgba(0,0,0,0.46);
+  animation: subirPainelExtra 0.32s ease-out;
+}
+
+@keyframes subirPainelExtra {
+  from {
+    transform: translateY(105%);
+    opacity: 0.4;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.fechar-painel-extra {
+  position: sticky;
+  top: 0;
+  float: right;
+  z-index: 3;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 999px;
+  background: var(--ui-pink);
+  color: white;
+  font-size: 26px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.25);
+}
+
+.conteudo-painel-extra .tab-content,
+.conteudo-painel-extra section {
+  display: none;
+  background: transparent;
+  border: none;
+  padding: 10px;
+}
+
+.conteudo-painel-extra .tab-content.active,
+.conteudo-painel-extra section.active {
+  display: block;
+}
+
+.conteudo-painel-extra h2 {
+  text-align: center;
+  color: white;
+  margin: 12px 0 18px;
+  text-shadow: 0 3px 0 rgba(0,0,0,0.35);
+}
+
+.conteudo-painel-extra .botao-voltar-home {
+  display: none;
+}
+
+#tab-update-log,
+#tab-config,
+#tab-creditos {
+  max-height: none !important;
+  overflow-y: visible !important;
+}
+
+/* no game tab content: esconder telas extras caso ainda existam no fluxo antigo */
+.menu-area #tab-update-log,
+.menu-area #tab-config,
+.menu-area #tab-creditos {
+  display: none !important;
+}
+
+@media (max-width: 1000px) {
+  .app {
+    height: auto;
+    min-height: 100vh;
+    grid-template-columns: 1fr;
+  }
+
+  .game-area {
+    min-height: 680px;
+    border-radius: 0 0 26px 26px;
+  }
+
+  .menu-area {
+    height: auto;
+    border-radius: 26px 26px 0 0;
+    border-left: none;
+    border-top: 4px solid rgba(63, 247, 232, 0.50);
+  }
+
+  .status-principal {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .game-area {
+    padding: 12px;
+    min-height: 620px;
+  }
+
+  .status-principal {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .status-card {
+    padding: 8px;
+  }
+
+  .boss-resumo {
+    margin-top: 10px;
+  }
+
+  .arena-click {
+    min-height: 250px;
+  }
+
+  .energia-anel {
+    width: 230px;
+    height: 230px;
+  }
+
+  .botao-principal {
+    width: 170px;
+    height: 170px;
+  }
+
+  .menu-area {
+    padding: 12px;
+  }
+
+  .tabs {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .painel-extra-card {
+    max-height: 88vh;
+    padding: 14px;
+    border-radius: 24px 24px 14px 14px;
+  }
+}
+
+
+/* ===================================================== */
+/* UPDATE 6.6 - CORREÇÃO DO ATAQUE E BUGFIXES            */
+/* ===================================================== */
+
+/* Garante que elementos decorativos nunca bloqueiem clique */
+.game-area::before,
+.game-area::after,
+.energia-anel,
+.efeitos-clique,
+.numero-flutuante {
+  pointer-events: none !important;
+}
+
+/* A arena vira uma camada segura: decoração atrás, botão na frente */
+.arena-click {
+  position: relative;
+  isolation: isolate;
+}
+
+.energia-anel {
+  z-index: 1;
+}
+
+.botao-principal {
+  position: relative;
+  z-index: 5;
+  pointer-events: auto !important;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.efeitos-clique {
+  z-index: 6;
+}
+
+/* Correção para o painel extra não roubar cliques quando escondido */
+.painel-extra-menu.escondido,
+.popup-drop.escondido,
+.tela-inicial.escondido {
+  pointer-events: none !important;
+}
+
+.painel-extra-menu:not(.escondido),
+.popup-drop:not(.escondido),
+.tela-inicial:not(.escondido) {
+  pointer-events: auto;
+}
+
+/* Ajuste visual do botão atacar no mobile */
+@media (max-width: 560px) {
+  .botao-principal {
+    min-width: 150px;
+    min-height: 150px;
+  }
+
+  .arena-click {
+    min-height: 260px;
+  }
+}
+
+
+/* ===================================================== */
+/* UPDATE 6.7 - PERFORMANCE DE RNG                       */
+/* ===================================================== */
+
+.performance-info {
+  color: #00ff99 !important;
+  font-weight: bold;
+}
+
+.botao-rng.processando {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+
+/* ===================================================== */
+/* UPDATE 6.8 - OTIMIZAÇÃO GERAL E QOL                   */
+/* ===================================================== */
+
+.lista-personagens,
+.lista-missoes,
+.lista-update-log,
+.mochila-lista {
+  content-visibility: auto;
+  contain-intrinsic-size: 800px;
+}
+
+.personagem-card,
+.mundo-card,
+.missao-card,
+.conquista-card,
+.update-card,
+.codigo-card,
+.aura-card,
+.pet-card,
+.rebirth-shop-card {
+  contain: content;
+}
+
+.mensagem.performance-info {
+  color: #00ff99;
+}
+
+@media (max-width: 850px) {
+  .energia-anel {
+    animation-duration: 8s;
+  }
+
+  .personagem-card,
+  .mundo-card,
+  .missao-card,
+  .conquista-card,
+  .update-card,
+  .codigo-card {
+    box-shadow: none;
+  }
+}
